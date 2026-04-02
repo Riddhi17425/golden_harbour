@@ -280,7 +280,7 @@
 </div>
 
 <div class="modal fade" id="enquiryNowModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Enquiry Now</h5>
@@ -290,27 +290,27 @@
                 <div class="contact_input ">
                     <form>
 
-                        <div class="row mb-4">
-                            <div class="col-12 mb-4">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 mb-4">
                                 <label for="first-name" class="form-label"><b>First Name *:</b></label>
                                 <input type="text" class="form-control px-0" id="firstname" name="firstname" required=""
                                     oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').replace(/\s+/g, ' ').trimStart();"
                                     placeholder="Enter your First Name" maxlength="40" minlength="2">
                             </div>
-                            <div class="col-12  mb-4">
+                            <div class="col-12 col-lg-6  mb-4">
                                 <label for="last-name" class="form-label"><b>Last Name *:</b></label>
                                 <input type="text" class="form-control px-0" id="lastname" name="lastname" required=""
                                     oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').replace(/\s+/g, ' ').trimStart();"
                                     placeholder="Enter your Last Name" maxlength="40" minlength="2">
                             </div>
 
-                            <div class="col-12 mb-4">
+                            <div class="col-12 col-lg-6 mb-4">
                                 <label for="email" class="form-label"><b>Email ID *:</b></label>
                                 <input type="email" class="form-control px-0" id="email" name="email"
                                     placeholder="Enter your email" required="" maxlength="50" minlength="5">
                                 <div id="email-error" style="color: red; display: none;"></div>
                             </div>
-                            <div class="col-12 mb-4">
+                            <div class="col-12 col-lg-6 mb-4">
                                 <label for="phone" class="form-label"><b>Phone Number *:</b></label>
                                 <input type="tel" class="form-control px-0" id="number" name="number" maxlength="15"
                                     minlength="10" required=""
@@ -319,23 +319,23 @@
                                     title="Phone number should be between 10 to 15 digits">
                             </div>
 
-                             <div class="col-12 mb-4">
+                             <div class="col-12 col-lg-6 mb-4">
                                 <label for="company" class="form-label"><b>Company Name *:</b></label>
                                 <input type="text" class="form-control px-0" id="company_name" name="company_name"
                                     placeholder="Enter your Company Name" required="" maxlength="100" minlength="2">
                             </div>
-                            <div class="col-12 mb-4">
+                            <div class="col-12 col-lg-6 mb-4">
                                 <label for="city" class="form-label"><b>City *:</b></label>
                                 <input type="text" class="form-control px-0" id="city" name="city" required=""
                                     placeholder="Enter your City Name" maxlength="30" minlength="2">
                             </div>
 
-                              <div class="col-12 mb-4">
+                              <div class="col-12 col-lg-6 mb-4">
                                 <label for="subject" class="form-label"><b>Subject *:</b></label>
                                 <input type="text" class="form-control px-0" id="subject" name="subject"
                                     placeholder="Enter your Subject" required="" maxlength="50" minlength="2">
                             </div>
-                            <div class="col-12">
+                            <div class="col-12 col-lg-6">
                                 <label for="message" class="form-label"><b>Message :</b></label>
                                 <textarea class="form-control px-0" id="message" name="message" rows="1"
                                     placeholder="Enter your Message"></textarea>
@@ -469,6 +469,7 @@
 
 #enquiryNowModal .modal-header {
     background: var(--blue);
+     border:1px solid var(--blue);
 }
 
 #enquiryNowModal .modal-title {
