@@ -187,7 +187,7 @@
     </div>
 </section>
 
-<section class="section_space">
+<section class="section_space" id="build-together">
     <div class=" container-fluid my-5">
          <div class=" text-center">
         <h2 class="main_head text-center">Let’s Build Something Great Together</h2>
@@ -294,6 +294,19 @@
 
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (localStorage.getItem('scrollToBuildTogether') === '1') {
+            localStorage.removeItem('scrollToBuildTogether');
+            var target = document.getElementById('build-together');
+            if (target) {
+                setTimeout(function () {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }, 300);
+            }
+        }
+    });
+</script>
 @include('layouts.frontfooter')
 
 <script>
