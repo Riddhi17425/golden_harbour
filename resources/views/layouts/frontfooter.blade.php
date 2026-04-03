@@ -219,10 +219,7 @@
 
                             <li class="d-flex gap-2 align-items-center">
                                 <span>
-                                    <!--  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-                                    <!--<path d="M20.5344 3.53001C18.5204 1.51199 15.8458 0.274407 12.9929 0.0404877C10.1402 -0.193432 7.29702 0.591712 4.97634 2.2543C2.65567 3.91689 1.01025 6.34747 0.336877 9.10763C-0.336495 11.8678 0.00650901 14.7758 1.30402 17.3072L0.0303508 23.4417C0.0171351 23.5027 0.0167608 23.5659 0.0292515 23.6271C0.0417423 23.6883 0.0668289 23.7463 0.102943 23.7974C0.155848 23.8751 0.231365 23.9348 0.319412 23.9687C0.407458 24.0027 0.503843 24.0092 0.595692 23.9873L6.65607 22.5623C9.20048 23.8169 12.111 24.1353 14.8698 23.4608C17.6287 22.7863 20.0568 21.1627 21.7222 18.8788C23.3876 16.5949 24.1823 13.799 23.9648 10.9884C23.7473 8.17778 22.5317 5.53492 20.5344 3.53001ZM18.6449 18.4922C17.2514 19.8707 15.4569 20.7808 13.5144 21.094C11.572 21.4072 9.57938 21.1078 7.81756 20.238L6.97284 19.8234L3.25742 20.6963L3.26842 20.6505L4.03834 16.9406L3.62478 16.1308C2.72454 14.3768 2.40698 12.3852 2.71757 10.4411C3.02815 8.49713 3.95097 6.70048 5.3538 5.30862C7.11649 3.56044 9.50686 2.57836 11.9993 2.57836C14.4917 2.57836 16.8821 3.56044 18.6449 5.30862C18.6599 5.3257 18.676 5.34174 18.6932 5.35663C20.4341 7.10932 21.4059 9.4737 21.3968 11.9343C21.3878 14.3949 20.3985 16.7522 18.6449 18.4922Z" fill="#29A71A"/>-->
-                                    <!--<path d="M18.6182 15.9988C18.1535 16.7391 17.4192 17.6452 16.4963 17.87C14.8797 18.2651 12.3986 17.8836 9.31118 14.9724L9.27301 14.9383C6.55838 12.3927 5.85333 10.274 6.02398 8.5935C6.11829 7.63973 6.90417 6.7768 7.56653 6.21362C7.6713 6.12323 7.79543 6.05888 7.92915 6.0257C8.06288 5.99252 8.20238 5.99145 8.33663 6.02257C8.4708 6.05369 8.5959 6.11613 8.70203 6.2049C8.80808 6.29367 8.89216 6.40631 8.94743 6.53382L9.94666 8.8047C10.0115 8.95193 10.0356 9.1143 10.0163 9.27428C9.99683 9.43433 9.93473 9.58598 9.83663 9.71303L9.33143 10.3761C9.22298 10.5131 9.15758 10.6796 9.14355 10.8545C9.1296 11.0293 9.16763 11.2044 9.25283 11.3572C9.53573 11.859 10.2138 12.5971 10.9661 13.2806C11.8103 14.0527 12.7466 14.759 13.3394 14.9996C13.498 15.0652 13.6724 15.0812 13.8401 15.0455C14.0078 15.0099 14.1611 14.9243 14.2802 14.7998L14.8662 14.2025C14.9793 14.0898 15.1199 14.0093 15.2738 13.9694C15.4276 13.9296 15.5891 13.9316 15.7419 13.9754L18.1153 14.6567C18.2462 14.6974 18.3662 14.7677 18.4661 14.8624C18.566 14.9571 18.6432 15.0737 18.6917 15.2032C18.7403 15.3327 18.7589 15.4718 18.7461 15.6096C18.7334 15.7475 18.6896 15.8807 18.6182 15.9988Z" fill="#29A71A"/>-->
-                                    <!--</svg>-->
+                                    
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -287,33 +284,33 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="contact_input ">
-                    <form>
-
+                <div class="contact_input">
+                    <form method="POST"  id="inquiryForm" action="{{ route('inquiery-store')}}">
+                        @csrf
                         <div class="row">
                             <div class="col-12 col-lg-6 mb-4">
                                 <label for="first-name" class="form-label"><b>First Name *:</b></label>
-                                <input type="text" class="form-control px-0" id="firstname" name="firstname" required=""
+                                <input type="text" class="form-control px-0" id="inq_firstname" name="firstname" 
                                     oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').replace(/\s+/g, ' ').trimStart();"
                                     placeholder="Enter your First Name" maxlength="40" minlength="2">
                             </div>
                             <div class="col-12 col-lg-6  mb-4">
                                 <label for="last-name" class="form-label"><b>Last Name *:</b></label>
-                                <input type="text" class="form-control px-0" id="lastname" name="lastname" required=""
+                                <input type="text" class="form-control px-0" id="inq_lastname" name="lastname" 
                                     oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').replace(/\s+/g, ' ').trimStart();"
                                     placeholder="Enter your Last Name" maxlength="40" minlength="2">
                             </div>
 
                             <div class="col-12 col-lg-6 mb-4">
                                 <label for="email" class="form-label"><b>Email ID *:</b></label>
-                                <input type="email" class="form-control px-0" id="email" name="email"
-                                    placeholder="Enter your email" required="" maxlength="50" minlength="5">
+                                <input type="email" class="form-control px-0" id="inq_email" name="email"
+                                    placeholder="Enter your email"  maxlength="50" minlength="5">
                                 <div id="email-error" style="color: red; display: none;"></div>
                             </div>
                             <div class="col-12 col-lg-6 mb-4">
                                 <label for="phone" class="form-label"><b>Phone Number *:</b></label>
-                                <input type="tel" class="form-control px-0" id="number" name="number" maxlength="15"
-                                    minlength="10" required=""
+                                <input type="tel" class="form-control px-0" id="inq_number" name="number" maxlength="15"
+                                    minlength="10" 
                                     oninput="this.value = this.value.replace(/[^0-9+]/g, '').replace(/(?!^)\+/g, '').slice(0, 15);"
                                     placeholder="Enter your Phone Number" pattern="\d{10,15}"
                                     title="Phone number should be between 10 to 15 digits">
@@ -321,31 +318,35 @@
 
                              <div class="col-12 col-lg-6 mb-4">
                                 <label for="company" class="form-label"><b>Company Name *:</b></label>
-                                <input type="text" class="form-control px-0" id="company_name" name="company_name"
-                                    placeholder="Enter your Company Name" required="" maxlength="100" minlength="2">
+                                <input type="text" class="form-control px-0" id="inq_company_name" name="company_name"
+                                    placeholder="Enter your Company Name"  maxlength="100" minlength="2">
                             </div>
                             <div class="col-12 col-lg-6 mb-4">
                                 <label for="city" class="form-label"><b>City *:</b></label>
-                                <input type="text" class="form-control px-0" id="city" name="city" required=""
+                                <input type="text" class="form-control px-0" id="inq_city" name="city" 
                                     placeholder="Enter your City Name" maxlength="30" minlength="2">
                             </div>
 
                               <div class="col-12 col-lg-6 mb-4">
                                 <label for="subject" class="form-label"><b>Subject *:</b></label>
-                                <input type="text" class="form-control px-0" id="subject" name="subject"
-                                    placeholder="Enter your Subject" required="" maxlength="50" minlength="2">
+                                <input type="text" class="form-control px-0" id="inq_subject" name="subject"
+                                    placeholder="Enter your Subject"  maxlength="50" minlength="2">
                             </div>
                             <div class="col-12 col-lg-6">
                                 <label for="message" class="form-label"><b>Message :</b></label>
-                                <textarea class="form-control px-0" id="message" name="message" rows="1"
+                                <textarea class="form-control px-0" id="inq_message" name="message" rows="1"
                                     placeholder="Enter your Message"></textarea>
                             </div>
 
                         </div>
-
-                        <button type="submit" class="btn btn--ripple" id="ripple">Submit
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none">
+                        <div class="col-lg-12">
+                        <div class="form_item">
+                            <div id="inquiry-recaptcha"></div>
+                            <div id="inq_recaptcha-error" class="error-message" style="color: red; margin-top: 5px;"></div>
+                        </div>
+                        <button type="submit" class="btn btn--ripple" id="submitBtn">
+                            Submit
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white"
                                     stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                             </svg>
@@ -358,244 +359,275 @@
 </div>
 
 <style>
-/* ===== MODAL DESIGN ===== */
-.Whats_mpp_modal .popup-box_whatsapp {
-    border-radius: 16px;
-    /* overflow: hidden;   */
-}
-
-/* Header */
-.Whats_mpp_modal .popup-header {
-    background: #182A41;
-    color: #fff;
-    padding: 15px 20px;
-}
-
-.Whats_mpp_modal .popup-header h5 {
-    margin: 0;
-    font-weight: 600;
-}
-
-.Whats_mpp_modal .white-close {
-    filter: invert(1);
-}
-
-/* Body */
-.Whats_mpp_modal .popup-box_whatsapp .modal-body {
-    padding: 25px;
-}
-
-/* Inputs */
-.Whats_mpp_modal .popup-input {
-    border-radius: 12px;
-    height: 50px;
-    border: 1px solid #ddd;
-    box-shadow: none !important;
-}
-
-.Whats_mpp_modal .popup-input:focus {
-    border-color: #182A41;
-}
-
-/* Textarea */
-.Whats_mpp_modal textarea.popup-input {
-    height: 90px;
-}
-
-/* Button */
-.Whats_mpp_modal .popup-btn {
-    background: #182A41;
-    color: #fff;
-    height: 50px;
-    border-radius: 12px;
-    font-weight: 600;
-    border: none;
-}
-
-.Whats_mpp_modal .popup-btn:hover {
-    background: #182A41;
-    color: #fff;
-}
-
-/* intl tel input full width */
-.Whats_mpp_modal .iti {
-    width: 100%;
-}
-
-.Whats_mpp_modal .iti__selected-flag {
-    border-radius: 10px 0 0 10px;
-}
-
-/* Remove modal scroll */
-.Whats_mpp_modal .modal-dialog {
-    max-width: 420px;
-}
-
-.Whats_mpp_modal .modal-content {
-    /* overflow: hidden; */
-}
-
-.WhatsAppButton_mpp {
-    background: #14a614;
-    position: fixed;
-    bottom: 35px;
-    right: 0px;
-    z-index: 9999;
-    width: 45px;
-    height: 45px;
-    border-radius: 5px 0 0 5px;
-    cursor: pointer;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(20, 166, 20, 0.7);
+    /* ===== MODAL DESIGN ===== */
+    .Whats_mpp_modal .popup-box_whatsapp {
+        border-radius: 16px;
+        /* overflow: hidden;   */
     }
 
-    70% {
-        box-shadow: 0 0 0 15px rgba(20, 166, 20, 0);
+    /* Header */
+    .Whats_mpp_modal .popup-header {
+        background: #182A41;
+        color: #fff;
+        padding: 15px 20px;
     }
 
-    100% {
-        box-shadow: 0 0 0 0 rgba(20, 166, 20, 0);
+    .Whats_mpp_modal .popup-header h5 {
+        margin: 0;
+        font-weight: 600;
     }
-}
 
-.WhatsAppButton_mpp img {
-    width: 100%;
-    height: 100%;
-}
+    .Whats_mpp_modal .white-close {
+        filter: invert(1);
+    }
 
-#enquiryNowModal .modal-header {
-    background: var(--blue);
-     border:1px solid var(--blue);
-}
+    /* Body */
+    .Whats_mpp_modal .popup-box_whatsapp .modal-body {
+        padding: 25px;
+    }
 
-#enquiryNowModal .modal-title {
-    color: #fff;
-}
+    /* Inputs */
+    .Whats_mpp_modal .popup-input {
+        border-radius: 12px;
+        height: 50px;
+        border: 1px solid #ddd;
+        box-shadow: none !important;
+    }
 
-#enquiryNowModal .btn-close {
-    filter: invert(1);
-}
+    .Whats_mpp_modal .popup-input:focus {
+        border-color: #182A41;
+    }
+
+    /* Textarea */
+    .Whats_mpp_modal textarea.popup-input {
+        height: 90px;
+    }
+
+    /* Button */
+    .Whats_mpp_modal .popup-btn {
+        background: #182A41;
+        color: #fff;
+        height: 50px;
+        border-radius: 12px;
+        font-weight: 600;
+        border: none;
+    }
+
+    .Whats_mpp_modal .popup-btn:hover {
+        background: #182A41;
+        color: #fff;
+    }
+
+    /* intl tel input full width */
+    .Whats_mpp_modal .iti {
+        width: 100%;
+    }
+
+    .Whats_mpp_modal .iti__selected-flag {
+        border-radius: 10px 0 0 10px;
+    }
+
+    /* Remove modal scroll */
+    .Whats_mpp_modal .modal-dialog {
+        max-width: 420px;
+    }
+
+    .Whats_mpp_modal .modal-content {
+        /* overflow: hidden; */
+    }
+
+    .WhatsAppButton_mpp {
+        background: #14a614;
+        position: fixed;
+        bottom: 35px;
+        right: 0px;
+        z-index: 9999;
+        width: 45px;
+        height: 45px;
+        border-radius: 5px 0 0 5px;
+        cursor: pointer;
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(20, 166, 20, 0.7);
+        }
+
+        70% {
+            box-shadow: 0 0 0 15px rgba(20, 166, 20, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(20, 166, 20, 0);
+        }
+    }
+
+    .WhatsAppButton_mpp img {
+        width: 100%;
+        height: 100%;
+    }
+
+    #enquiryNowModal .modal-header {
+        background: var(--blue);
+        border:1px solid var(--blue);
+    }
+
+    #enquiryNowModal .modal-title {
+        color: #fff;
+    }
+
+    #enquiryNowModal .btn-close {
+        filter: invert(1);
+    }
 </style>
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadRecaptchaCallback&render=explicit" async defer></script>
 
-<!--  <div class="modal fade Whats_mpp_modal" id="exampleModal-4" tabindex="-1">-->
-<!--    <div class="modal-dialog modal-dialog-centered">-->
-<!--        <div class="modal-content popup-box popup-box_whatsapp">-->
 
-<!-- HEADER -->
-<!--            <div class="modal-header popup-header">-->
-<!--                <h5>Chat with us on WhatsApp</h5>-->
-<!--                <button type="button" class="btn-close white-close" data-bs-dismiss="modal"></button>-->
-<!--            </div>-->
+// for render captcha and working for both so thats why created command by Darshan 
+<script>
+    let contactCaptchaWidgetId;
+    let inquiryCaptchaWidgetId;
 
-<!-- BODY -->
-<!--            <div class="modal-body">-->
-<!--                <form method="POST" action="{{ route('whatsaapinquiry') }}" id="whatsappForm">-->
-<!--                    @csrf-->
+    function onloadRecaptchaCallback() {
+        if (document.getElementById('contact-recaptcha')) {
+            contactCaptchaWidgetId = grecaptcha.render('contact-recaptcha', {
+                'sitekey': "{{ env('RECAPTCHA_SITE_KEY') }}"
+            });
+        }
 
-<!-- Message -->
-<!--                    <div class="mb-3">-->
-<!--                        <label class="form-label">Message</label>-->
-<!--                        <textarea class="form-control popup-input" name="message" placeholder="Type your message"></textarea>-->
-<!--                    </div>-->
-
-<!-- Phone -->
-<!--                    <div class="mb-3">-->
-<!--                        <label class="form-label">Contact No. <span class="text-danger">*</span></label>-->
-
-<!--                        <input type="tel" id="wa_phone" class="form-control popup-input" -->
-<!--                            oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,15);">-->
-<!--                            <small class="text-danger d-none" id="wa_error">-->
-<!--                              Contact number must be required-->
-<!--                          </small>-->
-
-<!-- hidden -->
-<!--                        <input type="hidden" name="number" id="wa_full_phone">-->
-<!--                        <input type="hidden" name="country" id="wa_country_name">-->
-<!--                    </div>-->
-
-<!--                    <div class="d-grid">-->
-<!--                        <button type="submit" class="btn popup-btn">-->
-<!--                            Start Chat with Us-->
-<!--                        </button>-->
-<!--                    </div>-->
-
-<!--                </form>-->
-<!--            </div>-->
-
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!-- WhatsApp floating button -->
-<!--<div class="WhatsAppButton_mpp">-->
-<!--    <a data-bs-toggle="modal" data-bs-target="#exampleModal-4" target="_blank">-->
-<!--        <img src="https://www.mmpfilter.com/public/images/whatsapp.png" alt="whatsapp">-->
-<!--    </a>-->
-<!--</div>-->
+        if (document.getElementById('inquiry-recaptcha')) {
+            inquiryCaptchaWidgetId = grecaptcha.render('inquiry-recaptcha', {
+                'sitekey': "{{ env('RECAPTCHA_SITE_KEY') }}"
+            });
+        }
+    }
+</script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function() {
+        const iti = window.intlTelInput(input, {
+            initialCountry: "auto",
+            separateDialCode: true,
+            preferredCountries: ["in", "ae", "us", "gb"],
+            geoIpLookup: function(callback) {
+                fetch("https://ipapi.co/json/")
+                    .then(res => res.json())
+                    .then(data => callback(data.country_code))
+                    .catch(() => callback("in"));
+            },
+            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@25.12.4/build/js/utils.js",
+        });
 
-    const input = document.getElementById("wa_phone");
-    const error = document.getElementById("wa_error");
-    const form = document.getElementById("whatsappForm");
-    const fullPhone = document.getElementById("wa_full_phone");
-    const countryName = document.getElementById("wa_country_name");
+        $("#whatsappForm").on("submit", function(e) {
+            alert("Your enquiry has been received. We will get back to you shortly.");
+        });
 
-    const iti = window.intlTelInput(input, {
-        initialCountry: "auto",
-        separateDialCode: true,
-        preferredCountries: ["in", "ae", "us", "gb"],
-        geoIpLookup: function(callback) {
-            fetch("https://ipapi.co/json/")
-                .then(res => res.json())
-                .then(data => callback(data.country_code))
-                .catch(() => callback("in"));
-        },
-        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@25.12.4/build/js/utils.js",
     });
+</script>
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    // numbers only + live hide error
-    input.addEventListener("input", function() {
-        this.value = this.value.replace(/[^0-9]/g, '');
+<script>
+    $(document).ready(function () {
 
-        if (this.value.length >= 10) {
-            error.classList.add("d-none");
-        }
-    });
+        // Remove old error when typing
+        $('#inquiryForm input, #inquiryForm textarea').on('input keyup change', function () {
+            $(this).removeClass('is-invalid');
+            $(this).next('.error-text').remove();
+        });
 
-    // submit validation
-    form.addEventListener("submit", function(e) {
-
-        if (input.value.trim() === "") {
-            error.innerText = "Contact number must be required";
-            error.classList.remove("d-none");
-            input.focus();
+        $('#inquiryForm').on('submit', function (e) {
             e.preventDefault();
-            return;
-        }
 
-        if (input.value.length < 10 || input.value.length > 15) {
-            error.innerText = "Contact number must be 10 to 15 digits";
-            error.classList.remove("d-none");
-            input.focus();
-            e.preventDefault();
-            return;
-        }
+            let isValid = true;
 
-        // ✅ valid
-        error.classList.add("d-none");
 
-        const countryData = iti.getSelectedCountryData();
-        fullPhone.value = "+" + countryData.dialCode + input.value;
-        countryName.value = countryData.name;
+            // Remove old errors
+            $('.error-text').remove();
+            $('.form-control').removeClass('is-invalid');
+
+            // Get values
+            let firstname = $('#inq_firstname').val().trim();
+            let lastname = $('#inq_lastname').val().trim();
+            let email = $('#inq_email').val().trim();
+            let number = $('#inq_number').val().trim();
+            let company_name = $('#inq_company_name').val().trim();
+            let city = $('#inq_city').val().trim();
+            let subject = $('#inq_subject').val().trim();
+            let message = $('#inq_message').val().trim();
+            let submitBtn = $('#submitBtn');
+
+            let recaptchaResponse = grecaptcha.getResponse(inquiryCaptchaWidgetId);
+            
+            if (recaptchaResponse === '') {
+                $('#inq_recaptcha-error').text('Please verify that you are not a robot.');
+                isValid = false;
+            } else {
+                $('#inq_recaptcha-error').text('');
+            }
+
+            // Show error function
+            function showError(inputId, message) {
+                $('#' + inputId).addClass('is-invalid');
+                $('#' + inputId).after('<div class="error-text text-danger mt-1" style="font-size:14px;">' + message + '</div>');
+                isValid = false;
+            }
+
+            // First Name
+            if (firstname === '') {
+                showError('inq_firstname', 'First Name is required.');
+            }
+
+            // Last Name
+            if (lastname === '') {
+                showError('inq_lastname', 'Last Name is required.');
+            } 
+            // Email
+            if (email === '') {
+                showError('inq_email', 'Email is required.');
+            } else {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showError('inq_email', 'Please enter a valid email address.');
+                }
+            }
+            // Phone Number
+            if (number === '') {
+                showError('inq_number', 'Phone Number is required.');
+            } 
+            // Company Name
+            if (company_name === '') {
+                showError('inq_company_name', 'Company Name is required.');
+            } 
+
+            // City
+            if (city === '') {
+                showError('inq_city', 'City is required.');
+            } 
+            // Subject
+            if (subject === '') {
+                showError('inq_subject', 'Subject is required.');
+            } 
+            // Optional Message Validation
+            if (message !== '' && message.length < 3) {
+                showError('inq_message', 'Message must be at least 3 characters if entered.');
+            }
+
+            // If valid, submit form
+            if (isValid) {
+                submitBtn.contents().filter(function () {
+                    return this.nodeType === 3;
+                }).first().replaceWith('Submitting... ');
+                submitBtn.prop('disabled', true);
+                // small delay so UI updates properly
+                setTimeout(() => {
+                    this.submit();
+                }, 100);
+            }
+        });
     });
 
-});
 </script>
 
 

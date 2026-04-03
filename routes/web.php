@@ -79,6 +79,7 @@ Route::get('product/{category}/{subcategory}/{product}', [DashboardController::c
 Route::get('product/{category}/{subcategory}/{product}/detail', [DashboardController::class, 'productdetail'])->name('productdetail');
 Route::get('/product/{category}/{subcategory}/{product}/{subproduct}/detail', [DashboardController::class, 'subproductDetail'])->name('subproductdetail');
 Route::post('/whatsaapinquiry', [DashboardController::class, 'whatsaapinquiry'])->name('whatsaapinquiry');
+Route::post('/inquiery-store', [DashboardController::class, 'inquieryStore'])->name('inquiery-store');
 
 Route::get('/search', [DashboardController::class, 'Search'])->name('search');
 Route::get('/autocomplete-search', [DashboardController::class, 'autocomplete'])->name('autocomplete.search');

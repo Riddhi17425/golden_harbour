@@ -43,6 +43,7 @@ use App\Mail\SendContactMailToUser;
 use App\Mail\SendContactMailToAdmin;
 use App\Mail\SendProductEnquiryMailToUser;
 use App\Mail\SendProductEnquiryMailToAdmin;
+use App\Models\Inquires;
 use App\Models\WhatsappInquiry;
 use Illuminate\Support\Carbon;
 
@@ -134,6 +135,73 @@ class DashboardController extends Controller
         $eventdata = Event::whereNull('deleted_at')->get();
         return view('front.event',compact('title', 'description','eventdata'));
     }
+
+
+    public function inquieryStore(Request $request){
+
+        $store = new Inquires();
+        $store->firstname = $request->firstname;
+        $store->lastname = $request->lastname;
+        $store->email = $request->email;
+        $store->number = $request->number;
+        $store->company_name = $request->company_name;
+        $store->city = $request->city;
+        $store->subject = $request->subject;
+        $store->message = $request->message;
+        $store->save();    
+
+
+        $sheetData = [
+                    
+                    'first_name'     => $request->firstname,
+                    'last_name'     => $request->lastname,
+                    'company_name' => $request->company_name ?? '',
+                    'phone_no' => $request->number ?? $request->phone ?? '',
+                    'email' => $request->email ?? '',
+                    'city' => $request->city ?? '',
+                    'subject' =>  $request->subject ?? '',
+                    'message' => $request->message ?? '',
+                    'date'    => now()->format('Y-m-d H:i:s')
+                ];  
+        try {
+            // Send data to Google Sheets via the API
+            $response = Http::timeout(30)
+                ->withHeaders([
+                    'Content-Type' => 'application/json'
+                ])
+                ->post('https://script.google.com/macros/s/AKfycbwZL6oC_ItpTFtVbtAqN73baSSDj0iIO_Cptfpvz0yOhYD2EC-AHAcVQHcG_7Qdg-i1/exec', $sheetData);
+
+            // Check if the request was successful
+            if ($response->successful()) {
+                $responseData = $response->json();
+                if (isset($responseData['status']) && $responseData['status'] === 'success') {
+                    Log::info('Data successfully sent to Google Sheets', [
+                        'name' => $request->firstname . ' ' . $request->lastname,
+                        
+                    ]);
+                } else {
+                    Log::warning('Google Sheets API returned error', [
+                        'response' => $responseData,
+                       
+                    ]);
+                }
+            } else {
+                Log::error('Google Sheets API request failed', [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                ]);
+            }
+
+            return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
+
+        } catch (\Exception $e) {
+            Log::error('Google Sheets API request failed: ' . $e->getMessage());
+            return back()->with('error', 'Failed to send the message. Please try again later.');
+        }
+
+
+    }
+
 
     public function news(){
         $title = 'News';

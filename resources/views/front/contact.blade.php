@@ -271,7 +271,7 @@
             
                 <div class="col-lg-12">
                     <div class="form_item">
-                        <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                        <div id="contact-recaptcha"></div>
                         <div id="recaptcha-error" class="error-message" style="color: red; margin-top: 5px;"></div>
                         @error('g-recaptcha-response')
                         <span class="text-danger">{{ $message }}</span>
@@ -292,7 +292,7 @@
 </section>
 
 
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 
 @include('layouts.frontfooter')
 
@@ -398,8 +398,8 @@ $(document).ready(function() {
                 return false;
             }
 
-
-            if (grecaptcha.getResponse() === "") {
+            let recaptchaResponse = grecaptcha.getResponse(contactCaptchaWidgetId);
+            if (recaptchaResponse === "") {
                 $('#recaptcha-error').html("Please verify that you are not a robot.").show();
                 return false;
             } else {
