@@ -43,10 +43,9 @@ use App\Mail\SendContactMailToUser;
 use App\Mail\SendContactMailToAdmin;
 use App\Mail\SendProductEnquiryMailToUser;
 use App\Mail\SendProductEnquiryMailToAdmin;
-use App\Models\Inquires;
 use App\Models\WhatsappInquiry;
 use Illuminate\Support\Carbon;
-
+use App\Models\Inquires;
 class DashboardController extends Controller
 {
     public function login(){
@@ -116,27 +115,6 @@ class DashboardController extends Controller
         ));
     }
 
-    public function about()
-    {
-        $meta_title = 'About Us | Specialized in Engineering Solutions';
-        $meta_description = 'Golden Harbour is one of the region’s leading importers, stockiest, agents, distributors and suppliers of specialized Oil and Gas engineering products.							';
-        return view('front.about',compact('meta_title', 'meta_description'));
-    }
-    public function industries()
-    {
-        $meta_title = 'Topnotch Solutions for your Diverse Sectors | Golden Harbour';
-        $meta_description = 'Golden Harbour delivers high-quality industrial solutions tailored for various sectors like oil & gas, petrochemical, offshore & onshore, energy, and marine.';
-        $industrydata = Industry::whereNull('deleted_at')->get();
-        return view('front.industries', compact('meta_title', 'meta_description','industrydata'));
-    }
-    public function event(){
-        $title = 'Our Events & Exhibitions | Golden Harbour';
-        $description = 'Join us at Golden Harbour as we participate in leading industry events and exhibitions across the Energy, Marine, Offshore, and Industrial sectors.';
-        $eventdata = Event::whereNull('deleted_at')->get();
-        return view('front.event',compact('title', 'description','eventdata'));
-    }
-
-
     public function inquieryStore(Request $request){
 
         $store = new Inquires();
@@ -202,6 +180,25 @@ class DashboardController extends Controller
 
     }
 
+    public function about()
+    {
+        $meta_title = 'About Us | Specialized in Engineering Solutions';
+        $meta_description = 'Golden Harbour is one of the region’s leading importers, stockiest, agents, distributors and suppliers of specialized Oil and Gas engineering products.							';
+        return view('front.about',compact('meta_title', 'meta_description'));
+    }
+    public function industries()
+    {
+        $meta_title = 'Topnotch Solutions for your Diverse Sectors | Golden Harbour';
+        $meta_description = 'Golden Harbour delivers high-quality industrial solutions tailored for various sectors like oil & gas, petrochemical, offshore & onshore, energy, and marine.';
+        $industrydata = Industry::whereNull('deleted_at')->get();
+        return view('front.industries', compact('meta_title', 'meta_description','industrydata'));
+    }
+    public function event(){
+        $title = 'Our Events & Exhibitions | Golden Harbour';
+        $description = 'Join us at Golden Harbour as we participate in leading industry events and exhibitions across the Energy, Marine, Offshore, and Industrial sectors.';
+        $eventdata = Event::whereNull('deleted_at')->get();
+        return view('front.event',compact('title', 'description','eventdata'));
+    }
 
     public function news(){
         $title = 'News';
@@ -215,11 +212,11 @@ class DashboardController extends Controller
         $title = 'Golden Harbour News';
         $description = 'Golden Harbour News Description';
         return view('front.newsdetail',compact('title', 'description','newsdetail'));
-    }
+    } 
     public function blogs(){
         $title = 'Blogs';
         $description = 'Blogs Description';
-        $blogs = Blogs::whereNull('deleted_at')->orderBy('id', 'desc')->get();
+        $blogs = Blogs::whereNull('deleted_at')->where('status', 'Active')->orderBy('id', 'desc')->get();
         return view('front.blog',compact('title', 'description','blogs'));
     }
       public function novacancy()
@@ -230,7 +227,7 @@ class DashboardController extends Controller
     }
 
     public function blogsdetail($url){
-        $blogsdetail = Blogs::whereNull('deleted_at')->where('url', $url)->first();
+        $blogsdetail = Blogs::whereNull('deleted_at')->where('status', 'Active')->where('url', $url)->firstOrFail();
          $title = $blogsdetail->meta_title;
         $description = $blogsdetail->meta_description;
         return view('front.blog_detail',compact('title', 'description','blogsdetail'));

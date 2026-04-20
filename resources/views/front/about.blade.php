@@ -1,7 +1,7 @@
 @include('layouts.frontheader', [
     'og_image' => asset('public/front/images/about-section1.webp')
 ])
-<section class=" news_details_header_main"> 
+<section class=" news_details_header_main">
     <div class=" container-fluid px-lg-0">
         <div class="d-flex flex-wrap  align-items-center justify-content-between">
             <div class="col"></div>

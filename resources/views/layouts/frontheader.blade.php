@@ -150,8 +150,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                       </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('contact') }}" class="nav-link">
-                            <span>Contact</span>
+                        <a href="{{ route('contact') }}" onclick="localStorage.setItem('scrollToBuildTogether','1')" class="nav-link">
+                            <span>Contact </span>
                         </a>
                     </li>
                 </ul>
@@ -343,7 +343,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                       </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('contact') }}" class="nav-link">
+                        <a href="{{ route('contact') }}" onclick="localStorage.setItem('scrollToBuildTogether','1')" class="nav-link">
                             <span>Contact</span>
                         </a>
                     </li>
