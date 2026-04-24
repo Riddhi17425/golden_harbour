@@ -150,8 +150,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                       </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('contact') }}" class="nav-link">
-                            <span>Contact</span>
+                        <a href="{{ route('contact') }}" onclick="localStorage.setItem('scrollToBuildTogether','1')" class="nav-link">
+                            <span>Contact </span>
                         </a>
                     </li>
                 </ul>
@@ -159,7 +159,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div>
                     <ul class="nav-menu">
                         <li class="nav-item">
-                        <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#e-catalogue">
+                        <a href="javascript:void()" class="nav-link" data-bs-toggle="modal" data-bs-target="#e-catalogue">
                             <span>E-Catalogue</span>
                         </a>
                     </li>
@@ -343,7 +343,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                       </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('contact') }}" class="nav-link">
+                        <a href="{{ route('contact') }}" onclick="localStorage.setItem('scrollToBuildTogether','1')" class="nav-link">
                             <span>Contact</span>
                         </a>
                     </li>
@@ -352,7 +352,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div>
                     <ul class="nav-menu list-unstyled sidemenu m-0 p-3">
                         <li class="nav-item">
-                        <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        <a href="javascript:void()" class="nav-link" data-bs-toggle="modal" data-bs-target="#e-catalogue">
                             <span>E-Catalogue</span>
                         </a>
                     </li>
@@ -532,6 +532,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </header>
     <!--mobile sidemenu  offcanvas js-->
+    
+    @include('layouts.catalogue')
     <script>
 const wrapper = document.getElementById("menuWrapper");
 const submenus = document.querySelectorAll(".sidebar_submenu");

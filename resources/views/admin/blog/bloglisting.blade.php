@@ -31,7 +31,8 @@
                         <div class="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
                             <h6 class="mb-3 fw-bold">{{ $blog->title }} <span
                                     class="text-muted small fw-light d-block">Reference {{ $blog->id }}</span>
-                            </h6>
+                            </h6> 
+                            <span class="badge {{ $blog->status === 'Active' ? 'bg-success' : 'bg-secondary' }} mb-3">{{ $blog->status ?? 'Active' }}</span>
 
                             <div class="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2 d-inline-flex d-md-none">
                                 <a href="{{ route('blog.edit', ['blog' => $blog->id]) }}"

@@ -133,6 +133,7 @@ CREATE TABLE `blog` (
 CREATE TABLE `blogs` (
   `id` int(15) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'Active',
   `date` date DEFAULT NULL,
   `front_image` varchar(255) DEFAULT NULL,
   `short_description` text DEFAULT NULL,
@@ -154,10 +155,10 @@ CREATE TABLE `blogs` (
 -- Dumping data for table `blogs`
 --
 
-INSERT INTO `blogs` (`id`, `title`, `date`, `front_image`, `short_description`, `detail_image`, `description`, `cta_image`, `cta_image_text`, `conclusion`, `url`, `meta_title`, `meta_description`, `alt`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'How to Choose the Right Stainless Steel Tubes for Offshore Applications', '2025-07-09', 'about-section1.png', '<p>Short description</p>', 'big-ship-dry-dock 3.png', '<p>Dscription</p>', NULL, '<p>cta text</p>', '<p>conclusion</p>', 'repair-maintenance-mode', 'Alias aut pariatur', '<p>test</p>', 'test1', '2025-07-09 05:45:23', '2025-07-09 04:41:47', '2025-07-09 05:45:23'),
-(2, 'test', '1970-01-01', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'swsw', 'swsw', NULL, 'swsw', '2025-07-09 04:54:22', '2025-07-09 04:53:29', '2025-07-09 04:54:22'),
-(3, 'test', '1970-01-01', 'about-section1.png', NULL, 'big-ship-dry-dock 3.png', NULL, NULL, NULL, NULL, 'dwsd', 'efew', NULL, 'rfr', '2025-07-09 04:54:58', '2025-07-09 04:54:47', '2025-07-09 04:54:58');
+INSERT INTO `blogs` (`id`, `title`, `status`, `date`, `front_image`, `short_description`, `detail_image`, `description`, `cta_image`, `cta_image_text`, `conclusion`, `url`, `meta_title`, `meta_description`, `alt`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'How to Choose the Right Stainless Steel Tubes for Offshore Applications', 'Active', '2025-07-09', 'about-section1.png', '<p>Short description</p>', 'big-ship-dry-dock 3.png', '<p>Dscription</p>', NULL, '<p>cta text</p>', '<p>conclusion</p>', 'repair-maintenance-mode', 'Alias aut pariatur', '<p>test</p>', 'test1', '2025-07-09 05:45:23', '2025-07-09 04:41:47', '2025-07-09 05:45:23'),
+(2, 'test', 'Active', '1970-01-01', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'swsw', 'swsw', NULL, 'swsw', '2025-07-09 04:54:22', '2025-07-09 04:53:29', '2025-07-09 04:54:22'),
+(3, 'test', 'Active', '1970-01-01', 'about-section1.png', NULL, 'big-ship-dry-dock 3.png', NULL, NULL, NULL, NULL, 'dwsd', 'efew', NULL, 'rfr', '2025-07-09 04:54:58', '2025-07-09 04:54:47', '2025-07-09 04:54:58');
 
 -- --------------------------------------------------------
 

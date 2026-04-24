@@ -65,14 +65,12 @@
                 </div>
             </div>
       </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
-      </div> -->
+     
     </div>
   </div>
 </div>
 <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     if (window.location.hash === "#e-catalogue") {
@@ -125,10 +123,10 @@ $(document).ready(function () {
     const submitBtn = form.find('button[type="submit"]');
     $('#catalogue-recaptcha-container').hide();
 
-    // Render reCAPTCHA on first input
-    form.find('input, textarea').one('input', function () {
+    // // Render reCAPTCHA on first input
+    // form.find('input, textarea').one('input', function () {
         renderCatalogueRecaptcha();
-    });
+    // });
 
     // Auto validate required fields on input
     const requiredFields = [
@@ -180,73 +178,89 @@ $(document).ready(function () {
     });
 
     // Form submission
-    form.on('submit', function (e) {
-        e.preventDefault();
-        if (formSubmitting) return;
-
-        let isValid = true;
-        submitBtn.prop('disabled', true);
-
-        const fullName = $('#catalogue-fullname').val().trim();
-        const company = $('#catalogue-company_name').val().trim();
-        const message = $('#catalogue-message').val().trim();
-        const email = $('#catalogue-email').val().trim();
-        const phone = $('#catalogue-phone').val().trim();
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const emailDomain = email.split('@')[1]?.toLowerCase();
-
-        // Required field checks
-        if (fullName === '') {
-            showError($('#catalogue-fullname'), 'Full name is required.');
-            isValid = false;
-        }
-        if (company === '') {
-            showError($('#catalogue-company_name'), 'Company name is required.');
-            isValid = false;
-        }
-        if (message === '') {
-            showError($('#catalogue-message'), 'Message is required.');
-            isValid = false;
-        }
-
-        // Email validation
-        if (email === '') {
-            showError($('#catalogue-email'), 'Email is required.');
-            isValid = false;
-        } else if (!emailPattern.test(email)) {
-            showError($('#catalogue-email'), 'Please enter a valid email address.');
-            isValid = false;
-        } else if (fakeDomains.includes(emailDomain)) {
-            showError($('#catalogue-email'), 'Invalid email addresses are not allowed.');
-            isValid = false;
-        }
-
-        // Phone validation
-        if (phone === '') {
-            showError($('#catalogue-phone'), 'Contact number is required.');
-            isValid = false;
-        } else if (phone.length < 10 || phone.length > 15) {
-            showError($('#catalogue-phone'), 'Contact number must be between 10 and 15 digits.');
-            isValid = false;
-        }
-
-        // CAPTCHA validation
-        if (catalogueRecaptchaRendered) {
-            const token = $('#catalogue-g-recaptcha-response').val();
-            if (!token) {
-                $('#catalogue-error-static-recaptcha').text('Please complete the reCAPTCHA.');
+        form.on('submit', function (e) {
+            e.preventDefault();
+        
+            if (formSubmitting) return;
+        
+            let isValid = true;
+        
+            const btn = submitBtn;
+            const originalText = btn.html();
+        
+            // ❌ remove ONLY field errors (NOT captcha container)
+            $('.field-error').remove();
+            $('.is-invalid').removeClass('is-invalid');
+        
+            const fullName = $('#catalogue-fullname').val().trim();
+            const company = $('#catalogue-company_name').val().trim();
+            const message = $('#catalogue-message').val().trim();
+            const email = $('#catalogue-email').val().trim();
+            const phone = $('#catalogue-phone').val().trim();
+        
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const emailDomain = email.split('@')[1]?.toLowerCase();
+        
+            if (!fullName) {
+                showError($('#catalogue-fullname'), 'Full name is required.');
                 isValid = false;
             }
-        }
-
-        if (isValid) {
-            formSubmitting = true;
-            window.open('public/catalogue/GH_Catalogue.pdf', '_blank'); // Replace with actual path
-            form.off('submit').submit();
-        } else {
-            submitBtn.prop('disabled', false);
-        }
-    });
+        
+            if (!company) {
+                showError($('#catalogue-company_name'), 'Company name is required.');
+                isValid = false;
+            }
+        
+            if (!message) {
+                showError($('#catalogue-message'), 'Message is required.');
+                isValid = false;
+            }
+        
+            if (!email) {
+                showError($('#catalogue-email'), 'Email is required.');
+                isValid = false;
+            } else if (!emailPattern.test(email)) {
+                showError($('#catalogue-email'), 'Invalid email.');
+                isValid = false;
+            } else if (fakeDomains.includes(emailDomain)) {
+                showError($('#catalogue-email'), 'Fake email not allowed.');
+                isValid = false;
+            }
+        
+            if (!phone) {
+                showError($('#catalogue-phone'), 'Phone required.');
+                isValid = false;
+            } else if (phone.length < 10 || phone.length > 15) {
+                showError($('#catalogue-phone'), 'Phone must be 10–15 digits.');
+                isValid = false;
+            }
+        
+            // ✅ CAPTCHA FIX (correct)
+            const recaptchaToken = grecaptcha.getResponse(catalogueRecaptchaWidgetId);
+        
+            if (!recaptchaToken) {
+                $('#catalogue-error-static-recaptcha')
+                    .text('Please complete the captcha.')
+                    .show();
+                isValid = false;
+            } else {
+                $('#catalogue-error-static-recaptcha').text('');
+            }
+        
+            // ---------- SUBMIT ----------
+            if (isValid) {
+                formSubmitting = true;
+                btn.prop('disabled', true).html('Submitting...');
+        
+                setTimeout(() => {
+                    form.off('submit').submit(); // IMPORTANT FIX
+                }, 100);
+        
+            } else {
+                btn.prop('disabled', false);
+                btn.html(originalText);
+            }
+        });
 });
 </script>
 

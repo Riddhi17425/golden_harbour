@@ -42,6 +42,50 @@
             <!--</ul>-->
         </div>
         <div class="col-lg-7 FAQ_Listing_child_2 ">
+            @if(!empty($faqData))
+                @php
+                    $faqItems = [];
+                
+                    if (!empty($faqData)) {
+                            foreach ($faqData as $faq) {
+                    
+                                $faqDatas = is_string($faq->title_description)
+                                    ? json_decode($faq->title_description, true)
+                                    : $faq->title_description;
+                    
+                                if (is_array($faqDatas)) {
+                                    foreach ($faqDatas as $item) {
+                    
+                                        $question = trim(strip_tags($item['title'] ?? ''));
+                                        $answer = trim(strip_tags($item['description'] ?? ''));
+                    
+                                        if ($question && $answer) {
+                                            $faqItems[] = [
+                                                'question' => $question,
+                                                'answer' => $answer,
+                                            ];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    
+                        $faqSchema = [
+                            '@context' => 'https://schema.org',
+                            '@type' => 'FAQPage',
+                            'mainEntity' => array_map(function ($item) {
+                                return [
+                                    '@type' => 'Question',
+                                    'name' => $item['question'],
+                                    'acceptedAnswer' => [
+                                        '@type' => 'Answer',
+                                        'text' => $item['answer'],
+                                    ],
+                                ];
+                            }, $faqItems),
+                        ];
+                    @endphp
+            @endif
             @foreach ($faqData as $faq)
                 @php
                 $faqDatas = json_decode($faq->title_description, true);
@@ -106,7 +150,11 @@
         </div>
     </div>
 </section>
-
+@if(!empty($faqItems))
+    <script type="application/ld+json">
+        {!! json_encode($faqSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+    </script>
+@endif
 
 @include('layouts.frontfooter')
 

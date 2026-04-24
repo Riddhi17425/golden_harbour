@@ -7,13 +7,15 @@ use Illuminate\Http\Request;
 
 class BlogsController extends Controller
 {
+    private const VALID_STATUSES = ['Active', 'InActive'];
+
     public function index()
     {
         $data = Blogs::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.blog.bloglisting', compact('data'));
     }
 
-    public function create()
+    public function create() 
     {
         return view('admin.blog.add');
     }
@@ -22,8 +24,11 @@ class BlogsController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required',
+            'status' => 'required|in:Active,InActive',
         ], [
             'title.required' => 'Please Enter the Blog name.',
+            'status.required' => 'Please select the blog status.',
+            'status.in' => 'Please select a valid blog status.',
         ]);
         
         $faqTitles = $request->faq_title ?? [];
@@ -50,6 +55,7 @@ class BlogsController extends Controller
         $post->meta_title = $request->get('meta_title');
         $post->meta_description = $request->get('meta_description');
         $post->title_description = $title_description;
+        $post->status = $request->input('status', 'Active');
  
         if($request->hasFile('detail_image')) {
             $file = $request->file('detail_image');
@@ -88,6 +94,15 @@ class BlogsController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validatedData = $request->validate([
+            'title' => 'required',
+            'status' => 'required|in:Active,InActive',
+        ], [
+            'title.required' => 'Please Enter the Blog name.',
+            'status.required' => 'Please select the blog status.',
+            'status.in' => 'Please select a valid blog status.',
+        ]);
+
         $post = Blogs::find($id);
         $faqTitles = $request->faq_title ?? [];
             $faqDescriptions = $request->faq_description ?? [];
@@ -112,6 +127,7 @@ class BlogsController extends Controller
         $post->meta_title = $request->get('meta_title');
         $post->meta_description = $request->get('meta_description');
         $post->title_description = $title_description;
+        $post->status = $request->input('status', 'Active');
        
         if($request->hasFile('detail_image')) {
             $file = $request->file('detail_image');

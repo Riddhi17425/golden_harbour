@@ -103,6 +103,43 @@ h3{
 <section class="accoding">
     <div class="container">
         @if (!empty($blogsdetail->title_description) && count($blogsdetail->title_description) > 0)
+            @php
+                $faqItems = [];
+    
+                if (!empty($blogsdetail->title_description)) {
+    
+                    $decodedFaqItems = $blogsdetail->title_description;
+    
+                    if (is_array($decodedFaqItems)) {
+                        foreach ($decodedFaqItems as $item) {
+                            $question = trim(strip_tags($item['faq_title'] ?? ''));
+                            $answer = trim(strip_tags($item['faq_description'] ?? ''));
+    
+                            if ($question && $answer) {
+                                $faqItems[] = [
+                                    'question' => $question,
+                                    'answer' => $answer,
+                                ];
+                            }
+                        }
+                    }
+                }
+    
+                $faqSchema = [
+                    '@context' => 'https://schema.org',
+                    '@type' => 'FAQPage',
+                    'mainEntity' => array_map(function ($item) {
+                        return [
+                            '@type' => 'Question',
+                            'name' => $item['question'],
+                            'acceptedAnswer' => [
+                                '@type' => 'Answer',
+                                'text' => $item['answer'],
+                            ],
+                        ];
+                    }, $faqItems),
+                ];
+            @endphp
             <h4 class="text-center mb-5">Frequently Asked Questions</h4>
             <div class="row">
                 <div class="col-lg-12">
@@ -132,7 +169,11 @@ h3{
         @endif
     </div>
 </section>
-
+@if(!empty($faqItems))
+    <script type="application/ld+json">
+        {!! json_encode($faqSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+    </script>
+@endif
 @include('layouts.frontfooter')
 <script>
     document.addEventListener("DOMContentLoaded", function () {

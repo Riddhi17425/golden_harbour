@@ -43,8 +43,15 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Blog Url</label>
-                            <input type="text" id="url" name="url" required class="form-control">
+                            <input type="text" id="url" name="url" value="{{ old('url') }}" required class="form-control">
                         </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="status">Status</label>
+                            <select id="status" name="status" class="form-control" required>
+                                <option value="Active" {{ old('status', 'Active') === 'Active' ? 'selected' : '' }}>Active</option>
+                                <option value="InActive" {{ old('status') === 'InActive' ? 'selected' : '' }}>InActive</option>
+                            </select>
+                        </div> 
                         <div class="col-md-6">
                             <label class="form-label" for="front_image">Blog Front Image</label>
                             <input type="file" id="front_image" name="front_image" class="form-control">

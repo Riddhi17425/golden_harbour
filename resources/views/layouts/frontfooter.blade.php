@@ -138,10 +138,10 @@
                             <!--<li><a href="{{ route('event') }}" title="Events">Events</a></li>-->
                             <!--<li><a href="{{ route('news') }}" title="News">News</a></li>-->
                             <li><a href="{{ route('blog') }}" title="Blogs">Blogs</a></li>
-                            <li><a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">E-Catalogue</a></li>
+                            <li><a href="javascript:void()" data-bs-toggle="modal" data-bs-target="#e-catalogue">E-Catalogue</a></li>
                             <li><a href="{{ route('gallery') }}" title="Gallery">Gallery</a></li>
                             <li><a href="{{route('faq')}}" title="FAQ">FAQs</a></li>
-                            <li><a href="{{ route('contact') }}" title="Contact">Contact</a></li>
+                            <li><a href="{{ route('contact') }}" onclick="localStorage.setItem('scrollToBuildTogether','1')" title="Contact">Contact</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-2 col-6 mb-4 mb-md-0 ft_left_border d-block d-md-none">
@@ -484,7 +484,7 @@
 <script src="https://www.google.com/recaptcha/api.js?onload=onloadRecaptchaCallback&render=explicit" async defer></script>
 
 
-// for render captcha and working for both so thats why created command by Darshan 
+<!--// for render captcha and working for both so thats why created command by Darshan -->
 <script>
     let contactCaptchaWidgetId;
     let inquiryCaptchaWidgetId;
@@ -632,7 +632,6 @@
 
 
 
-@include('layouts.catalogue')
 
 <script src="{{ asset('public/front/js/jquery.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

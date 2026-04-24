@@ -53,10 +53,17 @@
                             <label for="url" class="form-label">Blog Url</label>
                             <input type="text" id="url" name="url" value="{{ $data->url }}" required class="form-control">
                         </div>
+                        <div class="col-md-6">
+                            <label for="status" class="form-label">Status</label>
+                            <select id="status" name="status" class="form-control" required>
+                                <option value="Active" {{ old('status', $data->status ?? 'Active') === 'Active' ? 'selected' : '' }}>Active</option>
+                                <option value="InActive" {{ old('status', $data->status) === 'InActive' ? 'selected' : '' }}>InActive</option>
+                            </select>
+                        </div>
                         <div class="card mb-3">
                             <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                                 <h6 class="mb-0 fw-bold">Blog Front Image</h6>
-                            </div>
+                            </div> 
                             <div class="card-body">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12">
@@ -70,10 +77,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <label class="form-label" for="alt_tag">Blog Front Image Alt</label>
-                            <input type="text" id="front_alt_tag" name="front_alt_tag" value="{{$data->front_alt_tag}}" class="form-control">
-                        </div>
+        
                         <div class="card mb-3">
                             <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                                 <h6 class="mb-0 fw-bold">Blog Detail Image</h6>
@@ -91,10 +95,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <label class="form-label" for="alt_tag">Blog Detail Image Alt</label>
-                            <input type="text" id="detail_alt_tag" name="detail_alt_tag" value="{{$data->detail_alt_tag}}" class="form-control">
-                        </div>
+                        
                         <div class="card mb-3">
                             <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                                 <h6 class="mb-0 fw-bold">Blog Cta Image</h6>
