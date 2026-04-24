@@ -46,6 +46,9 @@ use App\Mail\SendProductEnquiryMailToAdmin;
 use App\Models\WhatsappInquiry;
 use Illuminate\Support\Carbon;
 use App\Models\Inquires;
+use App\Mail\SendCatalogueMailToAdmin;
+use App\Mail\SendCatalogueMailToUser;
+
 class DashboardController extends Controller
 {
     public function login(){
@@ -934,7 +937,22 @@ class DashboardController extends Controller
                         'email' => $request->email,
                         'response' => $responseData
                     ]);
-                                return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
+                    try {
+                        // Mail::to($validated['email'])
+                        //     ->send(new SendCatalogueMailToUser());
+    
+                        // Mail::to(['webdeveloper12.intelliworkz@gmail.com']) // for testing i have set my personal mail so when un coment then replace mail
+                        //     ->send(new SendCatalogueMailToAdmin($catalogueData));
+    
+                    } catch (\Throwable $e) {
+                        Log::info('Mail failed', [
+                            'message' => $e->getMessage(),
+                            'file' => $e->getFile(),
+                            'line' => $e->getLine()
+                        ]);
+                    }
+                    
+                     return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
  
                 } else {
                     Log::warning('Google Sheets API returned error', [

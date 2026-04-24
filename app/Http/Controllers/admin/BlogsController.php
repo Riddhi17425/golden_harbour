@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class BlogsController extends Controller
 {
+    private const VALID_STATUSES = ['Active', 'InActive'];
+
     public function index()
     {
         $data = Blogs::orderBy('created_at', 'desc')->paginate(15);

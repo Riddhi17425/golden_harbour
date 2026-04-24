@@ -260,13 +260,24 @@
                 <div class="industrial_slider">
                     @foreach($industrialsolutiondata as $industrialsolution)
                         <div class="industrial_box">
+                            <a href="{{ route('subcategorylist',['category'=>$industrialsolution->url])}}">
                             <img src="{{ asset('public/industrysolution_image/'.$industrialsolution->front_image) }}" 
                                  alt="{{ $industrialsolution->alt }}" 
                                  class="img-fluid">
+                            </a>
                             
-                            <h3>{{ $industrialsolution->title }}</h3>
+                             <h3><a href="{{ route('subcategorylist',['category'=>$industrialsolution->url])}}">
+                                    {{ $industrialsolution->title }}
+                                </a>
+                            </h3>
                             
                             {!! $industrialsolution->short_description !!}
+                            <a class="btn btn--ripple" id="ripple" href="{{ route('subcategorylist',['category'=>$industrialsolution->url])}}">Explore Products<svg
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="#fff" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg></a>
+                            
                         </div>
                     @endforeach
                 </div>
@@ -528,8 +539,8 @@
                         <div class="talk-to-us-arrow-line">
                         </div>
                         <div class="main-link-group">
-                            <a data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn--ripple" id="ripple">Download Our
-                                Catalog
+                            <a data-bs-toggle="modal" data-bs-target="#e-catalogue" class="btn btn--ripple" id="ripple">Download Our
+                                Catalogue
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none">
                                     <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white"
