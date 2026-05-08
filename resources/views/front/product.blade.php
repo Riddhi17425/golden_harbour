@@ -214,7 +214,7 @@
                                 <div class="g-recaptcha" data-sitekey="6LcrR-grAAAAAJQi2hs3EmXwPw0f6AtPiAhDHUh9" data-callback="verifyCaptcha"></div>
                                 <small id="recaptcha-error" style="color: red; display: none;"></small>
                             </div>
-                            <button type="submit" class="btn btn--ripple col-md-5" id="ripple">Submit <svg xmlns="http://www.w3.org/2000/svg"
+                            <button type="submit" class="btn btn--ripple col-md-5" id="submitBtn">Submit <svg xmlns="http://www.w3.org/2000/svg"
                                     width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white" stroke-width="1.5"
                                         stroke-linecap="round" stroke-linejoin="round" />
@@ -288,47 +288,98 @@ $(document).ready(function(){
                 error.appendTo(element.parent());
             }
         },
+        // submitHandler: function(form) {
+        //     $('#email-error').empty().hide();
+        //     $('#recaptcha-error').empty().hide();
+
+        //     const email = $('[name="email"]').val();
+        //     const emailDomain = email.split('@')[1];
+        //     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        //     if (!emailPattern.test(email)) {
+        //         $('#email-error').html('Please enter a valid email address.').show();
+        //         return false;
+        //     }
+        //     if (!emailDomain || emailDomain.indexOf('.') === -1) {
+        //         $('#email-error').html('Please enter a valid email address with a proper domain.').show();
+        //         return false;
+        //     }
+        //     const domainParts = emailDomain.split('.');
+        //     if (domainParts.length < 2 || domainParts[domainParts.length - 1].length < 2) {
+        //         $('#email-error').html('Please enter a valid email address with a proper domain.').show();
+        //         return false;
+        //     }
+        //     const fakeDomains = [
+        //         'mailinator.com', '10minutemail.com', 'guerrillamail.com', 'tempmail.com',
+        //         'temp-mail.org', 'throwawaymail.com', 'maildrop.cc', 'dispostable.com',
+        //         'getairmail.com', 'moakt.com', 'spamgourmet.com', 'yopmail.com',
+        //         'sharklasers.com', 'mailnesia.com', 'fakemail.net', 'emailondeck.com',
+        //         'trashmail.com', 'mintemail.com', 'mytemp.email','tempmail.com',
+        //     ];
+        //     if (fakeDomains.includes(emailDomain)) {
+        //         $('#email-error').html('Please provide a valid email address.').show();
+        //         return false;
+        //     }
+        //     if (grecaptcha.getResponse() === "") {
+        //         $('#recaptcha-error').html("Please verify that you are not a robot.").show();
+        //         return false;
+        //     } else {
+        //         $('#recaptcha-error').hide();
+        //     }
+        //     let $submitBtn = $('#brassform button[type="submit"]');
+        //     $submitBtn.prop('disabled', true).html('Submitting...');
+        //     form.submit();
+        // }
         submitHandler: function(form) {
+
+            console.log("Submit handler triggered"); // DEBUG
+        
             $('#email-error').empty().hide();
             $('#recaptcha-error').empty().hide();
-
-            const email = $('[name="email"]').val();
-            const emailDomain = email.split('@')[1];
-            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
+        
+            const email = $('#email').val().trim();
+        
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        
             if (!emailPattern.test(email)) {
                 $('#email-error').html('Please enter a valid email address.').show();
                 return false;
             }
-            if (!emailDomain || emailDomain.indexOf('.') === -1) {
-                $('#email-error').html('Please enter a valid email address with a proper domain.').show();
-                return false;
-            }
-            const domainParts = emailDomain.split('.');
-            if (domainParts.length < 2 || domainParts[domainParts.length - 1].length < 2) {
-                $('#email-error').html('Please enter a valid email address with a proper domain.').show();
-                return false;
-            }
+        
             const fakeDomains = [
-                'mailinator.com', '10minutemail.com', 'guerrillamail.com', 'tempmail.com',
-                'temp-mail.org', 'throwawaymail.com', 'maildrop.cc', 'dispostable.com',
-                'getairmail.com', 'moakt.com', 'spamgourmet.com', 'yopmail.com',
-                'sharklasers.com', 'mailnesia.com', 'fakemail.net', 'emailondeck.com',
-                'trashmail.com', 'mintemail.com', 'mytemp.email','tempmail.com',
+                'mailinator.com','10minutemail.com','guerrillamail.com','tempmail.com',
+                'temp-mail.org','throwawaymail.com','maildrop.cc','dispostable.com',
+                'getairmail.com','moakt.com','spamgourmet.com','yopmail.com'
             ];
-            if (fakeDomains.includes(emailDomain)) {
-                $('#email-error').html('Please provide a valid email address.').show();
+        
+            const emailDomain = email.split('@')[1]?.toLowerCase();
+        
+            if (fakeDomains.some(domain => emailDomain.includes(domain))) {
+                $('#email-error').html('Temporary emails not allowed.').show();
                 return false;
             }
+        
             if (grecaptcha.getResponse() === "") {
-                $('#recaptcha-error').html("Please verify that you are not a robot.").show();
+                $('#recaptcha-error').html("Please verify captcha").show();
                 return false;
-            } else {
-                $('#recaptcha-error').hide();
             }
-            let $submitBtn = $('#brassform button[type="submit"]');
-            $submitBtn.prop('disabled', true).html('Submitting...');
-            form.submit();
+        
+            // ✅ BUTTON FIX START
+            const submitBtn = $('#submitBtn');
+        
+            console.log("Before disable:", submitBtn.prop('disabled'));
+        
+            submitBtn.prop('disabled', true);
+            submitBtn.html('Submitting...');
+        
+            console.log("After disable:", submitBtn.prop('disabled'));
+        
+            // small delay to reflect UI
+            setTimeout(function () {
+                form.submit();
+            }, 100);
+        
+            return false;
         }
     });
 });

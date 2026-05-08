@@ -41,7 +41,7 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
                     <!--<h2 class="main_head_small">Highly Durable Products</h2>-->
                     <!--<h2 class="main_head_small">{{ $currentProduct->sub_title }}</h2>-->
 
-                    {!! $currentProduct->description !!}
+                    {!! $currentProduct->description !!} 
 
 
                 </div>
@@ -59,7 +59,7 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
         <div class="row gx-3">
             <div class="col-md-4">
                 @php
-                $images = is_string($productImages) ? json_decode($productImages, true) : $productImages;
+                    $images = is_string($productImages) ? json_decode($productImages, true) : $productImages;
                 @endphp
 
                 @if($images && is_array($images))
@@ -89,7 +89,7 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
             </div>
 
             <div class="col-md-8 mt-4 mt-md-0">
-                {!! $isSubProduct ? $subproduct->product_description : $product->product_description !!}
+                {!! $isSubProduct ? $subproduct->product_description : $product->product_description !!}  
 
                 <a class="btn btn--ripple open-enquiry" data-bs-toggle="modal" data-bs-target="#exampleModalform"
                     data-product="{{ $product->title }}" data-category="{{ $product->category->name ?? '' }}"

@@ -248,24 +248,23 @@
             submitHandler: function (form) {
                 $('#email-error').empty().hide();
                 $('#recaptcha-error').empty().hide();
-
+                console.log("CAPTCHA - " . JSON.stringify(grecaptcha.getResponse()));
                 const email = $('[name="email"]').val();
                 const emailDomain = email.split('@')[1];
-                const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-                if (!emailPattern.test(email)) {
-                    $('#email-error').html('Please enter a valid email address.').show();
-                    return false;
-                }
-                if (!emailDomain || emailDomain.indexOf('.') === -1) {
-                    $('#email-error').html('Please enter a valid email address with a proper domain.').show();
-                    return false;
-                }
-                const domainParts = emailDomain.split('.');
-                if (domainParts.length < 2 || domainParts[domainParts.length - 1].length < 2) {
-                    $('#email-error').html('Please enter a valid email address with a proper domain.').show();
-                    return false;
-                }
+                // const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                // if (!emailPattern.test(email)) {
+                //     $('#email-error').html('Please enter a valid email address.').show();
+                //     return false;
+                // }
+                // if (!emailDomain || emailDomain.indexOf('.') === -1) {
+                //     $('#email-error').html('Please enter a valid email address with a proper domain.').show();
+                //     return false;
+                // }
+                // const domainParts = emailDomain.split('.');
+                // if (domainParts.length < 2 || domainParts[domainParts.length - 1].length < 2) {
+                //     $('#email-error').html('Please enter a valid email address with a proper domain.').show();
+                //     return false;
+                // }
                 const fakeDomains = [
                     'mailinator.com', '10minutemail.com', 'guerrillamail.com', 'tempmail.com',
                     'temp-mail.org', 'throwawaymail.com', 'maildrop.cc', 'dispostable.com',

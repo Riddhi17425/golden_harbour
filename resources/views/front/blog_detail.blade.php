@@ -140,20 +140,20 @@ h3{
                     }, $faqItems),
                 ];
             @endphp
-            <h4 class="text-center mb-5">Frequently Asked Questions</h4>
+            <h2 class="text-center mb-5">Frequently Asked Questions</h2>
             <div class="row">
                 <div class="col-lg-12">
                     <div id="accordionExample">
                         @foreach ($blogsdetail->title_description as $index => $faq)
                             <div class="mb-4">
-                                <h5 class="according_head" 
+                                <h3 class="according_head" 
                                     data-bs-toggle="collapse"
                                     data-bs-target="#collapse{{ $index }}"
                                     aria-expanded="{{ $index === 0 ? 'true' : 'false' }}"
                                     aria-controls="collapse{{ $index }}">
                                     {{ $faq['faq_title'] }}
                                      <span class="arrow"></span>
-                                </h5>
+                                </h3>
                                 <div id="collapse{{ $index }}" 
                                     class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}"
                                     data-bs-parent="#accordionExample">

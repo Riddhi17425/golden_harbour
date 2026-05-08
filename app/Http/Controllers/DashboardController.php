@@ -427,59 +427,59 @@ class DashboardController extends Controller
         return view('front.subcategory',compact('meta_title', 'meta_description','subcategory'));
     }
     public function getproduct($categoryUrl, $subcategoryUrl)
-{
-    $title = 'Product';
-    $description = 'Product Description For All the product';
+    {
+        $title = 'Product';
+        $description = 'Product Description For All the product';
 
-    // Step 1: Fetch category
-    $category = Category::where('url', $categoryUrl)->first();
-    if (!$category) {
-        abort(404, 'Category not found');
-    }
+        // Step 1: Fetch category
+        $category = Category::where('url', $categoryUrl)->first();
+        if (!$category) {
+            abort(404, 'Category not found');
+        }
 
-    // Step 2: Fetch subcategory under that category
-    $subcategory = SubCategory::where('url', $subcategoryUrl)
-        ->where('category_id', $category->id)
-        ->first();
+        // Step 2: Fetch subcategory under that category
+        $subcategory = SubCategory::where('url', $subcategoryUrl)
+            ->where('category_id', $category->id)
+            ->first();
 
-    if (!$subcategory) {
-        abort(404, 'Subcategory not found or does not belong to category');
-    }
+        if (!$subcategory) {
+            abort(404, 'Subcategory not found or does not belong to category');
+        }
 
-    // Step 3: Set meta (from this subcategory)
-    $meta_title = $subcategory->meta_title ?? 'SubCategory';
-    $meta_description = $subcategory->meta_description ?? 'SubCategory Of the product';
+        // Step 3: Set meta (from this subcategory)
+        $meta_title = $subcategory->meta_title ?? 'SubCategory';
+        $meta_description = $subcategory->meta_description ?? 'SubCategory Of the product';
 
-    // Step 4: Fetch products under subcategory
-    $products = Product::with(['category', 'subcategory'])
-        ->where('subcategory_id', $subcategory->id)
-        ->where('category_id', $category->id)
-        ->whereNull('deleted_at')
-        ->get();
-
-    // Step 5: If no products, redirect to first product detail (if any)
-    if ($products->isEmpty()) {
-        $firstProduct = Product::with('subcategory')
+        // Step 4: Fetch products under subcategory
+        $products = Product::with(['category', 'subcategory'])
             ->where('subcategory_id', $subcategory->id)
             ->where('category_id', $category->id)
             ->whereNull('deleted_at')
-            ->first();
+            ->get();
 
-        if ($firstProduct) {
-            return redirect()->route('productdetail', [
-                'category' => $category->url,
-                'subcategory' => $subcategory->url,
-                'product' => $firstProduct->url
-            ]);
-        } else {
-            // No products at all under this subcategory
-            abort(404, 'No products found for this subcategory');
+        // Step 5: If no products, redirect to first product detail (if any)
+        if ($products->isEmpty()) {
+            $firstProduct = Product::with('subcategory')
+                ->where('subcategory_id', $subcategory->id)
+                ->where('category_id', $category->id)
+                ->whereNull('deleted_at')
+                ->first();
+
+            if ($firstProduct) {
+                return redirect()->route('productdetail', [
+                    'category' => $category->url,
+                    'subcategory' => $subcategory->url,
+                    'product' => $firstProduct->url
+                ]);
+            } else {
+                // No products at all under this subcategory
+                abort(404, 'No products found for this subcategory');
+            }
         }
-    }
 
-    // Step 6: Return product listing view
-    return view('front.product', compact('meta_title', 'meta_description', 'products', 'subcategory', 'category'));
-}
+        // Step 6: Return product listing view
+        return view('front.product', compact('meta_title', 'meta_description', 'products', 'subcategory', 'category'));
+    }
     public function getsubproduct($categoryUrl, $subcategoryUrl, $productUrl)
     {
         // $title = 'Sub Product';
@@ -745,15 +745,14 @@ class DashboardController extends Controller
             'trashmail.com', 'mintemail.com', 'mytemp.email','tempmail.com',
         ];
    
-        $emailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
-   
-        if (!preg_match($emailPattern, $email) || in_array($emailDomain, $fakeDomains)) {
-            return back()->withErrors(['email' => 'Please provide a valid email address.']);
-        }
-        $domainParts = explode('.', $emailDomain);
-        if (count($domainParts) < 2 || strlen($domainParts[count($domainParts) - 1]) < 2) {
-            return back()->withErrors(['email' => 'Please enter a valid email address']);
-        }
+        // $emailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+        // if (!preg_match($emailPattern, $email) || in_array($emailDomain, $fakeDomains)) {
+        //     return back()->withErrors(['email' => 'Please provide a valid email address.']);
+        // }
+        // $domainParts = explode('.', $emailDomain);
+        // if (count($domainParts) < 2 || strlen($domainParts[count($domainParts) - 1]) < 2) {
+        //     return back()->withErrors(['email' => 'Please enter a valid email address']);
+        // }
         if (in_array($emailDomain, $fakeDomains)) {
             return back()->withErrors(['email' => 'Please provide a valid email address']);
         }
