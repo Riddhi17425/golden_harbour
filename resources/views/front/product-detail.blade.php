@@ -41,7 +41,7 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
                     <!--<h2 class="main_head_small">Highly Durable Products</h2>-->
                     <!--<h2 class="main_head_small">{{ $currentProduct->sub_title }}</h2>-->
 
-                    {!! $currentProduct->description !!} 
+                    {!! $currentProduct->description !!}
 
 
                 </div>
@@ -59,7 +59,7 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
         <div class="row gx-3">
             <div class="col-md-4">
                 @php
-                    $images = is_string($productImages) ? json_decode($productImages, true) : $productImages;
+                $images = is_string($productImages) ? json_decode($productImages, true) : $productImages;
                 @endphp
 
                 @if($images && is_array($images))
@@ -67,7 +67,7 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
                     @foreach($images as $image)
                     <div>
                         <img src="{{ asset(($isSubProduct ? 'public/subproduct_detail_files/' : 'public/product_detail_files/') . $image) }}"
-                            class="img-fluid product-slid-img" alt="Product Image">
+                            class="img-fluid product-slid-img" alt="{{ $currentProduct->top_title }}">
 
 
                         <!--<img src="{{ asset('public/product_detail_files/' . $image) }}" class="img-fluid product-slid-img" alt="Product Image">-->
@@ -80,7 +80,7 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
                     <div>
                         <!--<img src="{{ asset('public/product_detail_files/' . $image) }}" class="img-fluid" alt="Product Thumbnail">-->
                         <img src="{{ asset(($isSubProduct ? 'public/subproduct_detail_files/' : 'public/product_detail_files/') . $image) }}"
-                            class="img-fluid" alt="Product Thumbnail">
+                            class="img-fluid" alt="{{ $currentProduct->top_title }}">
 
                     </div>
                     @endforeach
@@ -89,7 +89,7 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
             </div>
 
             <div class="col-md-8 mt-4 mt-md-0">
-                {!! $isSubProduct ? $subproduct->product_description : $product->product_description !!}  
+                {!! $isSubProduct ? $subproduct->product_description : $product->product_description !!}
 
                 <a class="btn btn--ripple open-enquiry" data-bs-toggle="modal" data-bs-target="#exampleModalform"
                     data-product="{{ $product->title }}" data-category="{{ $product->category->name ?? '' }}"
@@ -349,21 +349,21 @@ $industrydata = $industrydata ?? collect();
 
                 const email = $('[name="email"]').val();
                 const emailDomain = email.split('@')[1];
-                const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                // const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-                if (!emailPattern.test(email)) {
-                    $('#email-error').html('Please enter a valid email address.').show();
-                    return false;
-                }
-                if (!emailDomain || emailDomain.indexOf('.') === -1) {
-                    $('#email-error').html('Please enter a valid email address with a proper domain.').show();
-                    return false;
-                }
-                const domainParts = emailDomain.split('.');
-                if (domainParts.length < 2 || domainParts[domainParts.length - 1].length < 2) {
-                    $('#email-error').html('Please enter a valid email address with a proper domain.').show();
-                    return false;
-                }
+                // if (!emailPattern.test(email)) {
+                //     $('#email-error').html('Please enter a valid email address.').show();
+                //     return false;
+                // }
+                // if (!emailDomain || emailDomain.indexOf('.') === -1) {
+                //     $('#email-error').html('Please enter a valid email address with a proper domain.').show();
+                //     return false;
+                // }
+                // const domainParts = emailDomain.split('.');
+                // if (domainParts.length < 2 || domainParts[domainParts.length - 1].length < 2) {
+                //     $('#email-error').html('Please enter a valid email address with a proper domain.').show();
+                //     return false;
+                // }
                 const fakeDomains = [
                     'mailinator.com', '10minutemail.com', 'guerrillamail.com', 'tempmail.com',
                     'temp-mail.org', 'throwawaymail.com', 'maildrop.cc', 'dispostable.com',

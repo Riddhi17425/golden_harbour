@@ -211,9 +211,20 @@
                                 <input type="text" class="form-control px-0" id="message" name="message" placeholder="Enter message here">
                             </div>
                             <div class="form-group">
-                                <div class="g-recaptcha" data-sitekey="6LcrR-grAAAAAJQi2hs3EmXwPw0f6AtPiAhDHUh9" data-callback="verifyCaptcha"></div>
-                                <small id="recaptcha-error" style="color: red; display: none;"></small>
+                                <!--<div class="g-recaptcha" data-sitekey="6LcrR-grAAAAAJQi2hs3EmXwPw0f6AtPiAhDHUh9" data-callback="verifyCaptcha"></div>-->
+                                <!--<small id="recaptcha-error" style="color: red; display: none;"></small>-->
+                                <div class="g-recaptcha"
+                                 data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"
+                                 data-callback="onCaptchaSuccess"
+                                 data-expired-callback="onCaptchaExpired"></div>
+             
+                                <div id="recaptcha-error" class="error-message" style="color: red; margin-top: 5px;"></div>
+                                @error('g-recaptcha-response')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
+                            
+                            
                             <button type="submit" class="btn btn--ripple col-md-5" id="submitBtn">Submit <svg xmlns="http://www.w3.org/2000/svg"
                                     width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white" stroke-width="1.5"
@@ -233,8 +244,16 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @include('layouts.frontfooter')
 <script>
-function verifyCaptcha() {
-    $('#recaptcha-error').hide();
+// function verifyCaptcha() {
+//     $('#recaptcha-error').hide();
+// }
+
+let captchaToken = "";
+function onCaptchaSuccess(token) {
+    captchaToken = token;
+}
+function onCaptchaExpired() {
+    captchaToken = "";
 }
 
 $(document).ready(function(){
@@ -358,17 +377,20 @@ $(document).ready(function(){
                 $('#email-error').html('Temporary emails not allowed.').show();
                 return false;
             }
-        
-            if (grecaptcha.getResponse() === "") {
-                $('#recaptcha-error').html("Please verify captcha").show();
+            
+            // if (grecaptcha.getResponse() === "") {
+            //     $('#recaptcha-error').html("Please verify captcha").show();
+            //     return false;
+            // }
+            if (!captchaToken) {
+                $('#recaptcha-error')
+                    .html("Please verify that you are not a robot.")
+                    .show();
                 return false;
             }
-        
-            // ✅ BUTTON FIX START
+            $('#recaptcha-error').empty().hide();
+            
             const submitBtn = $('#submitBtn');
-        
-            console.log("Before disable:", submitBtn.prop('disabled'));
-        
             submitBtn.prop('disabled', true);
             submitBtn.html('Submitting...');
         

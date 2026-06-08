@@ -1,4 +1,7 @@
 <style>
+.error {
+    color: red;
+}
 .ft_itmes li:not(:last-child) {
     margin-bottom: 15px;
 }
@@ -275,7 +278,15 @@
     <button type="button" class="btn btn--ripple" data-bs-toggle="modal" data-bs-target="#enquiryNowModal"
         title="Enquiry Now" id="ripple">Enquiry Now</button>
 </div>
-
+@if ($errors->any())
+    <div style="color:red;">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <div class="modal fade" id="enquiryNowModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -287,6 +298,8 @@
                 <div class="contact_input">
                     <form method="POST"  id="inquiryForm" action="{{ route('inquiery-store')}}">
                         @csrf
+                        <input type="hidden" name="hiddenvalue" value="1">
+                        <input type="hidden" name="form_time" value="{{ time() }}">
                         <div class="row">
                             <div class="col-12 col-lg-6 mb-4">
                                 <label for="first-name" class="form-label"><b>First Name *:</b></label>
@@ -339,6 +352,7 @@
                             </div>
 
                         </div>
+                
                         <div class="col-lg-12">
                         <div class="form_item">
                             <div id="inquiry-recaptcha"></div>
@@ -490,8 +504,8 @@
     let inquiryCaptchaWidgetId;
 
     function onloadRecaptchaCallback() {
-        if (document.getElementById('contact-recaptcha')) {
-            contactCaptchaWidgetId = grecaptcha.render('contact-recaptcha', {
+        if (document.getElementById('inquiry-recaptcha')) {
+            contactCaptchaWidgetId = grecaptcha.render('inquiry-recaptcha', {
                 'sitekey': "{{ env('RECAPTCHA_SITE_KEY') }}"
             });
         }
@@ -529,105 +543,229 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script>
-    $(document).ready(function () {
+// $(document).ready(function () {
 
-        // Remove old error when typing
-        $('#inquiryForm input, #inquiryForm textarea').on('input keyup change', function () {
-            $(this).removeClass('is-invalid');
-            $(this).next('.error-text').remove();
-        });
+//         // Remove old error when typing
+//         $('#inquiryForm input, #inquiryForm textarea').on('input keyup change', function () {
+//             $(this).removeClass('is-invalid');
+//             $(this).next('.error-text').remove();
+//         });
 
-        $('#inquiryForm').on('submit', function (e) {
-            e.preventDefault();
+//         $('#inquiryForm').on('submit', function (e) {
+//             e.preventDefault();
 
-            let isValid = true;
+//             let isValid = true;
 
 
-            // Remove old errors
-            $('.error-text').remove();
-            $('.form-control').removeClass('is-invalid');
+//             // Remove old errors
+//             $('.error-text').remove();
+//             $('.form-control').removeClass('is-invalid');
 
-            // Get values
-            let firstname = $('#inq_firstname').val().trim();
-            let lastname = $('#inq_lastname').val().trim();
-            let email = $('#inq_email').val().trim();
-            let number = $('#inq_number').val().trim();
-            let company_name = $('#inq_company_name').val().trim();
-            let city = $('#inq_city').val().trim();
-            let subject = $('#inq_subject').val().trim();
-            let message = $('#inq_message').val().trim();
-            let submitBtn = $('#submitBtn');
+//             // Get values
+//             let firstname = $('#inq_firstname').val().trim();
+//             let lastname = $('#inq_lastname').val().trim();
+//             let email = $('#inq_email').val().trim();
+//             let number = $('#inq_number').val().trim();
+//             let company_name = $('#inq_company_name').val().trim();
+//             let city = $('#inq_city').val().trim();
+//             let subject = $('#inq_subject').val().trim();
+//             let message = $('#inq_message').val().trim();
+//             let submitBtn = $('#submitBtn');
 
-            let recaptchaResponse = grecaptcha.getResponse(inquiryCaptchaWidgetId);
+//             let recaptchaResponse = grecaptcha.getResponse(inquiryCaptchaWidgetId);
             
-            if (recaptchaResponse === '') {
-                $('#inq_recaptcha-error').text('Please verify that you are not a robot.');
-                isValid = false;
+//             if (recaptchaResponse === '') {
+//                 $('#inq_recaptcha-error').text('Please verify that you are not a robot.');
+//                 isValid = false;
+//             } else {
+//                 $('#inq_recaptcha-error').text('');
+//             }
+
+//             // Show error function
+//             function showError(inputId, message) {
+//                 $('#' + inputId).addClass('is-invalid');
+//                 $('#' + inputId).after('<div class="error-text text-danger mt-1" style="font-size:14px;">' + message + '</div>');
+//                 isValid = false;
+//             }
+
+//             // First Name
+//             if (firstname === '') {
+//                 showError('inq_firstname', 'First Name is required.');
+//             }
+
+//             // Last Name
+//             if (lastname === '') {
+//                 showError('inq_lastname', 'Last Name is required.');
+//             } 
+//             // Email
+//             if (email === '') {
+//                 showError('inq_email', 'Email is required.');
+//             } else {
+//                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//                 if (!emailRegex.test(email)) {
+//                     showError('inq_email', 'Please enter a valid email address.');
+//                 }
+//             }
+//             // Phone Number
+//             if (number === '') {
+//                 showError('inq_number', 'Phone Number is required.');
+//             } 
+//             // Company Name
+//             if (company_name === '') {
+//                 showError('inq_company_name', 'Company Name is required.');
+//             } 
+
+//             // City
+//             if (city === '') {
+//                 showError('inq_city', 'City is required.');
+//             } 
+//             // Subject
+//             if (subject === '') {
+//                 showError('inq_subject', 'Subject is required.');
+//             } 
+//             // Optional Message Validation
+//             if (message !== '' && message.length < 3) {
+//                 showError('inq_message', 'Message must be at least 3 characters if entered.');
+//             }
+
+//             // If valid, submit form
+//             if (isValid) {
+//                 submitBtn.contents().filter(function () {
+//                     return this.nodeType === 3;
+//                 }).first().replaceWith('Submitting... ');
+//                 submitBtn.prop('disabled', true);
+//                 // small delay so UI updates properly
+//                 setTimeout(() => {
+//                     this.submit();
+//                 }, 100);
+//             }
+//         });
+//     });
+
+$(document).ready(function() {
+ let firstname = $('#inq_firstname').val().trim();
+//             let lastname = $('#inq_lastname').val().trim();
+//             let email = $('#inq_email').val().trim();
+//             let number = $('#inq_number').val().trim();
+//             let company_name = $('#inq_company_name').val().trim();
+//             let city = $('#inq_city').val().trim();
+//             let subject = $('#inq_subject').val().trim();
+//             let message = $('#inq_message').val().trim();
+//             let submitBtn = $('#submitBtn');
+    $("#inquiryForm").validate({
+        rules: {
+            firstname: {
+                required: true,
+                noUrl: true,
+                noCyrillic: true,
+                noSpamWords: true,
+            },
+            lastname: {
+                required: true,
+                noUrl: true,
+                noCyrillic: true,
+                noSpamWords: true,
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            number: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 15
+            },
+            company_name: {
+                required: true,
+                noUrl: true,
+                noCyrillic: true,
+                noSpamWords: true,
+            },
+            city: {
+                required: true
+            },
+            message: {
+                noUrl: true,
+                noCyrillic: true,
+                noSpamWords: true,
+                minSubmitTime: true
+            },
+            subject: {
+                required: true
+            },
+            'g-recaptcha-response': {
+                required: true
+            }
+        },
+        messages: {
+            firstname: {
+                required: "Please enter your first name."
+            },
+            lastname: {
+                required: "Please enter your last name."
+            },
+            email: {
+                required: "Please enter your email address.",
+                email: "Please enter a valid email address."
+            },
+            number: {
+                required: "Please enter your phone number.",
+                digits: "Please enter only digits.",
+                minlength: "Phone number must be between 10 to 15 digits",
+                maxlength: "Phone number cannot exceed 15 digits."
+            },
+            company_name: {
+                required: "Please enter your company name."
+            },
+            city: {
+                required: "Please enter your city."
+            },
+            subject: {
+                required: "Please enter your subject."
+            },
+            'g-recaptcha-response': {
+                required: "Please verify that you are not a robot."
+            }
+        },
+        errorPlacement: function(error, element) {
+            error.appendTo(element.parent());
+        },
+        submitHandler: function(form) {
+            // Clear previous errors
+            $('#email-error').empty().hide();
+            $('#inq_recaptcha-error').empty().hide();
+            const email = $('[name="email"]').val();
+            const emailDomain = email.split('@')[1];
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const fakeDomains = [
+                'mailinator.com', '10minutemail.com', 'guerrillamail.com', 'tempmail.com',
+                'temp-mail.org', 'throwawaymail.com', 'maildrop.cc', 'dispostable.com',
+                'getairmail.com', 'moakt.com', 'spamgourmet.com', 'yopmail.com',
+                'sharklasers.com', 'mailnesia.com', 'fakemail.net', 'emailondeck.com',
+                'trashmail.com', 'mintemail.com', 'mytemp.email'
+            ];
+            if (fakeDomains.includes(emailDomain)) {
+                $('#email-error').html('Please provide a valid email address.').show();
+                return false;
+            }
+
+            let recaptchaResponse = grecaptcha.getResponse(contactCaptchaWidgetId);
+            if (recaptchaResponse === "") {
+                $('#inq_recaptcha-error').html("Please verify that you are not a robot.").show();
+                return false;
             } else {
-                $('#inq_recaptcha-error').text('');
+                $('#inq_recaptcha-error').empty().hide();
             }
+              // Disable submit button and change text
+            const $submitBtn = $('#contactform').find(':submit');
+            $submitBtn.prop('disabled', true).text('Submitting...');
 
-            // Show error function
-            function showError(inputId, message) {
-                $('#' + inputId).addClass('is-invalid');
-                $('#' + inputId).after('<div class="error-text text-danger mt-1" style="font-size:14px;">' + message + '</div>');
-                isValid = false;
-            }
-
-            // First Name
-            if (firstname === '') {
-                showError('inq_firstname', 'First Name is required.');
-            }
-
-            // Last Name
-            if (lastname === '') {
-                showError('inq_lastname', 'Last Name is required.');
-            } 
-            // Email
-            if (email === '') {
-                showError('inq_email', 'Email is required.');
-            } else {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(email)) {
-                    showError('inq_email', 'Please enter a valid email address.');
-                }
-            }
-            // Phone Number
-            if (number === '') {
-                showError('inq_number', 'Phone Number is required.');
-            } 
-            // Company Name
-            if (company_name === '') {
-                showError('inq_company_name', 'Company Name is required.');
-            } 
-
-            // City
-            if (city === '') {
-                showError('inq_city', 'City is required.');
-            } 
-            // Subject
-            if (subject === '') {
-                showError('inq_subject', 'Subject is required.');
-            } 
-            // Optional Message Validation
-            if (message !== '' && message.length < 3) {
-                showError('inq_message', 'Message must be at least 3 characters if entered.');
-            }
-
-            // If valid, submit form
-            if (isValid) {
-                submitBtn.contents().filter(function () {
-                    return this.nodeType === 3;
-                }).first().replaceWith('Submitting... ');
-                submitBtn.prop('disabled', true);
-                // small delay so UI updates properly
-                setTimeout(() => {
-                    this.submit();
-                }, 100);
-            }
-        });
+            form.submit(); // Proceed with form submission
+        }
     });
-
+});    
+    
 </script>
 
 
@@ -648,6 +786,44 @@ AOS.init();
 </script>
 
 <script>
+// CUSTOM VALIDATIONS
+
+// URL validation
+$.validator.addMethod("noUrl", function (value, element) {
+    return this.optional(element) || !/(https?:\/\/|www\.)/i.test(value);
+}, "Links are not allowed in message.");
+
+// Cyrillic / Russian character validation
+$.validator.addMethod("noCyrillic", function (value, element) {
+    return this.optional(element) || !/[А-Яа-яЁё]/u.test(value);
+}, "Invalid characters detected.");
+
+// Spam keyword validation
+$.validator.addMethod("noSpamWords", function (value, element) {
+    let spamWords = [
+        'seo',
+        'crypto',
+        'viagra',
+        'casino',
+        'furniture',
+        'wholesale'
+    ];
+    let lowerValue = value.toLowerCase();
+    for (let i = 0; i < spamWords.length; i++) {
+        if (lowerValue.includes(spamWords[i])) {
+            return false;
+        }
+    }
+    return true;
+}, "Spam content detected.");
+
+// Minimum form submit time validation
+$.validator.addMethod("minSubmitTime", function (value, element) {
+    let formTime = parseInt($('input[name="form_time"]').val());
+    let currentTime = Math.floor(Date.now() / 1000);
+    return (currentTime - formTime) >= 5;
+}, "Please wait a few seconds before submitting.");
+
 // window.onload = function () {
 //     var elfsightBranding = document.querySelector('a[href*="elfsight.com/linkedin-feed-widget"]');
 //     if (elfsightBranding) {

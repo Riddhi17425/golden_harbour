@@ -209,7 +209,10 @@ $(document).ready(function () {
     $("#faqForm").validate({
         rules: {
             question: {
-                required: true
+                required: true,
+                noUrl: true,
+                noCyrillic: true,
+                noSpamWords: true,
             },
             email: {
                 required: true,
@@ -229,25 +232,25 @@ $(document).ready(function () {
             error.appendTo(element.parent());
         },
         submitHandler: function (form) {
-            $('#email-error').empty().hide();
+            // $('#email-error').empty().hide();
 
-            const email = $('[name="email"]').val();
-            const emailDomain = email.split('@')[1];
-            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            // const email = $('[name="email"]').val();
+            // const emailDomain = email.split('@')[1];
+            // const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-            if (!emailPattern.test(email)) {
-                $('#email-error').html('Please enter a valid email address.').show();
-                return false;
-            }
+            // if (!emailPattern.test(email)) {
+            //     $('#email-error').html('Please enter a valid email address.').show();
+            //     return false;
+            // }
 
-            const fakeDomains = [
-                'tempmail.com', 'mailinator.com', 'guerrillamail.com', 'yopmail.com', '10minutemail.com', 'throwawaymail.com'
-            ];
+            // const fakeDomains = [
+            //     'tempmail.com', 'mailinator.com', 'guerrillamail.com', 'yopmail.com', '10minutemail.com', 'throwawaymail.com'
+            // ];
 
-            if (fakeDomains.includes(emailDomain)) {
-                $('#email-error').html('Please provide a valid email address.').show();
-                return false;
-            }
+            // if (fakeDomains.includes(emailDomain)) {
+            //     $('#email-error').html('Please provide a valid email address.').show();
+            //     return false;
+            // }
 
             // Disable the button
             const $btn = $('#ripple');

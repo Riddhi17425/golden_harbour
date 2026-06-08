@@ -119,7 +119,148 @@ class DashboardController extends Controller
     }
 
     public function inquieryStore(Request $request){
-
+        $request->validate([
+            'firstname' => [
+                'required',
+                'string',
+                'max:100',
+                // Block URLs
+                function ($attribute, $value, $fail) {
+                    if (preg_match('/https?:\/\/|www\./i', $value)) {
+                        $fail('Links are not allowed.');
+                    }
+                },
+                // Spam keywords
+                function ($attribute, $value, $fail) {
+                    $spamWords = ['seo','crypto','viagra','casino','furniture','wholesale','упаковка','оборудование'];
+    
+                    foreach ($spamWords as $word) {
+                        if (str_contains(strtolower($value), $word)) {
+                            $fail('Spam content detected.');
+                            break;
+                        }
+                    }
+                },
+            ],
+            'lastname' => [
+                'required',
+                'string',
+                'max:100',
+                function ($attribute, $value, $fail) {
+                    if (preg_match('/https?:\/\/|www\./i', $value)) {
+                        $fail('Links are not allowed.');
+                    }
+                },
+                function ($attribute, $value, $fail) {
+                    $spamWords = ['seo','crypto','viagra','casino','furniture','wholesale','упаковка','оборудование'];
+    
+                    foreach ($spamWords as $word) {
+                        if (str_contains(strtolower($value), $word)) {
+                            $fail('Spam content detected.');
+                            break;
+                        }
+                    }
+                },
+            ],
+            'email' => [
+                'required',
+                'email:rfc,dns',
+                'max:255',
+    
+                function ($attribute, $value, $fail) {
+                    $domain = explode('@', $value)[1] ?? '';
+    
+                    $blockedDomains = [
+                        'mail.ru',
+                        'yopmail.com',
+                        'tempmail.com',
+                        '10minutemail.com',
+                        'guerrillamail.com',
+                        'throwawaymail.com',
+                        'mailinator.com',
+                    ];
+    
+                    if (in_array(strtolower($domain), $blockedDomains)) {
+                        $fail('Disposable email addresses are not allowed.');
+                    }
+                },
+            ],
+            'number' => [
+                'required',
+                'numeric',
+                'digits_between:10,15',
+            ],
+            'company_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'city' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'subject' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+    
+            'message' => [
+                'nullable',
+                'string',
+                'max:500',
+    
+                // Block URLs
+                function ($attribute, $value, $fail) {
+                    if (preg_match('/https?:\/\/|www\./i', $value)) {
+                        $fail('Links are not allowed in message.');
+                    }
+                },
+                // Spam keyword + density check
+                function ($attribute, $value, $fail) {
+                    $spamWords = ['seo','crypto','viagra','casino','furniture','wholesale','упаковка','оборудование'];
+    
+                    $valueLower = strtolower($value);
+                    $count = 0;
+    
+                    foreach ($spamWords as $word) {
+                        if (str_contains($valueLower, $word)) {
+                            $count++;
+                        }
+                    }
+    
+                    if ($count >= 2) {
+                        $fail('Spam content detected.');
+                    }
+                },
+    
+                // Too many links
+                function ($attribute, $value, $fail) {
+                    preg_match_all('/https?:\/\/|www\./i', $value, $matches);
+    
+                    if (count($matches[0]) > 1) {
+                        $fail('Too many links are not allowed.');
+                    }
+                },
+            ],
+    
+            // Honeypot field (must be hidden in form)
+            'website' => 'prohibited',
+    
+            // Bot timing check (hidden field form_time)
+            'form_time' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    if ((time() - (int)$value) < 5) {
+                        $fail('Form submitted too quickly.');
+                    }
+                },
+            ],
+    
+            // 'g-recaptcha-response' => 'required',
+        ]);
+        
         $store = new Inquires();
         $store->firstname = $request->firstname;
         $store->lastname = $request->lastname;
@@ -131,13 +272,12 @@ class DashboardController extends Controller
         $store->message = $request->message;
         $store->save();    
 
-
+        $name = trim(($request->firstname ?? '') . ' ' . ($request->lastname ?? ''));
         $sheetData = [
-                    
-                    'first_name'     => $request->firstname,
-                    'last_name'     => $request->lastname,
+                    'form_type' => 'Contact Popup Form',
+                    'name'     => $name,
                     'company_name' => $request->company_name ?? '',
-                    'phone_no' => $request->number ?? $request->phone ?? '',
+                    'contact' => $request->number ?? $request->phone ?? '',
                     'email' => $request->email ?? '',
                     'city' => $request->city ?? '',
                     'subject' =>  $request->subject ?? '',
@@ -149,8 +289,9 @@ class DashboardController extends Controller
             $response = Http::timeout(30)
                 ->withHeaders([
                     'Content-Type' => 'application/json'
-                ])
-                ->post('https://script.google.com/macros/s/AKfycbwZL6oC_ItpTFtVbtAqN73baSSDj0iIO_Cptfpvz0yOhYD2EC-AHAcVQHcG_7Qdg-i1/exec', $sheetData);
+                ])                                         
+                //->post('https://script.google.com/macros/s/AKfycbwZL6oC_ItpTFtVbtAqN73baSSDj0iIO_Cptfpvz0yOhYD2EC-AHAcVQHcG_7Qdg-i1/exec', $sheetData);
+                ->post('https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec', $sheetData);
 
             // Check if the request was successful
             if ($response->successful()) {
@@ -262,7 +403,7 @@ class DashboardController extends Controller
     public function faqstore(){
         $validated = request()->validate([
             'question' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email:rfc,dns|max:255',
         ]);
         $data = [
             'question' => $validated['question'],
@@ -272,130 +413,340 @@ class DashboardController extends Controller
         return response()->json(['message' => 'Thank you! Your question has been submitted.']);
     }
 
-    public function contactstore(Request $request){
+    // public function contactstore(Request $request){
 
-        $hiddenValue = $request->input('hiddenvalue');
-        if ($hiddenValue !== '1') {
-            return back()->withErrors(['form' => 'Form validation failed. Please try again.']);
+    //     $hiddenValue = $request->input('hiddenvalue');
+    //     if ($hiddenValue !== '1') {
+    //         return back()->withErrors(['form' => 'Form validation failed. Please try again.']);
+    //     }
+    //     $validated = request()->validate([
+    //         'firstname' => 'required|string|max:255',
+    //         'lastname' => 'required|string|max:255',
+    //         'email' => 'required|email|max:255',
+    //         'number' => 'required|numeric',
+    //         'company_name' => 'required|string|max:255',
+    //         'city' => 'required|string|max:255',
+    //         'subject' => 'required|string|max:255',
+    //         'message' => ['nullable','string',
+    //                     // Block URLs
+    //                     function ($attribute, $value, $fail) {
+    //                         if (preg_match('/https?:\/\/|www\./i', $value)) {
+    //                             $fail('Links are not allowed in message.');
+    //                         }
+    //                     },
+    //                     // Block Cyrillic characters
+    //                     function ($attribute, $value, $fail) {
+    //                         if (preg_match('/[А-Яа-яЁё]/u', $value)) {
+    //                             $fail('Invalid characters detected.');
+    //                         }
+    //                     },
+    //                     // Block spam keywords
+    //                     function ($attribute, $value, $fail) {
+    //                         $spamWords = [
+    //                             'seo',
+    //                             'crypto',
+    //                             'viagra',
+    //                             'casino',
+    //                             'furniture',
+    //                             'wholesale'
+    //                         ];
+    //                         foreach ($spamWords as $word) {
+    //                             if (stripos($value, $word) !== false) {
+    //                                 $fail('Spam content detected.');
+    //                                 break;
+    //                             }
+    //                         }
+    //                     }
+    //                 ],
+    //         'g-recaptcha-response' => 'required',
+    //     ]);
+
+    //     $recaptchaSecret = env('RECAPTCHA_SECRET_KEY');
+    //     $recaptchaResponse = $request->input('g-recaptcha-response');
+    
+    //     $verifyResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+    //         'secret' => $recaptchaSecret,
+    //         'response' => $recaptchaResponse,
+    //     ]);
+    
+    //     $responseKeys = $verifyResponse->json();
+    
+    //     if (!$responseKeys['success']) {
+    //         return back()->withErrors(['g-recaptcha-response' => 'reCAPTCHA verification failed. Please try again.']);
+    //     }
+    
+    //     $email = $validated['email'];
+    //     $emailDomain = explode('@', $email)[1];
+    //     $fakeDomains = [
+    //         'tempmail.com', 'mailinator.com', 'guerrillamail.com', 'yopmail.com', '10minutemail.com', 'throwawaymail.com'
+    //     ];
+    
+    //     $emailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+    
+    //     if (!preg_match($emailPattern, $email) || in_array($emailDomain, $fakeDomains)) {
+    //         return back()->withErrors(['email' => 'Please provide a valid email address.']);
+    //     }
+    //     $domainParts = explode('.', $emailDomain);
+    //     if (count($domainParts) < 2 || strlen($domainParts[count($domainParts) - 1]) < 2) {
+    //         return back()->withErrors(['email' => 'Please enter a valid email address with a proper domain and TLD.']);
+    //     }
+    //     if (in_array($emailDomain, $fakeDomains)) {
+    //         return back()->withErrors(['email' => 'Please provide a valid email address, not from a disposable email service.']);
+    //     }
+
+    //     dd('passed validation');
+
+    //     $data = [
+    //         'firstname' => $validated['firstname'],
+    //         'lastname' => $validated['lastname'],
+    //         'email' => $validated['email'],
+    //         'number' => $validated['number'],
+    //         'company_name' => $validated['company_name'],
+    //         'city' => $validated['city'],
+    //         'subject' => $validated['subject'],
+    //         'message' => $validated['message'],
+    //     ];
+    //     Contact::create($data);
+    //     $sheetData = [
+    //                 'form_type'=>'Contact Form',
+    //                 'name'     => ($request->firstname && $request->lastname)
+    //                     ? trim($request->firstname . ' ' . $request->lastname)
+    //                     : ($request->name ?? $request->fullname ?? $request->firstname ?? ''),
+    //                 'company_name' => $request->company_name ?? '',
+    //                 'contact' => $request->number ?? $request->phone ?? '',
+    //                 'email' => $request->email ?? '',
+    //                 'city' => $request->city ?? '',
+    //                 'product_title' => $request->product_title ?? '',
+    //                 'product_category' => $request->product_category ?? '',
+    //                 'product_subcategory' => $request->product_subcategory ?? '',
+    //                 'subject' =>  $request->subject ?? '',
+    //                 'message' => $request->message ?? '',
+    //                 'date'    => now()->format('Y-m-d H:i:s')
+    //             ];
+    //     try {
+    //         // Mail::to($validated['email'])->send(new SendContactMailToUser());
+    //         // Mail::to(['webdeveloper11.intelliworkz@gmail.com','webdeveloper10.intelliworkz@gmail.com'])->send(new SendContactMailToAdmin($data));
+    //         //return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
+    //     } catch (\Exception $e) {
+    //         Log::error('Email sending failed: ' . $e->getMessage());
+    //         //return back()->with('error', 'Failed to send the email. Please try again later.');
+    //     }
+    //     $response = Http::timeout(30)
+    //             ->withHeaders([
+    //                 'Content-Type' => 'application/json'
+    //             ])
+    //             ->post('https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec', $sheetData);
+
+    //         // Check response
+    //         if ($response->successful()) {
+    //             $responseData = $response->json();
+    //             if (isset($responseData['status']) && $responseData['status'] === 'success') {
+    //                 Log::info('Data successfully sent to Google Sheets', [
+    //                     'email' => $request->email,
+    //                     'response' => $responseData
+    //                 ]);
+    //                             return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
+ 
+    //             } else {
+    //                 Log::warning('Google Sheets API returned error', [
+    //                     'response' => $responseData,
+    //                     'email' => $request->email
+    //                 ]);
+    //                 return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
+ 
+    //             }
+    //         } else {
+    //             Log::error('Google Sheets API request failed', [
+    //                 'status' => $response->status(),
+    //                 'body' => $response->body(),
+    //                 'email' => $request->email
+    //             ]);
+    //                 return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
+ 
+    //         }
+        
+    // }
+    
+    public function contactstore(Request $request)
+    {
+        //  1. Honeypot / bot field check
+        if ($request->input('hiddenvalue') !== '1') {
+            return back()->withErrors(['form' => 'Form validation failed.']);
         }
-        $validated = request()->validate([
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'number' => 'required|numeric',
+    
+        // 2. Validation
+        $validated = $request->validate([
+            'firstname' => [
+                'required','string','max:255',
+    
+                function ($attribute, $value, $fail) {
+                    if (preg_match('/https?:\/\/|www\./i', $value)) {
+                        $fail('Links are not allowed.');
+                    }
+                    if (preg_match('/[\x{0400}-\x{04FF}]/u', $value)) {
+                        $fail('Invalid characters detected.');
+                    }
+    
+                    $spamWords = ['seo','crypto','viagra','casino','furniture','wholesale'];
+                    foreach ($spamWords as $word) {
+                        if (stripos($value, $word) !== false) {
+                            $fail('Spam content detected.');
+                            break;
+                        }
+                    }
+                }
+            ],
+    
+            'lastname' => [
+                'required','string','max:255',
+    
+                function ($attribute, $value, $fail) {
+                    if (preg_match('/https?:\/\/|www\./i', $value)) {
+                        $fail('Links are not allowed.');
+                    }
+                    if (preg_match('/[\x{0400}-\x{04FF}]/u', $value)) {
+                        $fail('Invalid characters detected.');
+                    }
+    
+                    $spamWords = ['seo','crypto','viagra','casino','furniture','wholesale'];
+                    foreach ($spamWords as $word) {
+                        if (stripos($value, $word) !== false) {
+                            $fail('Spam content detected.');
+                            break;
+                        }
+                    }
+                }
+            ],
+    
+            'email' => [
+                'required',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    $domain = strtolower(substr(strrchr($value, "@"), 1));
+    
+                    $blocked = [
+                        'mail.ru',
+                        'yopmail.com',
+                        'tempmail.com',
+                        '10minutemail.com',
+                        'guerrillamail.com',
+                        'throwawaymail.com',
+                        'mailinator.com',
+                    ];
+    
+                    if (in_array($domain, $blocked)) {
+                        $fail('Disposable email not allowed.');
+                    }
+                }
+            ],
+    
+            'number' => 'required|numeric|digits_between:10,15',
             'company_name' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'subject' => 'required|string|max:255',
-            'message' => 'nullable|string|max:500',
-            'g-recaptcha-response' => 'required',
-
-        ]);
-
-        $recaptchaSecret = env('RECAPTCHA_SECRET_KEY');
-        $recaptchaResponse = $request->input('g-recaptcha-response');
     
-        $verifyResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => $recaptchaSecret,
-            'response' => $recaptchaResponse,
-        ]);
+            'message' => [
+                'nullable','string','max:500',
     
-        $responseKeys = $verifyResponse->json();
+                function ($attribute, $value, $fail) {
+                    if (!$value) return;
     
-        if (!$responseKeys['success']) {
-            return back()->withErrors(['g-recaptcha-response' => 'reCAPTCHA verification failed. Please try again.']);
-        }
+                    if (preg_match('/https?:\/\/|www\./i', $value)) {
+                        $fail('Links are not allowed in message.');
+                    }
     
+                    if (preg_match('/[\x{0400}-\x{04FF}]/u', $value)) {
+                        $fail('Invalid characters detected.');
+                    }
     
-        $email = $validated['email'];
-        $emailDomain = explode('@', $email)[1];
-        $fakeDomains = [
-            'tempmail.com', 'mailinator.com', 'guerrillamail.com', 'yopmail.com', '10minutemail.com', 'throwawaymail.com'
-        ];
+                    $spamWords = ['seo','crypto','viagra','casino','furniture','wholesale'];
+                    $count = 0;
     
-        $emailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+                    foreach ($spamWords as $word) {
+                        if (stripos($value, $word) !== false) {
+                            $count++;
+                        }
+                    }
     
-        if (!preg_match($emailPattern, $email) || in_array($emailDomain, $fakeDomains)) {
-            return back()->withErrors(['email' => 'Please provide a valid email address.']);
-        }
-        $domainParts = explode('.', $emailDomain);
-        if (count($domainParts) < 2 || strlen($domainParts[count($domainParts) - 1]) < 2) {
-            return back()->withErrors(['email' => 'Please enter a valid email address with a proper domain and TLD.']);
-        }
-        if (in_array($emailDomain, $fakeDomains)) {
-            return back()->withErrors(['email' => 'Please provide a valid email address, not from a disposable email service.']);
-        }
-
-        $data = [
-            'firstname' => $validated['firstname'],
-            'lastname' => $validated['lastname'],
-            'email' => $validated['email'],
-            'number' => $validated['number'],
-            'company_name' => $validated['company_name'],
-            'city' => $validated['city'],
-            'subject' => $validated['subject'],
-            'message' => $validated['message'],
-        ];
-        Contact::create($data);
-        $sheetData = [
-                    'form_type'=>'Contact Form',
-                    'name'     => ($request->firstname && $request->lastname)
-                        ? trim($request->firstname . ' ' . $request->lastname)
-                        : ($request->name ?? $request->fullname ?? $request->firstname ?? ''),
-                    'company_name' => $request->company_name ?? '',
-                    'contact' => $request->number ?? $request->phone ?? '',
-                    'email' => $request->email ?? '',
-                    'city' => $request->city ?? '',
-                    'product_title' => $request->product_title ?? '',
-                    'product_category' => $request->product_category ?? '',
-                    'product_subcategory' => $request->product_subcategory ?? '',
-                    'subject' =>  $request->subject ?? '',
-                    'message' => $request->message ?? '',
-                    'date'    => now()->format('Y-m-d H:i:s')
-                ];
-        try {
-            // Mail::to($validated['email'])->send(new SendContactMailToUser());
-            // Mail::to(['webdeveloper11.intelliworkz@gmail.com','webdeveloper10.intelliworkz@gmail.com'])->send(new SendContactMailToAdmin($data));
-            //return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
-        } catch (\Exception $e) {
-            Log::error('Email sending failed: ' . $e->getMessage());
-            //return back()->with('error', 'Failed to send the email. Please try again later.');
-        }
-        $response = Http::timeout(30)
-                ->withHeaders([
-                    'Content-Type' => 'application/json'
-                ])
-                ->post('https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec', $sheetData);
-
-            // Check response
-            if ($response->successful()) {
-                $responseData = $response->json();
-                if (isset($responseData['status']) && $responseData['status'] === 'success') {
-                    Log::info('Data successfully sent to Google Sheets', [
-                        'email' => $request->email,
-                        'response' => $responseData
-                    ]);
-                                return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
- 
-                } else {
-                    Log::warning('Google Sheets API returned error', [
-                        'response' => $responseData,
-                        'email' => $request->email
-                    ]);
-                    return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
- 
+                    if ($count >= 2) {
+                        $fail('Spam content detected.');
+                    }
+    
+                    preg_match_all('/https?:\/\/|www\./i', $value, $matches);
+                    if (count($matches[0]) > 1) {
+                        $fail('Too many links not allowed.');
+                    }
                 }
-            } else {
-                Log::error('Google Sheets API request failed', [
-                    'status' => $response->status(),
-                    'body' => $response->body(),
-                    'email' => $request->email
-                ]);
-                    return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
- 
-            }
-        
+            ],
+            'g-recaptcha-response' => 'required',
+        ]);
+    
+        $verifyResponse = Http::asForm()->post(
+            'https://www.google.com/recaptcha/api/siteverify',
+            [
+                'secret' => env('RECAPTCHA_SECRET_KEY'),
+                'response' => $request->input('g-recaptcha-response'),
+                'remoteip' => $request->ip(),
+            ]
+        );
+        if (!$verifyResponse->json('success')) {
+            Log::error('reCAPTCHA failed', [
+                'response' => $verifyResponse->json()
+            ]);
+            return back()->withErrors([
+                'g-recaptcha-response' => 'reCAPTCHA verification failed.'
+            ])->withInput();
+        }
+        if (!$verifyResponse->json('success')) {
+            return back()->withErrors([
+                'g-recaptcha-response' => 'reCAPTCHA failed.'
+            ]);
+        }
+    
+        // 4. Email domain safety check (extra layer)
+        $email = $validated['email'];
+        $domain = strtolower(substr(strrchr($email, "@"), 1));
+    
+        $blockedDomains = [
+            'mail.ru','yopmail.com','tempmail.com',
+            '10minutemail.com','guerrillamail.com','mailinator.com'
+        ];
+    
+        if (in_array($domain, $blockedDomains)) {
+            return back()->withErrors(['email' => 'Invalid email domain.']);
+        }
+    
+        // 5. Save data
+        $contact = Contact::create($validated);
+    
+        // 6. Google Sheets payload
+        $sheetData = [
+            'form_type' => 'Contact Form',
+            'name' => trim($request->firstname . ' ' . $request->lastname),
+            'company_name' => $request->company_name,
+            'contact' => $request->number,
+            'email' => $request->email,
+            'city' => $request->city,
+            'subject' => $request->subject,
+            'message' => $request->message,
+            'date' => now()->format('Y-m-d H:i:s')
+        ];
+    
+        // 7. Send to Google Sheets (safe handling)
+        try {
+            Http::timeout(30)->post(
+                'https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec',
+                $sheetData
+            );
+        } catch (\Exception $e) {
+            Log::error('Google Sheet error: ' . $e->getMessage());
+        }
+    
+        return redirect()->route('thankyou')
+            ->with('success', 'Your message has been sent successfully.');
     }
-     public function catalogue(){
+    
+    public function catalogue(){
         $meta_title = 'Our E-Catalogues | Golden Harbour Product Range';
         $meta_description = 'Browse through our comprehensive collection of product catalogues designed to help you explore, compare, and choose with clarity.';
         $catalog = Catalog::whereNull('deleted_at')->get();
@@ -427,59 +778,59 @@ class DashboardController extends Controller
         return view('front.subcategory',compact('meta_title', 'meta_description','subcategory'));
     }
     public function getproduct($categoryUrl, $subcategoryUrl)
-    {
-        $title = 'Product';
-        $description = 'Product Description For All the product';
+{
+    $title = 'Product';
+    $description = 'Product Description For All the product';
 
-        // Step 1: Fetch category
-        $category = Category::where('url', $categoryUrl)->first();
-        if (!$category) {
-            abort(404, 'Category not found');
-        }
+    // Step 1: Fetch category
+    $category = Category::where('url', $categoryUrl)->first();
+    if (!$category) {
+        abort(404, 'Category not found');
+    }
 
-        // Step 2: Fetch subcategory under that category
-        $subcategory = SubCategory::where('url', $subcategoryUrl)
-            ->where('category_id', $category->id)
-            ->first();
+    // Step 2: Fetch subcategory under that category
+    $subcategory = SubCategory::where('url', $subcategoryUrl)
+        ->where('category_id', $category->id)
+        ->first();
 
-        if (!$subcategory) {
-            abort(404, 'Subcategory not found or does not belong to category');
-        }
+    if (!$subcategory) {
+        abort(404, 'Subcategory not found or does not belong to category');
+    }
 
-        // Step 3: Set meta (from this subcategory)
-        $meta_title = $subcategory->meta_title ?? 'SubCategory';
-        $meta_description = $subcategory->meta_description ?? 'SubCategory Of the product';
+    // Step 3: Set meta (from this subcategory)
+    $meta_title = $subcategory->meta_title ?? 'SubCategory';
+    $meta_description = $subcategory->meta_description ?? 'SubCategory Of the product';
 
-        // Step 4: Fetch products under subcategory
-        $products = Product::with(['category', 'subcategory'])
+    // Step 4: Fetch products under subcategory
+    $products = Product::with(['category', 'subcategory'])
+        ->where('subcategory_id', $subcategory->id)
+        ->where('category_id', $category->id)
+        ->whereNull('deleted_at')
+        ->get();
+
+    // Step 5: If no products, redirect to first product detail (if any)
+    if ($products->isEmpty()) {
+        $firstProduct = Product::with('subcategory')
             ->where('subcategory_id', $subcategory->id)
             ->where('category_id', $category->id)
             ->whereNull('deleted_at')
-            ->get();
+            ->first();
 
-        // Step 5: If no products, redirect to first product detail (if any)
-        if ($products->isEmpty()) {
-            $firstProduct = Product::with('subcategory')
-                ->where('subcategory_id', $subcategory->id)
-                ->where('category_id', $category->id)
-                ->whereNull('deleted_at')
-                ->first();
-
-            if ($firstProduct) {
-                return redirect()->route('productdetail', [
-                    'category' => $category->url,
-                    'subcategory' => $subcategory->url,
-                    'product' => $firstProduct->url
-                ]);
-            } else {
-                // No products at all under this subcategory
-                abort(404, 'No products found for this subcategory');
-            }
+        if ($firstProduct) {
+            return redirect()->route('productdetail', [
+                'category' => $category->url,
+                'subcategory' => $subcategory->url,
+                'product' => $firstProduct->url
+            ]);
+        } else {
+            // No products at all under this subcategory
+            abort(404, 'No products found for this subcategory');
         }
-
-        // Step 6: Return product listing view
-        return view('front.product', compact('meta_title', 'meta_description', 'products', 'subcategory', 'category'));
     }
+
+    // Step 6: Return product listing view
+    return view('front.product', compact('meta_title', 'meta_description', 'products', 'subcategory', 'category'));
+}
     public function getsubproduct($categoryUrl, $subcategoryUrl, $productUrl)
     {
         // $title = 'Sub Product';
@@ -766,67 +1117,44 @@ class DashboardController extends Controller
         $post->product_category = $request->product_category;
         $post->product_subcategory = $request->product_subcategory;
         $post->save();
-            $sheetData = [
-                    'form_type'=>'Product Form',
-                    'name'     => ($request->firstname && $request->lastname)
-                        ? trim($request->firstname . ' ' . $request->lastname)
-                        : ($request->name ?? $request->fullname ?? $request->firstname ?? ''),
-                    'company_name' => $request->company_name ?? '',
-                    'contact' => $request->number ?? $request->phone ?? '',
-                    'email' => $request->email ?? '',
-                    'city' => $request->city ?? '',
-                    'product_title' => $request->product_title ?? '',
-                    'product_category' => $request->product_category ?? '',
-                    'product_subcategory' => $request->product_subcategory ?? '',
-                    'subject' =>  $request->subject ?? '',
-                    'message' => $request->message ?? '',
-                    'date'    => now()->format('Y-m-d H:i:s')
-                ];
-        // try {
-        // // Send mail to user
-        // Mail::to($validated['email'])->send(new SendProductEnquiryMailToUser($post));
-
-        // // Send mail to admin
-        // Mail::to('webdeveloper11.intelliworkz@gmail.com')->send(new SendProductEnquiryMailToAdmin($post));
-
-        // return redirect()->route('thankyou')->with('success', 'Your form has been submitted successfully!');
-        // } catch (\Exception $e) {
-        //     \Log::error('Product enquiry email sending failed: ' . $e->getMessage());
-        //     return back()->with('error', 'Your enquiry was saved, but email sending failed. Please try again later.');
-        // }
-        $response = Http::timeout(30)
-                ->withHeaders([
-                    'Content-Type' => 'application/json'
-                ])
-                ->post('https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec', $sheetData);
-
-            // Check response
-            if ($response->successful()) {
-                $responseData = $response->json();
-                if (isset($responseData['status']) && $responseData['status'] === 'success') {
-                    Log::info('Data successfully sent to Google Sheets', [
-                        'email' => $request->email,
-                        'response' => $responseData
-                    ]);
-                                return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
- 
-                } else {
-                    Log::warning('Google Sheets API returned error', [
-                        'response' => $responseData,
-                        'email' => $request->email
-                    ]);
-                    return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
- 
-                }
-            } else {
-                Log::error('Google Sheets API request failed', [
-                    'status' => $response->status(),
-                    'body' => $response->body(),
-                    'email' => $request->email
-                ]);
-                    return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
- 
-            }
+      
+        $sheetData = [
+            'form_type'=>'Product Form',
+            'name'     => ($request->firstname && $request->lastname)
+                ? trim($request->firstname . ' ' . $request->lastname)
+                : ($request->name ?? $request->fullname ?? $request->firstname ?? ''),
+            'company_name' => $request->company_name ?? '',
+            'contact' => $request->number ?? $request->phone ?? '',
+            'email' => $request->email ?? '',
+            'city' => $request->city ?? '',
+            'product_title' => $request->product_title ?? '',
+            'product_category' => $request->product_category ?? '',
+            'product_subcategory' => $request->product_subcategory ?? '',
+            'subject' =>  $request->subject ?? '',
+            'message' => $request->message ?? '',
+            'date'    => now()->format('Y-m-d H:i:s')
+        ];
+        try {
+            Http::timeout(30)->post(
+                'https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec',
+                $sheetData
+            );
+        } catch (\Exception $e) {
+            Log::error('Google Sheet error: ' . $e->getMessage());
+        }
+        
+        try {
+            // Send mail to user
+            Mail::to($validated['email'])->send(new SendProductEnquiryMailToUser($post));
+    
+            // Send mail to admin
+            Mail::to('support@goldenharbour.ae')->send(new SendProductEnquiryMailToAdmin($post));
+    
+        } catch (\Exception $e) {
+            \Log::error('Product enquiry email sending failed: ' . $e->getMessage());
+            // return back()->with('error', 'Your enquiry was saved, but email sending failed. Please try again later.');
+        }
+        
         return redirect()->route('thankyou')->with('success', 'Your form has been submitted successfully!');
     }
     public function autocomplete(Request $request)

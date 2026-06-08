@@ -43,7 +43,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.29/fullpage.min.css"
     />
     <!-- OG Tags Start -->
-
+    <meta property="og:site_name" content="Golden Harbour">
     <meta property="og:title" content="{{ $meta_title ?? $title ?? 'Golden Harbour' }}">
     <meta property="og:description" content="{{ $meta_description ?? $description ?? '' }}">
     <meta property="og:type" content="article">
@@ -52,6 +52,13 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="627">
     <!-- OG Tags End -->
+    
+    <!--Twitter X Card Tags-->
+    <meta property="twitter:site" content="Golden Harbour">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $meta_title ?? $title ?? 'Golden Harbour' }}">
+    <meta name="twitter:description" content="{{ $meta_description ?? $description ?? '' }}">
+    <meta name="twitter:image" content="{{ $og_image ?? asset('public/front/images/GH_Favicon.png') }}">
     
     <style>
 		 @media (max-width: 576px) {

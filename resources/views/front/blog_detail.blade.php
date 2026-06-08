@@ -57,6 +57,34 @@
 h3{
     font-size:22px;
 }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    margin-bottom:20px;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+table th {
+    background-color: #182a41;
+    font-weight: 600;
+    color:#fff;
+}
+
+table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
 </style>
 <section class=" news_details_header_main">
     <div class="container px-lg-0">

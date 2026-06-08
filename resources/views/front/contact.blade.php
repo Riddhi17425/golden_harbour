@@ -205,13 +205,10 @@
                     {{ session('success') }}
                 </div>
                 @endif
-                @error('g-recaptcha-response')
-                <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
             <form id="contactform" method="post" action="{{ route('contactstore') }}">
                 @csrf
                 <input type="hidden" name="hiddenvalue" value="1">
-            
+                <input type="hidden" name="form_time" value="{{ time() }}">
                 <div class="row mb-4">
                     <div class="col-md-6 mb-4 mb-lg-0">
                         <label for="first-name" class="form-label"><b>First Name *:</b></label>
@@ -271,7 +268,13 @@
             
                 <div class="col-lg-12">
                     <div class="form_item">
-                        <div id="contact-recaptcha"></div>
+                        <!--<div id="contact-recaptcha"></div>-->
+                        <!--<div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>-->
+                        <div class="g-recaptcha"
+                         data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"
+                         data-callback="onCaptchaSuccess"
+                         data-expired-callback="onCaptchaExpired"></div>
+     
                         <div id="recaptcha-error" class="error-message" style="color: red; margin-top: 5px;"></div>
                         @error('g-recaptcha-response')
                         <span class="text-danger">{{ $message }}</span>
@@ -295,6 +298,7 @@
 
 
 @include('layouts.frontfooter')
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         if (localStorage.getItem('scrollToBuildTogether') === '1') {
@@ -309,15 +313,29 @@
     });
 </script>
 <script>
+let captchaToken = "";
+function onCaptchaSuccess(token) {
+    captchaToken = token;
+}
+function onCaptchaExpired() {
+    captchaToken = "";
+}
+
 $(document).ready(function() {
 
     $("#contactform").validate({
         rules: {
             firstname: {
-                required: true
+                required: true,
+                noUrl: true,
+                noCyrillic: true,
+                noSpamWords: true,
             },
             lastname: {
-                required: true
+                required: true,
+                noUrl: true,
+                noCyrillic: true,
+                noSpamWords: true,
             },
             email: {
                 required: true,
@@ -325,22 +343,30 @@ $(document).ready(function() {
             },
             number: {
                 required: true,
-                digits: true,
                 minlength: 10,
                 maxlength: 15
             },
             company_name: {
-                required: true
+                required: true,
+                noUrl: true,
+                noCyrillic: true,
+                noSpamWords: true,
             },
             city: {
                 required: true
             },
+            message: {
+                noUrl: true,
+                noCyrillic: true,
+                noSpamWords: true,
+                minSubmitTime: true
+            },
             subject: {
                 required: true
             },
-            'g-recaptcha-response': {
-                required: true
-            }
+            // 'g-recaptcha-response': {
+            //     required: true
+            // }
         },
         messages: {
             firstname: {
@@ -368,66 +394,117 @@ $(document).ready(function() {
             subject: {
                 required: "Please enter your subject."
             },
-            'g-recaptcha-response': {
-                required: "Please verify that you are not a robot."
-            }
+            // 'g-recaptcha-response': {
+            //     required: "Please verify that you are not a robot."
+            // }
         },
         errorPlacement: function(error, element) {
             error.appendTo(element.parent());
         },
+        // submitHandler: function(form) {
+        //     // Clear previous errors
+        //     $('#email-error').empty().hide();
+        //     $('#recaptcha-error').empty().hide();
+        //     const email = $('[name="email"]').val();
+        //     const emailDomain = email.split('@')[1];
+        //     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        //     // if (!emailPattern.test(email)) {
+        //     //     $('#email-error').html('Please enter a valid email address.').show();
+        //     //     return false;
+        //     // }
+        //     // if (!emailDomain || emailDomain.indexOf('.') === -1) {
+        //     //     $('#email-error').html('Please enter a valid email address with a proper domain.')
+        //     //         .show();
+        //     //     return false;
+        //     // }
+        //     // const domainParts = emailDomain.split('.');
+        //     // if (domainParts.length < 2 || domainParts[domainParts.length - 1].length < 2) {
+        //     //     $('#email-error').html('Please enter a valid email address with a proper domain.')
+        //     //         .show();
+        //     //     return false;
+        //     // }
+        //     const fakeDomains = [
+        //         'mailinator.com', '10minutemail.com', 'guerrillamail.com', 'tempmail.com',
+        //         'temp-mail.org', 'throwawaymail.com', 'maildrop.cc', 'dispostable.com',
+        //         'getairmail.com', 'moakt.com', 'spamgourmet.com', 'yopmail.com',
+        //         'sharklasers.com', 'mailnesia.com', 'fakemail.net', 'emailondeck.com',
+        //         'trashmail.com', 'mintemail.com', 'mytemp.email'
+        //     ];
+        //     if (fakeDomains.includes(emailDomain)) {
+        //         $('#email-error').html('Please provide a valid email address.').show();
+        //         return false;
+        //     }
+
+        //     let recaptchaResponse = grecaptcha.getResponse();
+        //     if (recaptchaResponse === "") {
+        //         $('#recaptcha-error').html("Please verify that you are not a robot.").show();
+        //         return false;
+        //     } else {
+        //         $('#recaptcha-error').empty().hide();
+        //     }
+        //       // Disable submit button and change text
+        //     const $submitBtn = $('#contactform').find(':submit');
+        //     $submitBtn.prop('disabled', true).text('Submitting...');
+
+        //     form.submit(); // Proceed with form submission
+        // }
         submitHandler: function(form) {
-            // Clear previous errors
             $('#email-error').empty().hide();
             $('#recaptcha-error').empty().hide();
             const email = $('[name="email"]').val();
             const emailDomain = email.split('@')[1];
-            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-            // if (!emailPattern.test(email)) {
-            //     $('#email-error').html('Please enter a valid email address.').show();
-            //     return false;
-            // }
-            // if (!emailDomain || emailDomain.indexOf('.') === -1) {
-            //     $('#email-error').html('Please enter a valid email address with a proper domain.')
-            //         .show();
-            //     return false;
-            // }
-            // const domainParts = emailDomain.split('.');
-            // if (domainParts.length < 2 || domainParts[domainParts.length - 1].length < 2) {
-            //     $('#email-error').html('Please enter a valid email address with a proper domain.')
-            //         .show();
-            //     return false;
-            // }
             const fakeDomains = [
-                'mailinator.com', '10minutemail.com', 'guerrillamail.com', 'tempmail.com',
-                'temp-mail.org', 'throwawaymail.com', 'maildrop.cc', 'dispostable.com',
-                'getairmail.com', 'moakt.com', 'spamgourmet.com', 'yopmail.com',
-                'sharklasers.com', 'mailnesia.com', 'fakemail.net', 'emailondeck.com',
-                'trashmail.com', 'mintemail.com', 'mytemp.email'
-            ];
+                'mailinator.com',
+                '10minutemail.com',
+                'guerrillamail.com',
+                'tempmail.com',
+                'temp-mail.org',
+                'throwawaymail.com',
+                'maildrop.cc',
+                'dispostable.com',
+                'getairmail.com',
+                'moakt.com',
+                'spamgourmet.com',
+                'yopmail.com',
+                'sharklasers.com',
+                'mailnesia.com',
+                'fakemail.net',
+                'emailondeck.com',
+                'trashmail.com',
+                'mintemail.com',
+                'mytemp.email'
+    ];
+        
             if (fakeDomains.includes(emailDomain)) {
-                $('#email-error').html('Please provide a valid email address.').show();
+                $('#email-error')
+                    .html('Please provide a valid email address.')
+                    .show();
                 return false;
             }
+            // let recaptchaResponse = grecaptcha.getResponse();
+            // console.log("CAPTCHA RES -", recaptchaResponse);
+            // if (!recaptchaResponse) {
+            //     $('#recaptcha-error')
+            //         .html("Please verify that you are not a robot.1")
+            //         .show();
+            //     return false;
+            // }
+            // $('#recaptcha-error').empty().hide();
+            if (!captchaToken) {
+                $('#recaptcha-error')
+                    .html("Please verify that you are not a robot.")
+                    .show();
+                return false;
+            }
+            
+            $('#recaptcha-error').empty().hide();
 
-            let recaptchaResponse = grecaptcha.getResponse(contactCaptchaWidgetId);
-            if (recaptchaResponse === "") {
-                $('#recaptcha-error').html("Please verify that you are not a robot.").show();
-                return false;
-            } else {
-                $('#recaptcha-error').empty().hide();
-            }
-              // Disable submit button and change text
             const $submitBtn = $('#contactform').find(':submit');
             $submitBtn.prop('disabled', true).text('Submitting...');
-
-            form.submit(); // Proceed with form submission
+            form.submit();
         }
     });
 });
 </script>
-<style>
-.error {
-    color: red;
-}
-</style>

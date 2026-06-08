@@ -42,6 +42,14 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Mail;
+
+Route::get('/clear', function () {
+    Artisan::call('optimize:clear');
+    return 'Application cache cleared!';
+});
+
 
 
 Route::get('/', [DashboardController::class,'index'])->name('front.home');
@@ -64,7 +72,7 @@ Route::get('gallery', [DashboardController::class,'gallery'])->name('gallery');
 Route::get('faq', [DashboardController::class,'faq'])->name('faq');
 Route::post('faqstore', [DashboardController::class,'faqstore'])->name('faqstore');
 Route::get('contact', [DashboardController::class,'contact'])->name('contact');
-Route::post('contactstore', [DashboardController::class,'contactstore'])->name('contactstore');
+Route::post('contactstore', [DashboardController::class,'contactstore'])->name('contactstore')->middleware('throttle:5,10'); //Per IP only 5 request per 10 minutes
 Route::post('/vacancy-store', [DashboardController::class, 'vacancystore'])->name('vacancystore');
 Route::get('catalogue', [DashboardController::class,'catalogue'])->name('catalogue');
 Route::get('milestone', [DashboardController::class,'milestone'])->name('milestone');
@@ -79,7 +87,7 @@ Route::get('product/{category}/{subcategory}/{product}', [DashboardController::c
 Route::get('product/{category}/{subcategory}/{product}/detail', [DashboardController::class, 'productdetail'])->name('productdetail');
 Route::get('/product/{category}/{subcategory}/{product}/{subproduct}/detail', [DashboardController::class, 'subproductDetail'])->name('subproductdetail');
 Route::post('/whatsaapinquiry', [DashboardController::class, 'whatsaapinquiry'])->name('whatsaapinquiry');
-Route::post('/inquiery-store', [DashboardController::class, 'inquieryStore'])->name('inquiery-store');
+Route::post('/inquiery-store', [DashboardController::class, 'inquieryStore'])->name('inquiery-store')->middleware('throttle:3,10'); //Per IP only 3 request per 10 minutes
 
 
 Route::get('/search', [DashboardController::class, 'Search'])->name('search');
