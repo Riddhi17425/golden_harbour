@@ -10,7 +10,6 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
 @endphp
 @php
     $images = is_string($productImages) ? json_decode($productImages, true) : $productImages;
-
     $firstImage = (is_array($images) && count($images) > 0) ? $images[0] : null;
 
     if ($firstImage) {
@@ -60,14 +59,17 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
             <div class="col-md-4">
                 @php
                 $images = is_string($productImages) ? json_decode($productImages, true) : $productImages;
+                $detailImagesAlt = is_string($currentProduct->detail_images_alt) ? json_decode($currentProduct->detail_images_alt, true) : $currentProduct->detail_images_alt;
+                $detailImagesAlt = is_array($detailImagesAlt) ? $detailImagesAlt : [];
                 @endphp
 
                 @if($images && is_array($images))
                 <div class="slider-for mb-0">
-                    @foreach($images as $image)
+                    @foreach($images as $key => $image)
+                    @php $imageAlt = $detailImagesAlt[basename($image)] ?? $currentProduct->top_title; @endphp
                     <div>
                         <img src="{{ asset(($isSubProduct ? 'public/subproduct_detail_files/' : 'public/product_detail_files/') . $image) }}"
-                            class="img-fluid product-slid-img" alt="{{ $currentProduct->top_title }}">
+                            class="img-fluid product-slid-img" alt="{{ $imageAlt }}">
 
 
                         <!--<img src="{{ asset('public/product_detail_files/' . $image) }}" class="img-fluid product-slid-img" alt="Product Image">-->
@@ -77,10 +79,11 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
 
                 <div class="slider-nav d-none">
                     @foreach($images as $image)
+                    @php $imageAlt = $detailImagesAlt[basename($image)] ?? $currentProduct->top_title; @endphp
                     <div>
                         <!--<img src="{{ asset('public/product_detail_files/' . $image) }}" class="img-fluid" alt="Product Thumbnail">-->
                         <img src="{{ asset(($isSubProduct ? 'public/subproduct_detail_files/' : 'public/product_detail_files/') . $image) }}"
-                            class="img-fluid" alt="{{ $currentProduct->top_title }}">
+                            class="img-fluid" alt="{{ $imageAlt }}">
 
                     </div>
                     @endforeach
@@ -94,7 +97,7 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
                 <a class="btn btn--ripple open-enquiry" data-bs-toggle="modal" data-bs-target="#exampleModalform"
                     data-product="{{ $product->title }}" data-category="{{ $product->category->name ?? '' }}"
                     data-subcategory="{{ $product->subcategory->name ?? '' }}">
-                    Enquiry Now
+                    Request Quote
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
                         <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white" stroke-width="1.5"
                             stroke-linecap="round" stroke-linejoin="round" />
@@ -208,7 +211,9 @@ $industrydata = $industrydata ?? collect();
     <div class="modal-dialog modal-dialog-centered   modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title main_head_small" id="exampleModalLabel">Product Enquiry </h5>
+                <div>
+                <h5 class="modal-title main_head_small" id="exampleModalLabel">Product Enquiry </h5></br><h6>Quote Response Within 24 Hours</h6>
+                </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

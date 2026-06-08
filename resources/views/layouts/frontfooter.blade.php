@@ -276,7 +276,7 @@
 
 <div class="enquiry-now-wrapper network">
     <button type="button" class="btn btn--ripple" data-bs-toggle="modal" data-bs-target="#enquiryNowModal"
-        title="Enquiry Now" id="ripple">Enquiry Now</button>
+        title="Enquiry Now" id="ripple">Request Quote</button>
 </div>
 @if ($errors->any())
     <div style="color:red;">
@@ -291,7 +291,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Enquiry Now</h5>
+                <h5 class="modal-title">Enquiry Now (Quote Response Within 24 Hours)</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

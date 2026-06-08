@@ -81,6 +81,7 @@ Route::post('/product-enquiry-store', [DashboardController::class, 'productenqui
 Route::get('certifications', [DashboardController::class,'certifications'])->name('certifications');
 Route::get('our-agencies', [DashboardController::class,'ouragencies'])->name('our-agencies');
 Route::post('catelogue-submit', [DashboardController::class, 'CatelogueSubmit'])->name('catalogue.submit');
+Route::post('datasheet-submit', [DashboardController::class, 'DatasheetSubmit'])->name('datasheet.submit');
 Route::get('product/{category}', [DashboardController::class, 'getsubcategory'])->name('subcategorylist');
 Route::get('product/{category}/{subcategory}', [DashboardController::class, 'getproduct'])->name('productlist');
 Route::get('product/{category}/{subcategory}/{product}', [DashboardController::class, 'getsubproduct'])->name('subproductlist');

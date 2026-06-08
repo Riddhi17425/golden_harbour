@@ -67,6 +67,7 @@ class ProductController extends Controller
         $post->datasheet_description = $request->get('datasheet_description');
         $post->meta_title = $request->get('meta_title');
         $post->meta_description = $request->get('meta_description');
+        $post->front_image_alt = $request->get('front_image_alt');
         $industries = $request->input('industries');
         $post->industries = !empty($industries) ? json_encode($industries) : null;
        
@@ -84,7 +85,21 @@ class ProductController extends Controller
             $file->move($path, $filename);
             $post->pdf = $filename;
         } 
-       
+        if($request->hasFile('detail_images')) {
+            $files = $request->file('detail_images');
+            $newAlts = $request->input('new_detail_images_alt') ?? [];
+            $imagePaths = [];
+            $altsMap = [];
+            foreach ($files as $index => $file) {
+                $filename = $file->getClientOriginalName();
+                $path = public_path('/product_detail_files');
+                $file->move($path, $filename);
+                $imagePaths[] = $filename;
+                $altsMap[$filename] = isset($newAlts[$index]) ? $newAlts[$index] : '';
+            }
+            $post->detail_images = json_encode($imagePaths);
+            $post->detail_images_alt = json_encode($altsMap);
+        }
 
         $post->save();
         return redirect('/admin/product')->with('success', 'product Added Successfully');
@@ -129,6 +144,7 @@ class ProductController extends Controller
         $post->datasheet_description = $request->get('datasheet_description');
         $post->meta_title = $request->get('meta_title');
         $post->meta_description = $request->get('meta_description');
+        $post->front_image_alt = $request->get('front_image_alt');
         $post->industries = $request->industries;
      
         if($request->hasFile('front_image')) {
@@ -146,6 +162,14 @@ class ProductController extends Controller
             $post->pdf = $filename;
         } 
 
+        // Handle alts
+        $altsMap = json_decode($post->detail_images_alt, true) ?? [];
+        
+        $existingAlts = $request->input('existing_detail_images_alt') ?? [];
+        foreach ($existingAlts as $filename => $altText) {
+            $altsMap[$filename] = $altText ?? '';
+        }
+
          //remove image name 
          $deletedImages = $request->input('deleted_images');
          if ($deletedImages) {
@@ -162,6 +186,9 @@ class ProductController extends Controller
                  if (file_exists($imagePath)) {
                      unlink($imagePath); 
                  }
+                 if (isset($altsMap[$image])) {
+                     unset($altsMap[$image]);
+                 }
              }
      
              $currentImages = array_filter($currentImages, fn($image) => !in_array(basename($image), $deletedImages));
@@ -170,15 +197,19 @@ class ProductController extends Controller
      
          if ($request->hasFile('detail_images')) {
              $files = $request->file('detail_images');
+             $newAlts = $request->input('new_detail_images_alt') ?? [];
              $imagePaths = json_decode($post->detail_images, true) ?? [];
-             foreach ($files as $file) {
+             foreach ($files as $index => $file) {
                  $filename = $file->getClientOriginalName();
                  $path = public_path('/product_detail_files');
                  $file->move($path, $filename);
                  $imagePaths[] =  $filename;
+                 $altsMap[$filename] = isset($newAlts[$index]) ? $newAlts[$index] : '';
              }
              $post->detail_images = json_encode($imagePaths);
          }
+         
+         $post->detail_images_alt = json_encode($altsMap);
      
          $post->save();
      

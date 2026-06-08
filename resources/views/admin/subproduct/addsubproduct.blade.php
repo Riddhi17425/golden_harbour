@@ -68,6 +68,10 @@
                             <label class="form-label" for="front_image">Front Image</label>
                             <input type="file" id="front_image" name="front_image" class="form-control">
                         </div>
+                        <div class="col-md-12">
+                            <label class="form-label" for="front_image_alt">Front Image Alt Text</label>
+                            <input type="text" id="front_image_alt" name="front_image_alt" class="form-control" placeholder="Enter Alt Text for Front Image">
+                        </div>
                         <div class="col-md-6">
                             <label class="form-label">Top Title</label>
                             <input type="text" id="top_title" name="top_title" class="form-control">
@@ -86,6 +90,10 @@
                             <input type="file" id="detail_images" name="detail_images[]" multiple class="form-control" accept="image/*" onchange="previewImages()">
                         </div>
                         <div id="imagePreview" class="col-md-12 mt-3">
+                        </div>
+                        <div id="new-images-alt-container" class="col-md-12 mt-2" style="display:none;">
+                            <label class="form-label"><b>Detail Images Alt Texts:</b></label>
+                            <div id="new-images-alt-fields" class="ps-3 border-start border-3"></div>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">Data sheet Title</label>
@@ -528,4 +536,29 @@ document.addProductListener('DOMContentLoaded', function() {
         display: block; 
     }
 </style>
+<script>
+    $(document).ready(function() {
+        $('#detail_images').on('change', function() {
+            var container = $('#new-images-alt-container');
+            var fieldsDiv = $('#new-images-alt-fields');
+            fieldsDiv.empty();
+            
+            var files = this.files;
+            if (files && files.length > 0) {
+                container.show();
+                for (var i = 0; i < files.length; i++) {
+                    var filename = files[i].name;
+                    fieldsDiv.append(`
+                        <div class="mb-3">
+                            <label class="form-label mb-1 text-muted small">${filename}</label>
+                            <input type="text" name="new_detail_images_alt[]" class="form-control" placeholder="Enter Alt Text for ${filename}">
+                        </div>
+                    `);
+                }
+            } else {
+                container.hide();
+            }
+        });
+    });
+</script>
 @endpush

@@ -192,6 +192,7 @@
          <div class=" text-center">
         <h2 class="main_head text-center">Let’s Build Something Great Together</h2>
         <div class="effect_line position-relative col-md-5"></div>
+        <h5 class="modal-title">Quote Response Within 24 Hours</h5>
     </div>
 
     <div class="row my-5">

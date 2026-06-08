@@ -16,7 +16,8 @@ class Catelogue extends Model
     'company_name',
     'phone',
     'email',
-    'message'
+    'message',
+    'product_id'
 ];
 
 }

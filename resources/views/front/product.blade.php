@@ -67,7 +67,7 @@
                         <div class="text-center">
                             <a class="model-item-box" data-bs-toggle="modal" data-bs-target="#productModal{{ $product->id }}">
                             <div class="image-container">
-                                <img src="{{ asset('public/product_front_image/' .$product->front_image) }}" alt="{{  str_replace(['-', '_'],' ', pathinfo($product->front_image, PATHINFO_FILENAME)) }}" class="img-fluid">
+                                <img src="{{ asset('public/product_front_image/' .$product->front_image) }}" alt="{{ $product->front_image_alt ?: str_replace(['-', '_'],' ', pathinfo($product->front_image, PATHINFO_FILENAME)) }}" class="img-fluid">
                                 <div class="overlay">
                                     <span>QUICK VIEW</span>
                                 </div>
@@ -91,7 +91,7 @@
                             @else
                                 {{-- Show Enquiry Now and View Detail only if no subproducts --}}
                                 <a class="btn btn--ripple open-enquiry" data-bs-toggle="modal" data-bs-target="#exampleModalform" data-product="{{ $product->title }}" data-category="{{ $product->category->name ?? '' }}" data-subcategory="{{ $product->subcategory->name ?? '' }}">
-                                    Enquiry Now
+                                    Request Quote
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
                                         <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
@@ -120,17 +120,23 @@
                                 <div class="row product-slider">
                                     <div class="col-md-4">
                                         <div class="slider-for mb-5">
-                                            @php $images = json_decode($product->detail_images, true); @endphp
+                                            @php
+                                                $images = json_decode($product->detail_images, true);
+                                                $detailImagesAlt = is_string($product->detail_images_alt) ? json_decode($product->detail_images_alt, true) : $product->detail_images_alt;
+                                                $detailImagesAlt = is_array($detailImagesAlt) ? $detailImagesAlt : [];
+                                            @endphp
                                             @if($images && is_array($images))
                                                 @foreach($images as $image)
-                                                    <div><img src="{{ asset('public/product_detail_files/' . $image) }}" class="img-fluid product-slid-img"></div>
+                                                    @php $imageAlt = $detailImagesAlt[basename($image)] ?? $product->title; @endphp
+                                                    <div><img src="{{ asset('public/product_detail_files/' . $image) }}" alt="{{ $imageAlt }}" class="img-fluid product-slid-img"></div>
                                                 @endforeach
                                             @endif
                                         </div>
                                         <div class="slider-nav">
                                             @if($images && is_array($images))
                                                 @foreach($images as $image)
-                                                    <div><img src="{{ asset('public/product_detail_files/' . $image) }}" class="img-fluid product-slid-img"></div>
+                                                    @php $imageAlt = $detailImagesAlt[basename($image)] ?? $product->title; @endphp
+                                                    <div><img src="{{ asset('public/product_detail_files/' . $image) }}" alt="{{ $imageAlt }}" class="img-fluid product-slid-img"></div>
                                                 @endforeach
                                             @endif
                                         </div>
@@ -138,7 +144,7 @@
                                     <div class="col-md-8">
                                         <h2 class="main_head">{{ $product->datasheet_title }}</h2>
                                         {!! $product->datasheet_description !!}
-                                        <a class="btn btn--ripple open-enquiry" data-bs-toggle="modal" data-bs-target="#exampleModalform" data-product="{{ $product->title }}" data-category="{{ $product->category->name ?? '' }}" data-subcategory="{{ $product->subcategory->name ?? '' }}">Enquiry Now
+                                        <a class="btn btn--ripple open-enquiry" data-bs-toggle="modal" data-bs-target="#exampleModalform" data-product="{{ $product->title }}" data-category="{{ $product->category->name ?? '' }}" data-subcategory="{{ $product->subcategory->name ?? '' }}">Request Quote
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
                                                 <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                             </svg>
@@ -158,7 +164,9 @@
     <div class="modal-dialog modal-dialog-centered   modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                 <h5 class="modal-title main_head_small" id="exampleModalLabel">Product Enquiry </h5> 
+                <div>
+                 <h5 class="modal-title main_head_small" id="exampleModalLabel">Product Enquiry </h5> </br><h6>Quote Response Within 24 Hours</h6>
+                </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

@@ -72,7 +72,7 @@
                     <div class="industrial_box product_box">
                         <a class="model-item-box" data-bs-toggle="modal" data-bs-target="#productModal{{ $product->id }}">
                             <div class="image-container">
-                                <img src="{{ asset('public/subproduct_front_image/' .$product->front_image) }}" alt="{{  str_replace(['-', '_'],' ', pathinfo($product->front_image, PATHINFO_FILENAME)) }}" class="img-fluid">
+                                <img src="{{ asset('public/subproduct_front_image/' .$product->front_image) }}" alt="{{ $product->front_image_alt ?: str_replace(['-', '_'],' ', pathinfo($product->front_image, PATHINFO_FILENAME)) }}" class="img-fluid">
                                 <div class="overlay">
                                     <span>QUICK VIEW</span>
                                 </div>
@@ -115,17 +115,23 @@
                                 <div class="row product-slider">
                                     <div class="col-md-4">
                                         <div class="slider-for mb-5">
-                                            @php $images = json_decode($product->detail_images, true); @endphp
+                                            @php
+                                                $images = json_decode($product->detail_images, true);
+                                                $detailImagesAlt = is_string($product->detail_images_alt) ? json_decode($product->detail_images_alt, true) : $product->detail_images_alt;
+                                                $detailImagesAlt = is_array($detailImagesAlt) ? $detailImagesAlt : [];
+                                            @endphp
                                             @if($images && is_array($images))
                                                 @foreach($images as $image)
-                                                    <div><img src="{{ asset('public/subproduct_detail_files/' . $image) }}" alt="product slider" class="img-fluid product-slid-img"></div>
+                                                    @php $imageAlt = $detailImagesAlt[basename($image)] ?? $product->title; @endphp
+                                                    <div><img src="{{ asset('public/subproduct_detail_files/' . $image) }}" alt="{{ $imageAlt }}" class="img-fluid product-slid-img"></div>
                                                 @endforeach
                                             @endif
                                         </div>
                                         <div class="slider-nav">
                                             @if($images && is_array($images))
                                                 @foreach($images as $image)
-                                                    <div><img src="{{ asset('public/subproduct_detail_files/' . $image) }}" alt="slider nav" class="img-fluid product-slid-img"></div>
+                                                    @php $imageAlt = $detailImagesAlt[basename($image)] ?? $product->title; @endphp
+                                                    <div><img src="{{ asset('public/subproduct_detail_files/' . $image) }}" alt="{{ $imageAlt }}" class="img-fluid product-slid-img"></div>
                                                 @endforeach
                                             @endif
                                         </div>

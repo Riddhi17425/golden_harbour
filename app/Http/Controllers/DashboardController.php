@@ -1300,6 +1300,60 @@ class DashboardController extends Controller
             }
     }
     
+    public function DatasheetSubmit(Request $request)
+    {
+        $validated = $request->validate([
+            'fullname' => 'required|string',
+            'company_name' => 'required',
+            'phone' => 'required|string|max:30',
+            'email' => 'required|email',
+            'message' => 'required|string',
+            'product_id' => 'required|integer',
+            'pdf_name' => 'required|string',
+        ]);
+        
+        $catalogueData = [
+            'fullname' => $validated['fullname'],
+            'company_name' => $validated['company_name'],
+            'phone' => $validated['phone'],
+            'email' => $validated['email'],
+            'message' => $validated['message'],
+            'product_id' => $validated['product_id'],
+        ];
+        
+        Catelogue::create($catalogueData);
+        
+        $sheetData = [
+            'form_type' => 'Datasheet Form',
+            'name'     => $validated['fullname'],
+            'company_name' => $validated['company_name'],
+            'contact' => $validated['phone'],
+            'email' => $validated['email'],
+            'city' => '',
+            'product_title' => $request->product_title ?? '',
+            'product_category' => $request->product_category ?? '',
+            'product_subcategory' => $request->product_subcategory ?? '',
+            'subject' => 'Datasheet Download Request',
+            'message' => $validated['message'],
+            'date'    => now()->format('Y-m-d H:i:s')
+        ];
+        
+        try {
+            Http::timeout(30)
+                ->withHeaders([
+                    'Content-Type' => 'application/json'
+                ])
+                ->post('https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec', $sheetData);
+        } catch (\Exception $e) {
+            Log::error('Google Sheet error in DatasheetSubmit: ' . $e->getMessage());
+        }
+        
+        $pdfUrl = asset('public/product_pdf/' . $validated['pdf_name']);
+        return redirect()->route('thankyou')
+            ->with('success', 'Your request has been submitted successfully and your download will start shortly.')
+            ->with('download_pdf', $pdfUrl);
+    }
+    
     public function novacancystore(Request $request)
     {
         $validator = Validator::make($request->all(), [

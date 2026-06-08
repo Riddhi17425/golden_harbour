@@ -79,6 +79,10 @@
                                                     class="dropify"
                                                     data-default-file="{{ asset('public/product_front_image/' . $data->front_image) }}">
                                             </div>
+                                            <div class="col-md-12 mt-2">
+                                                <label class="form-label" for="front_image_alt">Front Image Alt Text</label>
+                                                <input type="text" id="front_image_alt" name="front_image_alt" class="form-control" value="{{ $data->front_image_alt }}" placeholder="Enter Alt Text for Front Image">
+                                            </div>
                                            
                                         </div>
                                     </div>
@@ -108,23 +112,33 @@
                                 <div class="card-body">
                                     <div class="row g-3 align-items-center">
                                         <div class="col-md-12">
-                                            <label class="form-label" for="input-file-front">Images Upload</label>
-                                            <input type="file" id="input-file-front" name="detail_images[]"
+                                            <label class="form-label" for="input-file-detail">Images Upload</label>
+                                            <input type="file" id="input-file-detail" name="detail_images[]"
                                                 class="dropify" multiple>
                                             @if ($data->detail_images)
-                                            <div class="existing-images">
+                                            @php
+                                                $altsMap = is_string($data->detail_images_alt) ? json_decode($data->detail_images_alt, true) : $data->detail_images_alt;
+                                            @endphp
+                                            <div class="existing-images d-flex flex-wrap gap-3 mt-3">
                                                 @foreach (json_decode($data->detail_images) ?? [] as $image)
-                                                <div class="image-container" id="image-container-{{ $loop->index }}">
+                                                <div class="image-container border p-2 rounded text-center" id="image-container-{{ $loop->index }}" style="width: 170px; position: relative;">
                                                     <img src="{{ asset('public/product_detail_files/' . basename($image)) }}"
-                                                        class="img-thumbnail" width="150" height="150">
-                                                    <button class="delete-btn btn btn-danger btn-sm" type="button"
+                                                        class="img-thumbnail mb-2" style="width: 150px; height: 150px; object-fit: cover;">
+                                                    <input type="text" name="existing_detail_images_alt[{{ basename($image) }}]" class="form-control form-control-sm mb-2" value="{{ (is_array($altsMap) && isset($altsMap[basename($image)])) ? $altsMap[basename($image)] : '' }}" placeholder="Alt text">
+                                                    <button class="btn btn-danger btn-sm w-100" type="button"
                                                         onclick="deleteImage(this, '{{ basename($image) }}')">
-                                                        <i class="fa fa-trash"></i>
+                                                        <i class="fa fa-trash"></i> Delete
                                                     </button>
                                                 </div>
                                                 @endforeach
                                             </div>
                                             @endif
+                                            
+                                            <div id="new-images-alt-container" class="mt-3 w-100" style="display:none;">
+                                                <label class="form-label"><b>New Detail Images Alt Texts:</b></label>
+                                                <div id="new-images-alt-fields" class="ps-3 border-start border-3"></div>
+                                            </div>
+                                            
                                             <input type="hidden" id="deleted_images" name="deleted_images" value="">
                                         </div>
 
@@ -490,6 +504,29 @@ function deleteImage(button, filename) {
         $('#category_id').on('change', function() {
             var categoryId = $(this).val();
             loadSubcategories(categoryId, null);
+        });
+    });
+    $(document).ready(function() {
+        $('#input-file-detail').on('change', function() {
+            var container = $('#new-images-alt-container');
+            var fieldsDiv = $('#new-images-alt-fields');
+            fieldsDiv.empty();
+            
+            var files = this.files;
+            if (files && files.length > 0) {
+                container.show();
+                for (var i = 0; i < files.length; i++) {
+                    var filename = files[i].name;
+                    fieldsDiv.append(`
+                        <div class="mb-3">
+                            <label class="form-label mb-1 text-muted small">${filename}</label>
+                            <input type="text" name="new_detail_images_alt[]" class="form-control" placeholder="Enter Alt Text for ${filename}">
+                        </div>
+                    `);
+                }
+            } else {
+                container.hide();
+            }
         });
     });
 </script>
