@@ -775,15 +775,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div class="d-flex flex-wrap gap-4">
                                 <div class="form-check d-flex align-items-center m-0">
                                     <input class="form-check-input shadow-none m-0" type="checkbox" id="filterProduct" value="product" checked>
-                                    <label class="form-check-label" for="filterProduct">Products</label>
+                                    <label class="form-check-label" for="filterProduct">Non Ferrous Metal & Alloy</label>
                                 </div>
                                 <div class="form-check d-flex align-items-center m-0">
                                     <input class="form-check-input shadow-none m-0" type="checkbox" id="filterResource" value="resource">
-                                    <label class="form-check-label" for="filterResource">Resources</label>
+                                    <label class="form-check-label" for="filterResource">Hydrualic & Instrumentation</label>
                                 </div>
                                 <div class="form-check d-flex align-items-center m-0">
                                     <input class="form-check-input shadow-none m-0" type="checkbox" id="filterNews" value="news">
-                                    <label class="form-check-label" for="filterNews">News & Blogs</label>
+                                    <label class="form-check-label" for="filterNews">Non Metalic</label>
+                                </div>
+                                <div class="form-check d-flex align-items-center m-0">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterNews" value="news">
+                                    <label class="form-check-label" for="filterNews">Non Metalic</label>
+                                </div>
+                                <div class="form-check d-flex align-items-center m-0">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterNews" value="news">
+                                    <label class="form-check-label" for="filterNews">Non Metalic</label>
+                                </div>
+                                <div class="form-check d-flex align-items-center m-0">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterNews" value="news">
+                                    <label class="form-check-label" for="filterNews">Non Metalic</label>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,18 @@
 @include('layouts.frontheader')
+
+@php
+    $breadcrumSchema = [
+        '@context' => 'https://schema.org/',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => $subcategory->first()->category->name ?? '',
+            'item' => url()->current()
+        ],
+    ];
+@endphp
+
 <section class=" news_details_header_main">
     <div class=" container-fluid px-lg-0">
         <div class="d-flex flex-wrap align-items-center justify-content-between">
@@ -191,6 +205,11 @@
     'faqs' => $category->faqs ?? collect(),
     'faqId' => 'categoryFaq'
 ])
+
+<script type="application/ld+json">
+    {!! json_encode($breadcrumSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @include('layouts.frontfooter')
 <script>

@@ -1,4 +1,25 @@
 @include('layouts.frontheader')
+@php
+    $breadcrumSchema = [
+        '@context' => 'https://schema.org/',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => $category->name ?? '',
+                'item' => $category->url ? route('subcategorylist', $category->url) : '',
+            ],
+            [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => $subcategory->name ?? '',
+                'item' => $category->url != '' && $subcategory->url != '' ? route('productlist', [$category->url, $subcategory->url]) : '',
+            ],
+        ]
+    ];
+@endphp
+
 <section class="news_details_header_main">
     <div class="container-fluid px-lg-0">
         <div class="d-flex flex-wrap align-items-center justify-content-between">
@@ -17,7 +38,7 @@
                 
                             @if($category)
                                 <a href="{{ route('subcategorylist', $category->url) }}">
-                                    {{ $category->name }} >
+                                    {{ $category->name }}>
                                 </a>
                             @else
                                 <span>NO CATEGORY ></span>
@@ -253,6 +274,12 @@
         </div>
     </div>
 </div>
+
+<script type="application/ld+json">
+    {!! json_encode($breadcrumSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+
+    
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @include('layouts.frontfooter')
 <script>

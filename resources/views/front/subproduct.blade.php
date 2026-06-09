@@ -3,13 +3,36 @@
     <div class="container-fluid px-lg-0">
         <div class="d-flex flex-wrap align-items-center justify-content-between">
             <div class="col"></div>
-                
                 @php
                     $subproduct = $subproducts->first();
                     $product =  $subproduct->product ?? $product ?? null;
                     $category = $subproduct->category ?? $category ?? null;
                     $subcategory = $subproduct->subcategory ?? $subcategory ?? null;
                 
+                    $breadcrumSchema = [
+                        '@context' => 'https://schema.org/',
+                        '@type' => 'BreadcrumbList',
+                        'itemListElement' => [
+                            [
+                                '@type' => 'ListItem',
+                                'position' => 1,
+                                'name' => $category->name ?? '',
+                                'item' => $category->url ? route('subcategorylist', $category->url) : '',
+                            ],
+                            [
+                                '@type' => 'ListItem',
+                                'position' => 2,
+                                'name' => $subcategory->name ?? '',
+                                'item' => $category->url != '' && $subcategory->url != '' ? route('productlist', [$category->url, $subcategory->url]) : '',
+                            ],
+                            [
+                                '@type' => 'ListItem',
+                                'position' => 3,
+                                'name' => $product->title ?? '',
+                                'item' => $category->url != '' && $subcategory->url != '' && $product->url != '' ? route('subproductlist', [$category->url, $subcategory->url, $product->url]) : '',
+                            ],
+                        ]
+                    ];
                 @endphp
 
                 <div class="col-12 col-lg-5 mt-5 me-30">
@@ -237,7 +260,12 @@
         </div>
     </div>
 </div>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<script type="application/ld+json">
+    {!! json_encode($breadcrumSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @include('layouts.frontfooter')
 <script>
 function verifyCaptcha() {

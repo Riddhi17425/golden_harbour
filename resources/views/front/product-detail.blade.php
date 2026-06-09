@@ -18,6 +18,34 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
     } else {
         $ogImage = url('front/images/headerbanner/ourculture_hed_img.png'); // fallback image
     }
+
+    $productSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'Product',
+        'name' => $currentProduct->top_title,
+        'image' => asset('public/product_front_image/' . $currentProduct->front_image),
+        'description' => strip_tags($meta_description),
+    ];
+
+    $breadcrumSchema = [
+        '@context' => 'https://schema.org/',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => $currentCategory->name ?? '',
+                'item' => $currentCategory->url ? route('subcategorylist', $currentCategory->url) : '',
+            ],
+            [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => $currentSubcategory->name ?? '',
+                'item' => $currentCategory->url != '' && $currentSubcategory->url != '' ? route('productlist', [$currentCategory->url, $currentSubcategory->url]) : '',
+            ],
+        ]
+    ];
+
 @endphp
 
 @include('layouts.frontheader', ['og_image' => $ogImage])
@@ -365,6 +393,14 @@ $industrydata = $industrydata ?? collect();
         </div>
     </div>
 </div>
+
+<script type="application/ld+json">
+    {!! json_encode($productSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+    {!! json_encode($breadcrumSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
