@@ -8,9 +8,9 @@
     ###############################
     # Force HTTPS and www
     ###############################
-    RewriteCond %{HTTPS} off [OR]
-    RewriteCond %{HTTP_HOST} !^www\. [NC]
-    RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+    # RewriteCond %{HTTPS} off [OR]
+    # RewriteCond %{HTTP_HOST} !^www\. [NC]
+    # RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
     
     # /Redirect old pages /
     RewriteRule ^products\.php$ https://www.goldenharbour.com/ [R=301,L]

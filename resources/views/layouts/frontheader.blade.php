@@ -65,6 +65,168 @@
 			 section.new_hero.dark {
 			background-position-x: 60%;
 		}}
+        
+        /* Desktop Standard Dropdown Styles */
+        .desktop-menu {
+            flex-grow: 1;
+            justify-content: center;
+        }
+        .desktop-menu .nav-item {
+            position: relative;
+        }
+        .desktop-menu .standard-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 250px;
+            background-color: #fff;
+            padding: 10px 0;
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 1050;
+            text-align: left;
+            border-radius: 4px;
+        }
+        .desktop-menu .has-dropdown:hover .standard-dropdown {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .desktop-menu .nav-link {
+            font-weight: 500;
+            padding: 20px 0;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        
+        /* Handle Text Color based on light/dark headers */
+        #siteHeader.index-page .desktop-menu .nav-link,
+        .light-mode-nav .desktop-menu .nav-link {
+            color: var(--white, #fff);
+        }
+        #siteHeader:not(.index-page) .desktop-menu .nav-link,
+        .scrolled .desktop-menu .nav-link,
+        .dark-mode-nav .desktop-menu .nav-link {
+            color: var(--black, #111);
+        }
+        
+        #siteHeader.index-page .desktop-menu .nav-link:hover,
+        .desktop-menu .nav-link:hover {
+            color: var(--gold, #C4A458);
+        }
+        
+        .desktop-menu .standard-dropdown .submenu-link {
+            color: var(--black, #111);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 16px;
+            display: block;
+            padding: 8px 20px;
+        }
+        .desktop-menu .standard-dropdown .submenu-link:hover {
+            color: var(--gold, #C4A458);
+            background-color: transparent;
+            padding-left: 25px;
+        }
+        
+        /* Search Icon */
+        .search-icon-btn {
+            color: var(--white, #fff);
+            transition: color 0.3s;
+            font-size: 18px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #siteHeader:not(.index-page) .search-icon-btn,
+        .scrolled .search-icon-btn,
+        .dark-mode-nav .search-icon-btn {
+            color: var(--black, #111);
+        }
+        .search-icon-btn:hover {
+            color: var(--gold, #C4A458);
+        }
+        #siteHeader:not(.index-page) .search-icon-btn:hover,
+        .scrolled .search-icon-btn:hover,
+        .dark-mode-nav .search-icon-btn:hover {
+            color: var(--gold, #C4A458);
+        }
+        
+        /* Search Modal Custom Design */
+        #searchModal .modal-content {
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: var(--white, #fff);
+        }
+        #searchModal .modal-header {
+            padding: 40px 40px 20px;
+        }
+        #searchModal .modal-title {
+            color: var(--blue, #182A41);
+            font-size: 28px;
+            font-weight: 600;
+        }
+        #searchModal .btn-close {
+            background-size: 14px;
+            opacity: 0.5;
+            margin-right: 15px;
+            margin-top: 15px;
+        }
+        #searchModal .btn-close:hover {
+            opacity: 1;
+        }
+        #searchModal .search-form .input-group {
+            border: 2px solid var(--dd-color, #ddd);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+        #searchModal .search-form .input-group:focus-within {
+            border-color: var(--gold, #C4A458);
+        }
+        #searchModal .search-form input {
+            font-size: 18px;
+            color: var(--black, #111);
+            padding: 15px;
+            font-family: var(--body-typography-font-family);
+        }
+        #searchModal .search-form input::placeholder {
+            color: var(--gray, #808080);
+            font-weight: 400;
+        }
+        #searchModal .search-form .input-group-text {
+            padding-left: 20px;
+            color: var(--gold, #C4A458);
+        }
+        #searchModal .filter-system h6 {
+            font-size: 16px;
+            color: var(--blue, #182A41) !important;
+            font-weight: 600;
+        }
+        #searchModal .form-check-input {
+            border-color: #ccc;
+            cursor: pointer;
+            width: 1.2em;
+            height: 1.2em;
+        }
+        #searchModal .form-check-input:checked {
+            background-color: var(--gold, #C4A458);
+            border-color: var(--gold, #C4A458);
+        }
+        #searchModal .form-check-label {
+            color: var(--para, #565656);
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 8px;
+        }
+        #searchModal .form-check-input:checked ~ .form-check-label {
+            color: var(--black, #111);
+            font-weight: 500;
+        }
     </style>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -483,15 +645,65 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <!-- About Submenu Sliding Div -->
 
-    <header class="new_header site-header" id="siteHeader" class="site-header">
-        <div class="container">
-            <nav>
+    <header class="new_header site-header" id="siteHeader">
+        <div class="container" style="max-width: 100%; padding: 0 40px; position: relative;">
+            <nav class="d-flex align-items-center justify-content-between w-100">
                 <a class="navbar-brand" href="{{url('/')}}">
                     <img src="{{asset('public/front/images/new_index/GOLDEN-HARBOUR-white.svg')}}" alt="logo"
                         class="light_logo">
                     <img src="{{asset('public/front/images/GOLDEN-HARBOUR-blue.svg')}}" alt="logo" class="dark_logo">
                 </a>
-                <div class="nav_right">
+
+                <!-- Desktop Navigation Menu -->
+                <div class="desktop-menu d-none d-xl-flex">
+                    <ul class="nav list-unstyled d-flex mb-0 gap-4">
+                        <li class="nav-item has-dropdown">
+                            <a href="#" class="nav-link d-flex align-items-center gap-1">About <i class="fas fa-chevron-down ms-1" style="font-size: 10px;"></i></a>
+                            <div class="standard-dropdown">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="{{route('about')}}" class="submenu-link">Company Profile</a></li>
+                                    <li><a href="{{route('milestone')}}" class="submenu-link">Milestone</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item has-dropdown">
+                            <a href="#" class="nav-link d-flex align-items-center gap-1">Product <i class="fas fa-chevron-down ms-1" style="font-size: 10px;"></i></a>
+                            <div class="standard-dropdown" style="max-height: 400px; overflow-y: auto;">
+                                <ul class="list-unstyled mb-0">
+                                    @foreach ($categories as $category)
+                                        @if (strtolower($category->name) !== 'ferrous metal & alloys')
+                                            <li><a href="{{ route('subcategorylist', ['category' => $category->url]) }}" class="submenu-link">{{ $category->name }}</a></li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item has-dropdown">
+                            <a href="#" class="nav-link d-flex align-items-center gap-1">Resources <i class="fas fa-chevron-down ms-1" style="font-size: 10px;"></i></a>
+                            <div class="standard-dropdown">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="{{ route('industries') }}" class="submenu-link">Industries</a></li>
+                                    <li><a href="{{route('gallery')}}" class="submenu-link">Gallery</a></li>
+                                    <li><a href="{{route('blog')}}" class="submenu-link">Blogs</a></li>
+                                    <li><a href="{{route('faq')}}" class="submenu-link">FAQs</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('our-agencies')}}" class="nav-link">Our Partners</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('certifications')}}" class="nav-link">Certification</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav_right d-flex align-items-center gap-4">
+                    <a href="javascript:void(0)" class="search-icon-btn d-none d-lg-flex" data-bs-toggle="modal" data-bs-target="#searchModal">
+                        <i class="fas fa-search"></i>
+                    </a>
+                    <a href="{{ route('contact') }}" class="btn btn--ripple d-none d-lg-flex align-items-center mt-0" id="ripple">Request a Call</a>
+                    
                     <div class="lang-select">
                         <span><svg class="light_logo" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"
                                 fill="none">
@@ -538,6 +750,48 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </nav>
         </div>
     </header>
+    
+    <!-- Search Modal -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content shadow-lg border-0">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title" id="searchModalLabel">What are you looking for?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 p-md-5 pt-3">
+                    <form action="#" method="GET" class="search-form mt-2">
+                        <div class="input-group mb-4">
+                            <span class="input-group-text bg-transparent border-0" id="search-icon">
+                                <i class="fas fa-search fs-5"></i>
+                            </span>
+                            <input type="text" class="form-control border-0 shadow-none ps-2" placeholder="Search products, resources, or news..." aria-label="Search" aria-describedby="search-icon">
+                            <button class="btn btn--ripple m-0 border-0 rounded-0 px-4" type="submit" style="margin-top: 0 !important; border-radius: 0 4px 4px 0 !important;">Search</button>
+                        </div>
+                        
+                        <!-- Premium Filter System -->
+                        <div class="filter-system mt-4">
+                            <h6 class="mb-3">Filter by Category</h6>
+                            <div class="d-flex flex-wrap gap-4">
+                                <div class="form-check d-flex align-items-center m-0">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterProduct" value="product" checked>
+                                    <label class="form-check-label" for="filterProduct">Products</label>
+                                </div>
+                                <div class="form-check d-flex align-items-center m-0">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterResource" value="resource">
+                                    <label class="form-check-label" for="filterResource">Resources</label>
+                                </div>
+                                <div class="form-check d-flex align-items-center m-0">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterNews" value="news">
+                                    <label class="form-check-label" for="filterNews">News & Blogs</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--mobile sidemenu  offcanvas js-->
     
     @include('layouts.catalogue')
@@ -596,14 +850,25 @@ document.addEventListener("DOMContentLoaded", function() {
     let header = document.getElementById("siteHeader");
     let path = window.location.pathname.toLowerCase();
 
-    let indexPaths = ["/", "/index", "/index.html", "/goldenharbour-preview/", "/new-index", "/new-index/"];
+    // Check if the path ends with any of the home page identifiers
+    let isHome = path === '/' || 
+                 path.endsWith('/index') || 
+                 path.endsWith('/index.php') || 
+                 path.endsWith('/goldenharbour-preview') || 
+                 path.endsWith('/new-index') ||
+                 path.endsWith('/golden_harbour') ||
+                 path.endsWith('/golden_harbour/') ||
+                 path.endsWith('/golden_harbour/public') ||
+                 path.endsWith('/golden_harbour/public/');
 
-    if(indexPaths.includes(path)){
+    if(isHome){
         header.classList.add("index-page");
     } else {
         header.classList.remove("index-page");
     }
 });
+
+
 </script>
 <!-- script for hamburger color change -->
     <script>
