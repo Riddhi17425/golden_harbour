@@ -104,8 +104,13 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
                     </svg>
                 </a>
                         @if(!empty($currentProduct->pdf))
-                        <a class="btn btn--ripple open-enquiry ms-md-3" id="ripple"
-                            href="{{ asset('public/product_pdf/' . $currentProduct->pdf) }}" target="_blank">
+                        <a class="btn btn--ripple open-datasheet ms-md-3" id="ripple" href="javascript:void(0)"
+                            data-bs-toggle="modal" data-bs-target="#datasheetModal"
+                            data-product-id="{{ $currentProduct->id }}"
+                            data-pdf-name="{{ $currentProduct->pdf }}"
+                            data-product="{{ $currentProduct->title }}"
+                            data-category="{{ $currentCategory->name ?? '' }}"
+                            data-subcategory="{{ $currentSubcategory->name ?? '' }}">
                             Download Datasheet
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none">
@@ -206,6 +211,10 @@ $industrydata = $industrydata ?? collect();
     </div>
     <div class="dark-circle"></div>
 </section>
+@include('front.partials.module-faq-display', [
+    'faqs' => $currentProduct->faqs ?? collect(),
+    'faqId' => $isSubProduct ? 'subproductFaq' : 'productDetailFaq'
+])
 <div class="modal productmodal formmodal fade" id="exampleModalform" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered   modal-md">
@@ -287,6 +296,72 @@ $industrydata = $industrydata ?? collect();
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div> -->
+        </div>
+    </div>
+</div>
+<div class="modal productmodal formmodal fade" id="datasheetModal" tabindex="-1" aria-labelledby="datasheetModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title main_head_small" id="datasheetModalLabel">Request Datasheet</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <form class="contact_input col-md-11" id="datasheetform" method="post"
+                        action="{{ route('datasheet.submit') }}" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="product_id" id="datasheet-product-id" value="{{ $currentProduct->id }}">
+                        <input type="hidden" name="pdf_name" id="datasheet-pdf-name" value="{{ $currentProduct->pdf }}">
+                        <input type="hidden" name="product_title" id="datasheet-product-title" value="{{ $currentProduct->title }}">
+                        <input type="hidden" name="product_category" id="datasheet-product-category" value="{{ $currentCategory->name ?? '' }}">
+                        <input type="hidden" name="product_subcategory" id="datasheet-product-subcategory" value="{{ $currentSubcategory->name ?? '' }}">
+                        <div class="row mb-4 gap-4">
+                            <div class="col-md-12">
+                                <label for="datasheet-fullname" class="form-label"><b>Full Name *:</b></label>
+                                <input type="text" class="form-control px-0" id="datasheet-fullname" name="fullname"
+                                    maxlength="70"
+                                    oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').replace(/\s+/g, ' ').trimStart();"
+                                    placeholder="Enter your full name">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="datasheet-company-name" class="form-label"><b>Company Name *:</b></label>
+                                <input type="text" class="form-control px-0" id="datasheet-company-name"
+                                    name="company_name" maxlength="60" placeholder="Enter your company name"
+                                    oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').replace(/\s+/g, ' ').trimStart();">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="datasheet-phone" class="form-label"><b>Contact Number *:</b></label>
+                                <input type="text" class="form-control px-0" id="datasheet-phone" name="phone"
+                                    maxlength="15" minlength="10"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15);"
+                                    placeholder="Enter your contact number">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="datasheet-email" class="form-label"><b>Email Address *</b></label>
+                                <input type="email" class="form-control px-0" id="datasheet-email" name="email"
+                                    maxlength="60" placeholder="Enter your email">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="datasheet-message" class="form-label"><b>Message *</b></label>
+                                <input type="text" id="datasheet-message" name="message" class="form-control px-0"
+                                    placeholder="Enter your message">
+                            </div>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn--ripple" id="datasheet-submit-btn">Submit <svg
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white"
+                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -455,6 +530,86 @@ $industrydata = $industrydata ?? collect();
     $('#modal_product_title').val(product);
     $('#modal_product_category').val(category);
     $('#modal_product_subcategory').val(subcategory);
+});
+</script>
+<script>
+$(document).ready(function () {
+    const fakeDomains = [
+        'mailinator.com', '10minutemail.com', 'guerrillamail.com', 'tempmail.com',
+        'temp-mail.org', 'throwawaymail.com', 'maildrop.cc', 'dispostable.com',
+        'getairmail.com', 'moakt.com', 'spamgourmet.com', 'yopmail.com',
+        'sharklasers.com', 'mailnesia.com', 'fakemail.net', 'emailondeck.com',
+        'trashmail.com', 'mintemail.com', 'mytemp.email'
+    ];
+
+    function showDatasheetError(el, msg) {
+        el.addClass('is-invalid');
+        el.next('.text-danger').remove();
+        el.after(`<div class="text-danger mt-1">${msg}</div>`);
+    }
+
+    function clearDatasheetErrors() {
+        $('#datasheetform .text-danger').remove();
+        $('#datasheetform .is-invalid').removeClass('is-invalid');
+    }
+
+    $('.open-datasheet').on('click', function () {
+        $('#datasheet-product-id').val($(this).data('product-id') || '');
+        $('#datasheet-pdf-name').val($(this).data('pdf-name') || '');
+        $('#datasheet-product-title').val($(this).data('product') || '');
+        $('#datasheet-product-category').val($(this).data('category') || '');
+        $('#datasheet-product-subcategory').val($(this).data('subcategory') || '');
+    });
+
+    $('#datasheetform').on('submit', function (e) {
+        e.preventDefault();
+        clearDatasheetErrors();
+
+        let isValid = true;
+        const fullname = $('#datasheet-fullname').val().trim();
+        const company = $('#datasheet-company-name').val().trim();
+        const phone = $('#datasheet-phone').val().trim();
+        const email = $('#datasheet-email').val().trim();
+        const message = $('#datasheet-message').val().trim();
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailDomain = email.split('@')[1]?.toLowerCase();
+
+        if (!fullname) {
+            showDatasheetError($('#datasheet-fullname'), 'Full name is required.');
+            isValid = false;
+        }
+        if (!company) {
+            showDatasheetError($('#datasheet-company-name'), 'Company name is required.');
+            isValid = false;
+        }
+        if (!phone) {
+            showDatasheetError($('#datasheet-phone'), 'Contact number is required.');
+            isValid = false;
+        } else if (phone.length < 10 || phone.length > 15) {
+            showDatasheetError($('#datasheet-phone'), 'Contact number must be between 10 and 15 digits.');
+            isValid = false;
+        }
+        if (!email) {
+            showDatasheetError($('#datasheet-email'), 'Email is required.');
+            isValid = false;
+        } else if (!emailPattern.test(email)) {
+            showDatasheetError($('#datasheet-email'), 'Please enter a valid email address.');
+            isValid = false;
+        } else if (fakeDomains.includes(emailDomain)) {
+            showDatasheetError($('#datasheet-email'), 'Invalid email addresses are not allowed.');
+            isValid = false;
+        }
+        if (!message) {
+            showDatasheetError($('#datasheet-message'), 'Message is required.');
+            isValid = false;
+        }
+
+        if (!isValid) return;
+
+        const submitBtn = $('#datasheet-submit-btn');
+        submitBtn.prop('disabled', true).html('Submitting...');
+        this.submit();
+    });
 });
 </script>
 

@@ -12,6 +12,9 @@ class SubProduct extends Model
     protected $table = 'subproduct';
     protected $primarykey = 'id';
     protected $dates = ['deleted_at'];
+    protected $casts = [
+        'faqs' => 'array',
+    ];
     
     public function product()
     {
@@ -26,8 +29,9 @@ class SubProduct extends Model
     {
         return $this->belongsTo(Category::class);
     }
-            public function industry()
+    public function industry()
     {
         return $this->hasMany(Industry::class, 'product_id');
     }
+
 }

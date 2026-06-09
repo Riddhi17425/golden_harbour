@@ -162,6 +162,7 @@
                     </div>
                 </div>
             </div>
+            @include('admin.partials.module-faq-fields')
     </div>
     <button type="submit" class="btn btn-primary btn-set-task w-sm-100 py-2 px-5 text-uppercase">Save</button>
     </form>
@@ -561,4 +562,5 @@ document.addProductListener('DOMContentLoaded', function() {
         });
     });
 </script>
+@include('admin.partials.module-faq-scripts')
 @endpush

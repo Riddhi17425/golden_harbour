@@ -775,7 +775,7 @@ class DashboardController extends Controller
         
         
        
-        return view('front.subcategory',compact('meta_title', 'meta_description','subcategory'));
+        return view('front.subcategory',compact('meta_title', 'meta_description','subcategory', 'category'));
     }
     public function getproduct($categoryUrl, $subcategoryUrl)
 {
@@ -802,7 +802,7 @@ class DashboardController extends Controller
     $meta_description = $subcategory->meta_description ?? 'SubCategory Of the product';
 
     // Step 4: Fetch products under subcategory
-    $products = Product::with(['category', 'subcategory'])
+    $products = Product::with(['category', 'subcategory', 'subproducts'])
         ->where('subcategory_id', $subcategory->id)
         ->where('category_id', $category->id)
         ->whereNull('deleted_at')
@@ -1343,13 +1343,13 @@ class DashboardController extends Controller
                 ->withHeaders([
                     'Content-Type' => 'application/json'
                 ])
-                ->post('https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec', $sheetData);
+                ->post('https://script.google.com/macros/s/AKfycbzr6WSvBdHw7wN8p2VVpFE_FnncmGVkacyKXxHwOFoaEKRHpZGqf1x2T8KgENhFjOsR/exec', $sheetData);
         } catch (\Exception $e) {
             Log::error('Google Sheet error in DatasheetSubmit: ' . $e->getMessage());
         }
         
         $pdfUrl = asset('public/product_pdf/' . $validated['pdf_name']);
-        return redirect()->route('thankyou')
+        return redirect()->back()
             ->with('success', 'Your request has been submitted successfully and your download will start shortly.')
             ->with('download_pdf', $pdfUrl);
     }
