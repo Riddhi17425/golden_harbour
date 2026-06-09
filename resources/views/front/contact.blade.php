@@ -297,7 +297,65 @@
     </div>
 </section>
 
+<script type="application/ld+json">
+    {
+"@context": "https://schema.org",
+"@type": "ContactPage",
+"@id": "https://www.goldenharbour.com/contact#contactpage",
+"url": "https://www.goldenharbour.com/contact",
+"name": "Contact Golden Harbour LLC",
+"description": "Get in touch with Golden Harbour LLC for industrial materials, engineering products, and supply solutions across the UAE and GCC region.",
+"isPartOf": {
+"@type": "WebSite",
+"@id": "https://www.goldenharbour.com/#website"
+},
+"about": {
+"@type": "Organization",
+"@id": "https://www.goldenharbour.com/#organization"
+},
+"mainEntity": {
+"@type": "Organization",
+"@id": "https://www.goldenharbour.com/#organization",
+"name": "Golden Harbour LLC",
+"url": "https://www.goldenharbour.com/",
+"logo": "https://www.goldenharbour.com/public/front/images/GOLDEN-HARBOUR-blue.svg",
+"email": "sales@goldenharbour.ae",
+"telephone": "+97143472152",
+"address": {
+"@type": "PostalAddress",
+"streetAddress": "Plot No. 3690251, Al Quoz Industrial Area 4",
+"addressLocality": "Dubai",
+"postalCode": "13840",
+"addressCountry": "AE"
+},
+"contactPoint": [
+{
+"@type": "ContactPoint",
+"contactType": "sales",
+"telephone": "+97143472152",
+"email": "sales@goldenharbour.ae",
+"areaServed": "AE",
+"availableLanguage": ["English", "Arabic"]
+},
+{
+"@type": "ContactPoint",
+"contactType": "customer support",
+"telephone": "+971529037471",
+"email": "support@goldenharbour.ae",
+"areaServed": "AE",
+"availableLanguage": ["English", "Arabic"]
+}
+],
+"sameAs": [
+"https://www.linkedin.com/company/golden-harbour-llc/",
+"https://x.com/llc_Gharbour",
+"https://www.facebook.com/goldenharbourllc",
+"https://www.instagram.com/goldenharbour.uae/"
+]
+}
+}
 
+</script>
 
 
 @include('layouts.frontfooter')
