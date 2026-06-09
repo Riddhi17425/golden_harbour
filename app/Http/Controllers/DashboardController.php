@@ -102,6 +102,7 @@ class DashboardController extends Controller
         } catch (\Exception $e) {
             \Log::error('LinkedIn API Error', ['message' => $e->getMessage()]);
         }
+        
     
         return view('front.dashboard', compact(
             'meta_title',

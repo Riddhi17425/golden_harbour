@@ -780,6 +780,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <div class="filter-system mt-4">
                             <h6 class="mb-3">Filter by Category</h6>
                             <div class="search-custem-filter">
+                                @if(isset($categories) && is_countable($categories) && count($categories) > 0)
+                                @foreach ($categories as $key => $category)
+                                    @if (strtolower($category->name) !== 'ferrous metal & alloys')
+                                        <div class="form-check" style="display: flex; align-items: center; margin: 0;">
+                                            <a href="{{ route('subcategorylist', ['category' => $category->url]) }}" class="submenu-link">
+                                                <input class="form-check-input shadow-none m-0" type="checkbox" id="filterCat_{{ $key }}" value="{{ $category->id }}" name="filterCat[{{ $category->id }}]">
+                                                <label class="form-check-label" for="filterCat_{{ $key }}"> {{ $category->name }}</label>
+                                            </a>
+                                        </div>
+                                    @endif
+                                @endforeach
+                                @endif
+
+                                {{--
                                 <div class="form-check" style="display: flex; align-items: center; margin: 0;">
                                     <input class="form-check-input shadow-none m-0" type="checkbox" id="filterProduct" value="product" checked>
                                     <label class="form-check-label" for="filterProduct">Non Ferrous Metal & Alloys</label>
@@ -806,7 +820,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 <div class="form-check" style="display: flex; align-items: center; margin: 0;">
                                     <input class="form-check-input shadow-none m-0" type="checkbox" id="filterOtherProducts" value="filterOtherProducts">
                                     <label class="form-check-label" for="filterOtherProducts">Other Products</label>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </form>
