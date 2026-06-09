@@ -190,9 +190,10 @@
 <section class="section_space"  id="build-together" >
     <div class=" container-fluid my-5">
          <div class=" text-center">
+            
         <h2 class="main_head text-center">Let’s Build Something Great Together</h2>
         <div class="effect_line position-relative col-md-5"></div>
-        <h5 class="modal-title">Quote Response Within 24 Hours</h5>
+        
     </div>
 
     <div class="row my-5">
@@ -201,6 +202,7 @@
                 class="img-fluid rounded">
         </div>
         <div class="contact_input col-lg-6 col-xl-6 p-3">
+            <h5 class="modal-title mb-4 fw-bold">Get Quote Response Within 24 Hours</h5>
                 @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}

@@ -663,12 +663,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 <ul class="list-unstyled mb-0">
                                     <li><a href="{{route('about')}}" class="submenu-link">Company Profile</a></li>
                                     <li><a href="{{route('milestone')}}" class="submenu-link">Milestone</a></li>
+                                    <li><a href="{{route('our-agencies')}}" class="submenu-link">Our Partners</a></li>
+                                    <li><a href="{{route('certifications')}}" class="submenu-link">Certification</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li class="nav-item has-dropdown">
                             <a href="#" class="nav-link d-flex align-items-center gap-1">Product <i class="fas fa-chevron-down ms-1" style="font-size: 10px;"></i></a>
-                            <div class="standard-dropdown" style="max-height: 400px; overflow-y: auto;">
+                            <div class="standard-dropdown" style="max-height: 400px; width:350px; overflow-y: auto;">
                                 <ul class="list-unstyled mb-0">
                                     @foreach ($categories as $category)
                                         @if (strtolower($category->name) !== 'ferrous metal & alloys')
@@ -689,20 +691,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 </ul>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{route('our-agencies')}}" class="nav-link">Our Partners</a>
+
+                          <li class="nav-item has-dropdown">
+                            <a href="#" class="nav-link d-flex align-items-center gap-1">Career <i class="fas fa-chevron-down ms-1" style="font-size: 10px;"></i></a>
+                            <div class="standard-dropdown">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="{{ route('ourculture') }}" class="submenu-link">Our Culture & Values</a></li>
+                                    <li><a href="{{route('currentopportunities')}}" class="submenu-link">Current Opportunities</a></li>
+                                </ul>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{route('certifications')}}" class="nav-link">Certification</a>
-                        </li>
+                
                     </ul>
                 </div>
 
                 <div class="nav_right d-flex align-items-center gap-4">
-                    <a href="javascript:void(0)" class="search-icon-btn d-none d-lg-flex" data-bs-toggle="modal" data-bs-target="#searchModal">
-                        <i class="fas fa-search"></i>
-                    </a>
-                    <a href="{{ route('contact') }}" class="btn btn--ripple d-none d-lg-flex align-items-center mt-0" id="ripple">Request a Call</a>
+                   
+                     <a  href="javascript:void(0)" class="btn btn--ripple d-none d-lg-flex align-items-center mt-0" id="ripple" data-bs-toggle="modal" data-bs-target="#searchModal"> <i class="fa fa-search me-3"></i> Search Products</a>
+
+                    <a href="{{ route('contact') }}" class="btn btn--ripple d-none d-lg-flex align-items-center mt-0" id="ripple">Request Quote</a>
                     
                     <div class="lang-select">
                         <span><svg class="light_logo" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"
@@ -765,25 +772,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <span class="input-group-text bg-transparent border-0" id="search-icon">
                                 <i class="fas fa-search fs-5"></i>
                             </span>
-                            <input type="text" class="form-control border-0 shadow-none ps-2" placeholder="Search products, resources, or news..." aria-label="Search" aria-describedby="search-icon">
+                            <input type="text" class="form-control border-0 shadow-none ps-2" placeholder="Search products..." aria-label="Search" aria-describedby="search-icon">
                             <button class="btn btn--ripple m-0 border-0 rounded-0 px-4" type="submit" style="margin-top: 0 !important; border-radius: 0 4px 4px 0 !important;">Search</button>
                         </div>
                         
                         <!-- Premium Filter System -->
                         <div class="filter-system mt-4">
                             <h6 class="mb-3">Filter by Category</h6>
-                            <div class="d-flex flex-wrap gap-4">
-                                <div class="form-check d-flex align-items-center m-0">
+                            <div class="search-custem-filter">
+                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
                                     <input class="form-check-input shadow-none m-0" type="checkbox" id="filterProduct" value="product" checked>
-                                    <label class="form-check-label" for="filterProduct">Products</label>
+                                    <label class="form-check-label" for="filterProduct">Non Ferrous Metal & Alloys</label>
                                 </div>
-                                <div class="form-check d-flex align-items-center m-0">
+                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
                                     <input class="form-check-input shadow-none m-0" type="checkbox" id="filterResource" value="resource">
-                                    <label class="form-check-label" for="filterResource">Resources</label>
+                                    <label class="form-check-label" for="filterResource">Hydrualic & Instrumentation</label>
                                 </div>
-                                <div class="form-check d-flex align-items-center m-0">
+                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
                                     <input class="form-check-input shadow-none m-0" type="checkbox" id="filterNews" value="news">
-                                    <label class="form-check-label" for="filterNews">News & Blogs</label>
+                                    <label class="form-check-label" for="filterNews">Heat Exchanger, Condensors Pipes, Tubes & Fittings</label>
+                                </div>
+
+                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterWelding" value="news">
+                                    <label class="form-check-label" for="filterWelding">Welding, Electrical and Hoses</label>
+                                </div>
+
+                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterNonMetallic" value="filterNonMetallic">
+                                    <label class="form-check-label" for="filterNonMetallic">Non Metallic</label>
+                                </div>
+
+                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterOtherProducts" value="filterOtherProducts">
+                                    <label class="form-check-label" for="filterOtherProducts">Other Products</label>
                                 </div>
                             </div>
                         </div>
@@ -792,6 +814,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
     </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
     <!--mobile sidemenu  offcanvas js-->
     
     @include('layouts.catalogue')

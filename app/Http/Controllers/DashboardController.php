@@ -70,6 +70,7 @@ class DashboardController extends Controller
         $industrydata = Industry::whereNull('deleted_at')->get();
         $eventdata = Event::whereNull('deleted_at')->get();
         $homeslider = HomeSlider::whereNull('deleted_at')->orderBy('id', 'asc')->get();
+        $certificates = Certificate::whereNull('deleted_at')->get();
     
         $feed = [];
         $hasLinkedinFeed = false;
@@ -114,7 +115,8 @@ class DashboardController extends Controller
             'feed',
             'hasLinkedinFeed',
             'home_banner',
-            'homeslider'
+            'homeslider',
+            'certificates'
         ));
     }
 

@@ -163,14 +163,16 @@
 <div class="modal productmodal formmodal fade" id="exampleModalform" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered   modal-md">
         <div class="modal-content">
-            <div class="modal-header">
-                <div>
-                 <h5 class="modal-title main_head_small" id="exampleModalLabel">Product Enquiry </h5> </br><h6>Quote Response Within 24 Hours</h6>
+            <div class="modal-header d-block">
+                <div class="d-flex justify-content-between">
+                    <h5 class="modal-title main_head_small" id="exampleModalLabel">Product Enquiry </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h6 class="mt-2">Get Quote Response Within 24 Hours</h6>
             </div>
+            
             <div class="modal-body">
-                <div class="row     justify-content-center">
+                <div class="row justify-content-center">
                     <form class=" contact_input col-md-11" id="brassform" method="Post" action="{{ route('product.enquiry.store') }}" enctype="multipart/form-data">
                         @csrf
                         <!-- First Name and Last Name in a single row -->
@@ -233,7 +235,7 @@
                             </div>
                             
                             
-                            <button type="submit" class="btn btn--ripple col-md-5" id="submitBtn">Submit <svg xmlns="http://www.w3.org/2000/svg"
+                            <button type="submit" class="btn btn--ripple col-md-5" id="submitBtn">Enquiry Now <svg xmlns="http://www.w3.org/2000/svg"
                                     width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white" stroke-width="1.5"
                                         stroke-linecap="round" stroke-linejoin="round" />
