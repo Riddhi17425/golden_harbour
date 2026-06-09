@@ -764,7 +764,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="modal-content shadow-lg border-0">
                 <div class="modal-header border-0 pb-0">
                     <h5 class="modal-title" id="searchModalLabel">What are you looking for?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(0) !important"></button>
                 </div>
                 <div class="modal-body p-4 p-md-5 pt-3">
                     <form action="#" method="GET" class="search-form mt-2">
@@ -888,7 +888,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Check if the path ends with any of the home page identifiers
     let isHome = path === '/' || 
                  path.endsWith('/index') || 
-                 path.endsWith('/index.php') || 
+                 path.endsWith('/index.php') ||     
                  path.endsWith('/goldenharbour-preview') || 
                  path.endsWith('/new-index') ||
                  path.endsWith('/golden_harbour') ||
