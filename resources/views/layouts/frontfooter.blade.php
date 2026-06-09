@@ -57,10 +57,51 @@
     transform: translate(0, 0);
 }
 
+.CallButton {
+    position: relative;
+    transform: translate(120px, 0);
+    width: 170px;
+    overflow: hidden;
+    background-color: var(--blue, #182A41);
+    color: #fff;
+    border-radius: 10px 0 0 10px;
+    transition: all .5s ease-in-out;
+    vertical-align: middle;
+    margin-bottom: 10px;
+}
+
+.CallButton i {
+    font-size: 26px;
+    color: #fff;
+    line-height: 30px;
+    margin-left: 4px;
+    margin-right: 10px;
+    padding: 10px;
+    transform: rotate(0);
+    transition: all .5s ease-in-out;
+    text-align: center !important;
+}
+
+.CallButton a span {
+    color: #fff;
+    font-size: 15px;
+    padding-top: 8px;
+    padding-bottom: 10px;
+    position: absolute;
+    line-height: 16px;
+    font-weight: bolder;
+}
+
+.CallButton:hover {
+    color: #fff;
+    background-color: var(--gold, #ca8e55);
+    transform: translate(0, 0);
+}
+
 .enquiry-now-wrapper {
     position: fixed;
     top: 50%;
-    right: -15px;
+    right: -35px;
     transform: translateY(-50%);
     rotate: 90deg;
     z-index: 1001;
@@ -265,6 +306,12 @@
 </footer>
 
 <div class="float-buttons">
+    <div class="CallButton">
+        <a href="tel:+971529037471" id="call" rel="nofollow">
+            <i class="fas fa-phone-alt"></i>
+            <span>Call Us<br><small>+971529037471</small></span>
+        </a>
+    </div>
     <div class="WhatsAppButton">
         <a href="https://api.whatsapp.com/send?phone=971529037471&text=Hello,%20I%20have%20visited%20your%20website%20and%20I%20would%20like%20to%20know%20more%20about%20your%20company."
             id="whatsapp" rel="nofollow" target="_blank">
@@ -275,7 +322,7 @@
 </div>
 
 <div class="enquiry-now-wrapper network">
-    <button type="button" class="btn btn--ripple" data-bs-toggle="modal" data-bs-target="#enquiryNowModal"
+    <button type="button" class="btn btn--ripple mt-0" data-bs-toggle="modal" data-bs-target="#enquiryNowModal"
         title="Enquiry Now" id="ripple">Request Quote</button>
 </div>
 @if ($errors->any())
@@ -291,7 +338,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Enquiry Now (Quote Response Within 24 Hours)</h5>
+                <h5 class="modal-title">Get Quote Response Within 24 Hours</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -359,7 +406,7 @@
                             <div id="inq_recaptcha-error" class="error-message" style="color: red; margin-top: 5px;"></div>
                         </div>
                         <button type="submit" class="btn btn--ripple" id="submitBtn">
-                            Submit
+                            Enquiry Now
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white"
                                     stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>

@@ -41,6 +41,11 @@
             <div class="new_hero_wrapper">
                 <div class="new_hero_content_1">
                     <h1 class="text-white">This is Golden harbour, The Gold Standard.</h1>
+                     <a href="javascript:void(0)" onclick="document.getElementById('non-ferrous').scrollIntoView({behavior: 'smooth', block: 'start'})" class="btn btn--ripple" id="ripple">Explore Our Product Range<svg
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="#fff" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg></a>
                 </div>
                 <div class="new_hero_content_2 col-lg-4">
                     <ul class="text-white">
@@ -251,10 +256,10 @@
             </div>
         </div>
     </section>
-    <section class="one_stop mt-100 viewport white">
+    <section  class="one_stop mt-100 viewport white">
         <div class="container">
-            <div class="row text-center justify-content-center">
-                <h2 class="main_head text-center col-md-12">Explore Our Product Range</h2>
+            <div class="row text-center justify-content-center" id="non-ferrous">
+                <h2 class="main_head text-center col-md-12" >Explore Our Product Range</h2>
             </div>
             <div class="industrial_solutions pt-4">
                 <div class="industrial_slider">
@@ -292,6 +297,34 @@
             </div>
         </div>
     </section>
+
+      <section class="mt-100 viewport white">
+        <div class="container">
+            <div class="row text-center justify-content-center">
+                <h2 class="main_head text-center col-md-12">Certified for Trust.</h2>
+            </div>
+            
+            <div class="row mt-5 justify-content-center">
+                @if(isset($certificates) && count($certificates) > 0)
+                    @foreach($certificates as $certificate)
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                            <a href="{{asset('public/certificate_images/'.$certificate->image)}}" data-fancybox="certifications" data-caption="{{ $certificate->title }}" class="custom-cert-link">
+                                <div class="custom-cert-card">
+                                    <div class="custom-cert-img-wrap">
+                                        <img src="{{asset('public/certificate_images/'.$certificate->image)}}" alt="{{ $certificate->title }}" class="custom-cert-img">
+                                    </div>
+                                    <div class="custom-cert-footer">
+                                        <h5 class="custom-cert-title">{{ $certificate->title }}</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
+        </div>
+    </section>
+
     <section class="why mt-100 viewport dark">
         <div class="container">
             <div class="row">
@@ -924,4 +957,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
  </script>
+    
+ <!-- Fancybox JS -->
+ <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+ <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if(typeof Fancybox !== 'undefined') {
+            Fancybox.bind("[data-fancybox]", {
+                autoStart: true,
+            });
+        }
+    });
+ </script>
+
 @include('layouts.frontfooter')

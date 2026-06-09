@@ -4580,3 +4580,74 @@ transform: translateY(-30%);
   outline: none !important;
   box-shadow: none !important;
 }
+/* Filter System Custom Flexbox */
+.filter-system .filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.filter-system .form-check {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+
+.search-custem-filter
+{
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.search-custem-filter .form-check
+{
+  padding-left: 0;
+}
+
+
+.custom-cert-link {
+    text-decoration: none;
+    display: block;
+    height: 100%;
+}
+.custom-cert-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--gold);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+    background-color: #fff;
+}
+.custom-cert-card:hover {
+    transform: translateY(-5px);
+}
+.custom-cert-img-wrap {
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.custom-cert-img {
+    max-width: 100%;
+    /* height: 200px; */
+    object-fit: contain;
+}
+.custom-cert-footer {
+    background-color: var(--blue);
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+}
+.custom-cert-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+}
