@@ -154,6 +154,10 @@
         </div>
     </div>
 </section>
+@include('front.partials.module-faq-display', [
+    'faqs' => $product->faqs ?? collect(),
+    'faqId' => 'productFaq'
+])
 
 <div class="modal productmodal formmodal fade" id="exampleModalform" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered   modal-md">

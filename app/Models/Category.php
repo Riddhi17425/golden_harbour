@@ -13,6 +13,9 @@ class Category extends Model
     protected $table = 'category';
     protected $primarykey = 'id';
     protected $dates = ['deleted_at'];
+    protected $casts = [
+        'faqs' => 'array',
+    ];
 
     public function subcategories()
     {

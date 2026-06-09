@@ -286,8 +286,9 @@
                             <label for="meta_description" class="form-label">Meta Description</label>
                             <textarea id="meta_description" name="meta_description"  class="form-control">{{ $data->meta_description }}</textarea>
                         </div>
+                        @include('admin.partials.module-faq-fields', ['faqs' => $data->faqs])
 
-                            </div>
+                    </div>
                         </div>
                     </div>
                 </div>
@@ -613,4 +614,5 @@ function deleteImage(button, filename) {
     });
 </script>
 
+@include('admin.partials.module-faq-scripts')
 @endpush

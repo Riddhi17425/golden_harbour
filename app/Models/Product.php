@@ -15,6 +15,7 @@ class Product extends Model
     
     protected $casts = [
     'industries' => 'array',
+    'faqs' => 'array',
     ];
     
     public function subproducts()
@@ -30,8 +31,9 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
-            public function industry()
+    public function industry()
     {
         return $this->hasMany(Industry::class, 'product_id');
     }
+
 }

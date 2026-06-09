@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\admin\Concerns\StoresFaqJson;
 use App\Models\SubProduct;
 use App\Models\Product;
 use App\Models\Category;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 
 class SubProductController extends Controller
 {
+    use StoresFaqJson;
     /**
      * Display a listing of the resource.
      *
@@ -76,6 +78,7 @@ class SubProductController extends Controller
         $post->meta_title = $request->get('meta_title');
         $post->meta_description = $request->get('meta_description');
         $post->front_image_alt = $request->get('front_image_alt');
+        $post->faqs = $this->makeFaqList($request);
        
         if($request->hasFile('front_image')) {
             $file = $request->file('front_image');
@@ -190,6 +193,7 @@ class SubProductController extends Controller
         $post->meta_title = $request->get('meta_title');
         $post->meta_description = $request->get('meta_description');
         $post->front_image_alt = $request->get('front_image_alt');
+        $post->faqs = $this->makeFaqList($request);
      
         if($request->hasFile('front_image')) {
             $file = $request->file('front_image');

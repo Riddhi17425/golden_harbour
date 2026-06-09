@@ -205,6 +205,7 @@
         </div>
     </div>
 @endforeach
+@include('admin.partials.module-faq-fields', ['faqs' => $data->faqs])
                             </div>
                         </div>
                     </div>
@@ -531,4 +532,5 @@ function deleteImage(button, filename) {
     });
 </script>
 
+@include('admin.partials.module-faq-scripts')
 @endpush

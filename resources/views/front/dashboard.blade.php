@@ -259,7 +259,7 @@
     <section  class="one_stop mt-100 viewport white">
         <div class="container">
             <div class="row text-center justify-content-center" id="non-ferrous">
-                <h2 class="main_head text-center col-md-12" >Non-Ferrous. Non-Stop.</h2>
+                <h2 class="main_head text-center col-md-12" >Explore Our Product Range</h2>
             </div>
             <div class="industrial_solutions pt-4">
                 <div class="industrial_slider">
@@ -426,8 +426,8 @@
                     With world-class partners and decades of expertise, Golden Harbour ensures quality, precision, and dependable supply — a strong network of excellence built to support every critical industry.
                 </p>
                 <div class="text-center">
-                    <a href="{{ route('industries') }}" class="btn btn--ripple"
-                        id="ripple">Explore All Industries
+                    <a href="{{route('our-agencies')}}" class="btn btn--ripple"
+                        id="ripple">Explore Our Partners
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white" stroke-width="1.5"
                                 stroke-linecap="round" stroke-linejoin="round"></path>

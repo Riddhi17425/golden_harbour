@@ -2,12 +2,14 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\admin\Concerns\StoresFaqJson;
 use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    use StoresFaqJson;
   
     public function index()
     {
@@ -32,6 +34,7 @@ class CategoryController extends Controller
         $post->short_description = $request->get('short_description');
         $post->meta_title = $request->get('meta_title');
         $post->meta_description = $request->get('meta_description');
+        $post->faqs = $this->makeFaqList($request);
 
         $post->save();
 
@@ -54,6 +57,7 @@ class CategoryController extends Controller
         $post->url = $request->get('url');
         $post->meta_title = $request->get('meta_title');
         $post->meta_description = $request->get('meta_description');
+        $post->faqs = $this->makeFaqList($request);
 
         $post->save();
         return redirect('/admin/category')->with('success', 'Category Updated Successfully');

@@ -2,12 +2,14 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\admin\Concerns\StoresFaqJson;
 use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
 {
+    use StoresFaqJson;
   
     public function index()
     {
@@ -33,6 +35,7 @@ class SubCategoryController extends Controller
         $post->url = $request->get('url');
         $post->meta_title = $request->get('meta_title');
         $post->meta_description = $request->get('meta_description');
+        $post->faqs = $this->makeFaqList($request);
         if($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = $file->getClientOriginalName();
@@ -64,6 +67,7 @@ class SubCategoryController extends Controller
         $post->url = $request->get('url');
         $post->meta_title = $request->get('meta_title');
         $post->meta_description = $request->get('meta_description');
+        $post->faqs = $this->makeFaqList($request);
         if($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = $file->getClientOriginalName();

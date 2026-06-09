@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\admin\Concerns\StoresFaqJson;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\SubCategory;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    use StoresFaqJson;
     /**
      * Display a listing of the resource.
      *
@@ -68,6 +70,7 @@ class ProductController extends Controller
         $post->meta_title = $request->get('meta_title');
         $post->meta_description = $request->get('meta_description');
         $post->front_image_alt = $request->get('front_image_alt');
+        $post->faqs = $this->makeFaqList($request);
         $industries = $request->input('industries');
         $post->industries = !empty($industries) ? json_encode($industries) : null;
        
@@ -145,6 +148,7 @@ class ProductController extends Controller
         $post->meta_title = $request->get('meta_title');
         $post->meta_description = $request->get('meta_description');
         $post->front_image_alt = $request->get('front_image_alt');
+        $post->faqs = $this->makeFaqList($request);
         $post->industries = $request->industries;
      
         if($request->hasFile('front_image')) {

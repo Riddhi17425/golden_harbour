@@ -141,7 +141,7 @@
                data-product="{{ $item->products->first()->title ?? $item->name }}"
                data-category="{{ $item->category->name ?? '' }}"
                data-subcategory="{{ $item->name }}">
-                Enquiry Now
+                Request Quote 
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
                     <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75"
                           stroke="white" stroke-width="1.5"
@@ -187,6 +187,10 @@
         </div>
     </div>
 </section>
+@include('front.partials.module-faq-display', [
+    'faqs' => $category->faqs ?? collect(),
+    'faqId' => 'categoryFaq'
+])
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @include('layouts.frontfooter')
 <script>

@@ -4,6 +4,10 @@
     </IfModule>
 
     RewriteEngine On
+    
+    <Files ".env">
+        Require all denied
+    </Files>
 
     ###############################
     # Force HTTPS and www
