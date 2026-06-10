@@ -18,7 +18,7 @@
 .industrial_box h3, .News_card h3{font-size:22px;}
 .net_box{padding: 55px 62px;}
  .new_hero_content_1 h1{
-      font-size: 36px;
+      font-size: 34px;
   }
   .bahrain-location {
   position: absolute;
@@ -673,7 +673,7 @@ h1.main_head{
     .lang-select svg{width: 20px;}
     .goog-te-gadget select{font-size:12px;}
     .menu_wrapper .sidebar_submenu .submenu-link{  padding: 0.5rem 0.5rem;}
-    .new_hero_content_1 { width: auto;left: 0; top: 18%;}
+    .new_hero_content_1 { width: auto;left: 0; top: 14%;}
     .shape{    background-color: var(--blue) !important;    background-image: none !important;}
     .why .nav-item {
         padding-bottom: 0px;

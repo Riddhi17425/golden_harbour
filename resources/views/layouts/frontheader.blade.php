@@ -1054,6 +1054,42 @@ document.addEventListener("DOMContentLoaded", function () {
             translateElement.style.display = "none";
         }
     }
+
+    // Rename Google Translate dropdown options for mobile
+    document.addEventListener("DOMContentLoaded", function() {
+        function updateTranslateText() {
+            if (window.innerWidth <= 767.98) {
+                var select = document.querySelector('.goog-te-combo');
+                if (select) {
+                    for (var i = 0; i < select.options.length; i++) {
+                        var opt = select.options[i];
+                        if (opt.value === "" && opt.text.includes("Select")) {
+                            opt.text = "EN"; // Default placeholder
+                        } else if (opt.value === "en" || opt.text.includes("English")) {
+                            opt.text = "EN";
+                        } else if (opt.value === "ar" || opt.text.includes("Arabic")) {
+                            opt.text = "AR";
+                        }
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Lightweight check for Google Translate element instead of heavy MutationObserver
+        var attempts = 0;
+        var intervalId = setInterval(function() {
+            var success = updateTranslateText();
+            // Stop checking once successfully updated, or after 20 attempts (10 seconds)
+            if (success || attempts > 20) {
+                clearInterval(intervalId);
+            }
+            attempts++;
+        }, 500);
+
+        window.addEventListener('resize', updateTranslateText);
+    });
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
