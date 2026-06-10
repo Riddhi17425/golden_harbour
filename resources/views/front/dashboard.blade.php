@@ -40,7 +40,7 @@
         <div class="container">
             <div class="new_hero_wrapper">
                 <div class="new_hero_content_1">
-                    <h1 class="text-white">This is Golden harbour, The Gold Standard.</h1>
+                    <h1 class="text-white">Golden Harbour - Trusted Industrial Metals, Alloys & Materials Supplier in UAE</h1>
                      <a href="javascript:void(0)" onclick="document.getElementById('non-ferrous').scrollIntoView({behavior: 'smooth', block: 'start'})" class="btn btn--ripple" id="ripple">Explore Our Product Range<svg
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="#fff" stroke-width="1.5"
@@ -50,9 +50,9 @@
                 <div class="new_hero_content_2 col-lg-4">
                     <ul class="text-white">
                         <li>
-                            Your Strategic Partner for Oil & Gas, Offshore, Onshore, Marine & Industrial Supply Solutions
+                            Strategic Supply Partner for Oil & Gas, Marine, Offshore & Industrial Sectors
                         </li>
-                        <li>Home to the Middle East's Largest Nonferrous Stock</li>
+                        <li>One of the Middle East's Largest Stuckists of Non-Ferrous Metals & Alloys</li>
                         <li>A Legacy of Trust and Reliability Since 1938.</li>
                     </ul>
                     <!--<p class="text-white">Your Strategic Partner for Oil & Gas, Offshore, Onshore, Marine & Industrial Supply Solutions | Home to the Middle East's Largest Nonferrous Stock | A Legacy of Trust and Reliability Since 1938.</p>-->
@@ -93,11 +93,8 @@
                 <!--    </div>-->
                 <!--</div>-->
                 <div class="col-lg-12 partner_txt">
-                    <h2 class="main_head mb-2 mb-xxl-5" data-aos="zoom-in-up"data-aos-duration="800"data-aos-easing="ease-out-cubic"data-aos-delay="0">Your Partner in Industrial Solutions</h2>
-                    <p data-aos="fade-up"data-aos-duration="800"data-aos-easing="ease-out-cubic"data-aos-delay="150">At Golden Harbour, we don’t just supply products, we build enduring partnerships that power
-                        progress. With a legacy spanning over three decades, we have become one of the UAE’s most
-                        trusted
-                        providers of engineering products, industrial materials, and technical solutions.</p>
+                    <h2 class="main_head mb-2 mb-xxl-5" data-aos="zoom-in-up"data-aos-duration="800"data-aos-easing="ease-out-cubic"data-aos-delay="0">Your Strategic Partner for Industrial Metals, Alloys & Engineering Products</h2>
+                    <p data-aos="fade-up"data-aos-duration="800"data-aos-easing="ease-out-cubic"data-aos-delay="150">At Golden Harbour, we don't just supply products, we build enduring partnerships that power progress. With a legacy spanning over three decades, we have become one of the UAE's most trusted providers of industrial metallic materials, engineering products, and technical solutions.</p>
                     <p data-aos="fade-up"data-aos-duration="800"data-aos-easing="ease-out-cubic"data-aos-delay="300">Driven by quality, guided by innovation, and grounded in integrity, we support diverse
                         sectors
                         including oil & gas, marine, construction, and manufacturing, ensuring they run safer,
@@ -139,7 +136,7 @@
             <div class="shape_container  d-none d-lg-block">
                 <div class="row align-items-center">
                     <div class="col-md-9">
-                        <h2 class="main_head main_head_line text-white">Shaping Industrial Excellence</h2>
+                        <h2 class="main_head main_head_line text-white">Serving Industries Across the GCC</h2>
                         <p class="mb-0 text-white">Excellence in industry isn't built overnight, it’s forged through
                             precision,
                             performance, and purpose. Across every sector we serve, our focus remains the same:
@@ -259,7 +256,7 @@
     <section  class="one_stop mt-100 viewport white">
         <div class="container">
             <div class="row text-center justify-content-center" id="non-ferrous">
-                <h2 class="main_head text-center col-md-12" >Explore Our Product Range</h2>
+                <h2 class="main_head text-center col-md-12" >Explore Our Industrial Materials & Product Range</h2>
             </div>
             <div class="industrial_solutions pt-4">
                 <div class="industrial_slider">
@@ -331,7 +328,7 @@
                 <div class="col-md-6 col-12">
                     <div class="why_left">
                         <div>
-                            <h2 class="main_head text-white mb-4">Why Choose Us</h2>
+                            <h2 class="main_head text-white mb-4">Why UAE & GCC Industries Trust Golden Harbour</h2>
                             <ul class="nav nav-tabs flex-column" id="myTab" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
@@ -346,7 +343,7 @@
                                         data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
                                         aria-selected="false">
                                         <span style="color:#557AA9">02</span>
-                                        Trusted Partner
+                                        Trusted Industry Partner
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
@@ -354,7 +351,7 @@
                                         data-bs-target="#messages" type="button" role="tab" aria-controls="messages"
                                         aria-selected="false">
                                         <span style="color:#557AA9">03</span>
-                                        Experienced Team
+                                        Experienced Technical Team
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
@@ -362,7 +359,7 @@
                                         data-bs-target="#settings" type="button" role="tab" aria-controls="settings"
                                         aria-selected="false">
                                         <span style="color:#557AA9">04</span>
-                                        Global Sourcing
+                                        Global Sourcing Network
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
@@ -421,7 +418,7 @@
     <section class=" mt-100 network viewport white">
         <div class="container">
             <div class="col-lg-8 mx-auto">
-                <h2 class="main_head main_head_line text-center"> A Strong Network of Excellence</h2>
+                <h2 class="main_head main_head_line text-center"> Our Global Manufacturing & Supply Partners</h2>
                 <p class=" text-center text-md-start">
                     With world-class partners and decades of expertise, Golden Harbour ensures quality, precision, and dependable supply — a strong network of excellence built to support every critical industry.
                 </p>
@@ -521,7 +518,7 @@
         <div class="container map-space dark">
             <div class="row align-items-center">
                 <div class="col-md-5 global-contant mt-0 mt-md-5 mb-md-0 mb-5">
-                    <h2 class="main_head mt-3">Strategic Footprint | Global Supply </h2>
+                    <h2 class="main_head mt-3">Strategic Global Supply Network </h2>
                     <p>We leverage our established regional presence to cut logistics time, guaranteeing immediate stock access and efficient fulfillment for your critical projects.</p>
                 </div>
                 <div class="col-md-7">

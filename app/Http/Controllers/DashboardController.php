@@ -59,8 +59,10 @@ class DashboardController extends Controller
     }
     public function index()
     {
-        $meta_title = 'Industrial Equipment Supplier in UAE | Golden Harbour';
-        $meta_description = 'With decades of expertise and experience, Golden Harbour provides reliable marine equipment and services tailored to your needs.';
+        // $meta_title = 'Industrial Equipment Supplier in UAE | Golden Harbour';
+        // $meta_description = 'With decades of expertise and experience, Golden Harbour provides reliable marine equipment and services tailored to your needs.';
+        $meta_title = 'Metals, Alloys & Industrial Materials Supplier UAE | Golden Harbour';
+        $meta_description = 'Golden Harbour is a trusted industrial material supplier in the UAE, providing metals, alloys, and engineering products to industrial sectors across the GCC.';
     
         $clientdata = ValuableClient::whereNull('deleted_at')->get();
         $home_banner = HomeBanner::whereNull('deleted_at')->get();
