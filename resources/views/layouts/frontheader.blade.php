@@ -402,6 +402,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
                 // Get all active categories, subcategories, and products
                 $categories = DB::table('category')->whereNull('deleted_at')->get();
+                $industryProduct = DB::table('industry_product')->whereNull('deleted_at')->get();
            
             @endphp
             <div class="about-submenu-slider" id="productSubmenuSlider">
@@ -782,7 +783,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
     <!-- Search Modal -->
     <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content shadow-lg border-0">
                 <div class="modal-header border-0 pb-0">
                     <h5 class="modal-title" id="searchModalLabel">What are you looking for?</h5>
@@ -813,35 +814,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                     @endif
                                 @endforeach
                                 @endif
-
-                                {{--
-                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
-                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterProduct" value="product" checked>
-                                    <label class="form-check-label" for="filterProduct">Non Ferrous Metal & Alloys</label>
-                                </div>
-                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
-                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterResource" value="resource">
-                                    <label class="form-check-label" for="filterResource">Hydrualic & Instrumentation</label>
-                                </div>
-                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
-                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterNews" value="news">
-                                    <label class="form-check-label" for="filterNews">Heat Exchanger, Condensors Pipes, Tubes & Fittings</label>
-                                </div>
-
-                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
-                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterWelding" value="news">
-                                    <label class="form-check-label" for="filterWelding">Welding, Electrical and Hoses</label>
-                                </div>
-
-                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
-                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterNonMetallic" value="filterNonMetallic">
-                                    <label class="form-check-label" for="filterNonMetallic">Non Metallic</label>
-                                </div>
-
-                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
-                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterOtherProducts" value="filterOtherProducts">
-                                    <label class="form-check-label" for="filterOtherProducts">Other Products</label>
-                                </div> --}}
+                            </div>
+                            <h6 class="mb-3 my-3">Filter by Industry</h6>
+                            <div class="search-custem-filter">
+                                @if(isset($industryProduct) && is_countable($industryProduct) && count($industryProduct) > 0)
+                                @foreach ($industryProduct as $key => $industry)
+                                    <div class="form-check" style="display: flex; align-items: center; margin: 0;">
+                                        <input class="form-check-input shadow-none m-0 product-search-industry" type="checkbox" id="filterInd_{{ $key }}" value="{{ $industry->id }}">
+                                        <label class="form-check-label" for="filterInd_{{ $key }}"> {{ $industry->title }}</label>
+                                    </div>
+                                @endforeach
+                                @endif
                             </div>
                         </div>
                     </form>
@@ -1126,6 +1109,14 @@ document.addEventListener("DOMContentLoaded", function () {
             return categories;
         }
 
+        function selectedIndustries() {
+            const industries = [];
+            $('.product-search-industry:checked').each(function() {
+                industries.push($(this).val());
+            });
+            return industries;
+        }
+
         function showMessage(message) {
             $resultsBox.show().html(`<div class="p-3 text-muted">${message}</div>`);
         }
@@ -1138,9 +1129,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
             $resultsBox.show();
             const html = items.map((item) => `
-                <a href="${item.url}">
-                    <strong>${item.title}</strong>
-                    <small>${item.type} | ${item.category} | ${item.subcategory}</small>
+                <a href="${item.url}" class="d-flex gap-3">
+                    <img src="${item.image}" alt="${item.title}" width="75">
+                    <div>
+                        <strong>${item.title}</strong>
+                        <small><b>${item.type}</b> | ${item.category} | ${item.subcategory}</small>
+                        ${item.industries ? `<small class="text-muted d-block mt-1"><b>Industries</b> - ${item.industries}</small>` : ''}
+                    </div>
                 </a>
             `).join('');
             $resultsBox.html(html);
@@ -1156,7 +1151,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const data = {
                 query: query,
-                categories: selectedCategories()
+                categories: selectedCategories(),
+                industries: selectedIndustries()
             };
 
             showMessage('Searching...');
@@ -1179,7 +1175,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         $input.on('input', queueSearch);
-        $(document).on('change', '.product-search-category', searchProducts);
+        $(document).on('change', '.product-search-category, .product-search-industry', searchProducts);
 
         $form.on('submit', function (event) {
             event.preventDefault();
