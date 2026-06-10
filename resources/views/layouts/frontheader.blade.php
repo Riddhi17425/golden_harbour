@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{!! $meta_title ?? $title ?? 'Golden Harbour' !!}</title>
     <meta name="description" content="{{ strip_tags($meta_description ?? $description ?? 'Golden Harbour') }}">
-    
-        <link rel="canonical" href="{{ url()->current() }}" />
+    {{-- <meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/> --}}
+    <link rel="canonical" href="{{ url()->current() }}" />
 
     <link rel="icon" type="image/x-icon" href="{{ asset('public/front/images/GH_Favicon.png')}}">
     <!-- bootstrap 5 -->
