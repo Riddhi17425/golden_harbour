@@ -1217,6 +1217,7 @@ public function productSearch(Request $request)
 {
     $search = trim((string) $request->get('query'));
     $categoryIds = array_filter((array) $request->get('categories', []));
+    $industryIds = array_filter((array) $request->get('industries', []));
 
     if (strlen($search) < 2) {
         return response()->json([]);
@@ -1231,25 +1232,15 @@ public function productSearch(Request $request)
         ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
             $query->whereIn('category_id', $categoryIds);
         })
-        ->get()
-        ->map(function ($product) {
-            if (!$product->category || !$product->subcategory) {
-                return null;
-            }
-
-            return [
-                'title' => $product->title,
-                'category' => $product->category->name,
-                'subcategory' => $product->subcategory->name,
-                'type' => 'Product',
-                'url' => route('productdetail', [
-                    'category' => $product->category->url,
-                    'subcategory' => $product->subcategory->url,
-                    'product' => $product->url,
-                ]),
-            ];
+        ->when(!empty($industryIds), function ($query) use ($industryIds) {
+            $query->where(function ($q) use ($industryIds) {
+                foreach ($industryIds as $id) {
+                    $q->orWhere('industries', 'LIKE', "%\"{$id}\"%")
+                      ->orWhere('industries', 'LIKE', "%{$id}%");
+                }
+            });
         })
-        ->filter();
+        ->get();
 
     $subproducts = SubProduct::with(['category', 'subcategory', 'product'])
         ->whereNull('deleted_at')
@@ -1257,28 +1248,116 @@ public function productSearch(Request $request)
         ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
             $query->whereIn('category_id', $categoryIds);
         })
-        ->get()
-        ->map(function ($subproduct) {
-            if (!$subproduct->category || !$subproduct->subcategory || !$subproduct->product) {
-                return null;
-            }
-
-            return [
-                'title' => $subproduct->title,
-                'category' => $subproduct->category->name,
-                'subcategory' => $subproduct->subcategory->name,
-                'type' => 'Sub Product',
-                'url' => route('subproductdetail', [
-                    'category' => $subproduct->category->url,
-                    'subcategory' => $subproduct->subcategory->url,
-                    'product' => $subproduct->product->url,
-                    'subproduct' => $subproduct->url,
-                ]),
-            ];
+        ->when(!empty($industryIds), function ($query) use ($industryIds) {
+            $query->whereHas('product', function ($q) use ($industryIds) {
+                $q->where(function ($sq) use ($industryIds) {
+                    foreach ($industryIds as $id) {
+                        $sq->orWhere('industries', 'LIKE', "%\"{$id}\"%")
+                           ->orWhere('industries', 'LIKE', "%{$id}%");
+                    }
+                });
+            });
         })
-        ->filter();
+        ->get();
 
-    return response()->json($products->merge($subproducts)->values());
+    // Collect all industry IDs
+    $allIndustryIds = [];
+    foreach ($products as $product) {
+        $pInds = $product->industries;
+        if (is_string($pInds)) {
+            $pInds = json_decode($pInds, true);
+        }
+        if (is_array($pInds)) {
+            $allIndustryIds = array_merge($allIndustryIds, $pInds);
+        }
+    }
+    foreach ($subproducts as $subproduct) {
+        if ($subproduct->product) {
+            $pInds = $subproduct->product->industries;
+            if (is_string($pInds)) {
+                $pInds = json_decode($pInds, true);
+            }
+            if (is_array($pInds)) {
+                $allIndustryIds = array_merge($allIndustryIds, $pInds);
+            }
+        }
+    }
+    $allIndustryIds = array_unique(array_filter(array_map('intval', $allIndustryIds)));
+
+    $industryMap = [];
+    if (!empty($allIndustryIds)) {
+        $industryMap = IndustryProduct::whereIn('id', $allIndustryIds)
+            ->whereNull('deleted_at')
+            ->pluck('title', 'id')
+            ->toArray();
+    }
+
+    $mappedProducts = $products->map(function ($product) use ($industryMap) {
+        if (!$product->category || !$product->subcategory) {
+            return null;
+        }
+
+        $pInds = $product->industries;
+        if (is_string($pInds)) {
+            $pInds = json_decode($pInds, true);
+        }
+        $pInds = is_array($pInds) ? array_map('intval', $pInds) : [];
+        $productIndustries = [];
+        foreach ($pInds as $id) {
+            if (isset($industryMap[$id])) {
+                $productIndustries[] = $industryMap[$id];
+            }
+        }
+
+        return [
+            'title' => $product->title,
+            'category' => $product->category->name,
+            'subcategory' => $product->subcategory->name,
+            'image' => asset('public/product_front_image/' . $product->front_image),
+            'type' => 'Product',
+            'industries' => implode(', ', $productIndustries),
+            'url' => route('productdetail', [
+                'category' => $product->category->url,
+                'subcategory' => $product->subcategory->url,
+                'product' => $product->url,
+            ]),
+        ];
+    })->filter();
+
+    $mappedSubproducts = $subproducts->map(function ($subproduct) use ($industryMap) {
+        if (!$subproduct->category || !$subproduct->subcategory || !$subproduct->product) {
+            return null;
+        }
+
+        $pInds = $subproduct->product->industries;
+        if (is_string($pInds)) {
+            $pInds = json_decode($pInds, true);
+        }
+        $pInds = is_array($pInds) ? array_map('intval', $pInds) : [];
+        $subproductIndustries = [];
+        foreach ($pInds as $id) {
+            if (isset($industryMap[$id])) {
+                $subproductIndustries[] = $industryMap[$id];
+            }
+        }
+
+        return [
+            'title' => $subproduct->title,
+            'category' => $subproduct->category->name,
+            'subcategory' => $subproduct->subcategory->name,
+            'image' => asset('public/subproduct_front_image/' . $subproduct->front_image),
+            'type' => 'Sub Product',
+            'industries' => implode(', ', $subproductIndustries),
+            'url' => route('subproductdetail', [
+                'category' => $subproduct->category->url,
+                'subcategory' => $subproduct->subcategory->url,
+                'product' => $subproduct->product->url,
+                'subproduct' => $subproduct->url,
+            ]),
+        ];
+    })->filter();
+
+    return response()->json($mappedProducts->merge($mappedSubproducts)->values());
 }
 
 
