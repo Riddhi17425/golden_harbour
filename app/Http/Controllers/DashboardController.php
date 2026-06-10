@@ -123,6 +123,154 @@ class DashboardController extends Controller
         ));
     }
 
+    public function import(Request $request)
+    {
+        // <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+        //     @csrf
+        //     <input type="file" name="file" accept=".csv">
+        //     <button type="submit">Import</button>
+        // </form>
+
+        $file = fopen($request->file('file')->getRealPath(), 'r');
+        // Skip header row
+        fgetcsv($file);
+
+        // IMPORT CATEGORY DETAILS
+        // while (($row = fgetcsv($file, 0, ',')) !== false) {
+        //     $url = trim($row[0] ?? '');
+        //     $metaTitle = $row[1] ?? '';
+        //     $metaDescription = $row[2] ?? '';
+        //     $faqs = $row[3] ?? '';
+
+        //     if (empty($url)) {
+        //         continue;
+        //     }
+        //     Category::where('url', $url)->update([
+        //         'meta_title'       => $metaTitle,
+        //         'meta_description' => $metaDescription,
+        //         'faqs'             => $faqs,
+        //     ]);
+        // }
+
+        // IMPORT SUB CATEGORY DETAILS
+        $categories = Category::pluck('id', 'url')->toArray();
+        while (($row = fgetcsv($file, 0, ',')) !== false) {
+            $categoryUrl     = trim($row[0] ?? '');
+            $subCategoryUrl  = trim($row[1] ?? '');
+            $metaTitle       = $row[2] ?? '';
+            $metaDescription = $row[3] ?? '';
+            $faqs            = $row[4] ?? '';
+
+            $categoryId = $categories[$categoryUrl] ?? null;
+            if (!$categoryId) {
+                continue;
+            }
+
+            SubCategory::where('category_id', $categoryId)
+                ->where('url', $subCategoryUrl)
+                ->update([
+                    'meta_title'       => $metaTitle,
+                    'meta_description' => $metaDescription,
+                    'faqs'             => $faqs,
+                ]);
+        }
+
+        // IMPORT PRODUCT
+        // $categories = Category::pluck('id', 'url')->toArray();
+        // $subCategories = SubCategory::select('id', 'url', 'category_id')
+        //     ->get()
+        //     ->groupBy('category_id')
+        //     ->map(function ($items) {
+        //         return $items->pluck('id', 'url')->toArray();
+        //     })
+        //     ->toArray();
+
+        // while (($row = fgetcsv($file, 0, ',')) !== false) {
+
+        //     $categoryUrl    = trim($row[0] ?? '');
+        //     $subCategoryUrl = trim($row[1] ?? '');
+        //     $productUrl     = trim($row[2] ?? '');
+        //     $metaTitle      = $row[3] ?? '';
+        //     $metaDesc       = $row[4] ?? '';
+        //     $faqs           = $row[5] ?? '';
+
+        //     if (!$categoryUrl || !$subCategoryUrl || !$productUrl) {
+        //         continue;
+        //     }
+
+        //     $categoryId = $categories[$categoryUrl] ?? null;
+        //     if (!$categoryId) {
+        //         continue;
+        //     }
+
+        //     $subCategoryId = $subCategories[$categoryId][$subCategoryUrl] ?? null;
+        //     if (!$subCategoryId) {
+        //         continue;
+        //     }
+
+        //     Product::where('category_id', $categoryId)
+        //         ->where('subcategory_id', $subCategoryId)
+        //         ->where('url', $productUrl)
+        //         ->update([
+        //             'meta_title'       => $metaTitle,
+        //             'meta_description' => $metaDesc,
+        //             'faqs'             => $faqs,
+        //         ]);
+        // }
+
+        // IMPORT SUB PRODUCT
+        // $categories = Category::pluck('id', 'url')->toArray();
+        // $subCategories = SubCategory::select('id', 'url', 'category_id')
+        //     ->get()
+        //     ->groupBy('category_id')
+        //     ->map(fn($items) => $items->pluck('id', 'url')->toArray())
+        //     ->toArray();
+
+        // $products = Product::select('id', 'url', 'subcategory_id')
+        //     ->get()
+        //     ->groupBy('subcategory_id')
+        //     ->map(fn($items) => $items->pluck('id', 'url')->toArray())
+        //     ->toArray();
+
+        // while (($row = fgetcsv($file, 0, ',')) !== false) {
+
+        //     $categoryUrl     = trim($row[0] ?? '');
+        //     $subCategoryUrl  = trim($row[1] ?? '');
+        //     $productUrl      = trim($row[2] ?? '');
+        //     $subProductUrl   = trim($row[3] ?? '');
+        //     $metaTitle       = $row[4] ?? '';
+        //     $metaDesc        = $row[5] ?? '';
+        //     $faqs            = $row[6] ?? '';
+
+        //     if (!$categoryUrl || !$subCategoryUrl || !$productUrl || !$subProductUrl) {
+        //         continue;
+        //     }
+
+        //     $categoryId = $categories[$categoryUrl] ?? null;
+        //     if (!$categoryId) continue;
+
+        //     $subCategoryId = $subCategories[$categoryId][$subCategoryUrl] ?? null;
+        //     if (!$subCategoryId) continue;
+
+        //     $productId = $products[$subCategoryId][$productUrl] ?? null;
+        //     if (!$productId) continue;
+
+        //     SubProduct::where('category_id', $categoryId)
+        //         ->where('subcategory_id', $subCategoryId)
+        //         ->where('product_id', $productId)
+        //         ->where('url', $subProductUrl)
+        //         ->update([
+        //             'meta_title'       => $metaTitle,
+        //             'meta_description' => $metaDesc,
+        //             'faqs'             => $faqs,
+        //         ]);
+        // }
+
+
+        fclose($file);
+        die;
+    }
+
     public function inquieryStore(Request $request){
         $request->validate([
             'firstname' => [

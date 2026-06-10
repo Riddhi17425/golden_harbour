@@ -48,6 +48,12 @@
                         </svg></a>
                 </div>
                 <div class="new_hero_content_2 col-lg-4">
+                    {{-- <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="file" name="file" accept=".csv">
+                        <button type="submit">Import</button>
+                    </form> --}}
+                    
                     <ul class="text-white">
                         <li>
                             Strategic Supply Partner for Oil & Gas, Marine, Offshore & Industrial Sectors
