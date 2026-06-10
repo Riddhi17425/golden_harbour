@@ -669,7 +669,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- About Submenu Sliding Div -->
 
     <header class="new_header site-header" id="siteHeader">
-        <div class="container" style="max-width: 100%; padding: 0 40px; position: relative;">
+        <div class="container" style="max-width: 100%; position: relative;">
             <nav class="d-flex align-items-center justify-content-between w-100">
                 <a class="navbar-brand" href="{{url('/')}}">
                     <img src="{{asset('public/front/images/new_index/GOLDEN-HARBOUR-white.svg')}}" alt="logo"
@@ -728,7 +728,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </ul>
                 </div>
 
-                <div class="nav_right d-flex align-items-center gap-4">
+                <div class="nav_right d-flex align-items-center gap-3 gap-lg-4">
                    
                      <a  href="javascript:void(0)" class="btn btn--ripple d-none d-lg-flex align-items-center mt-0" id="ripple" data-bs-toggle="modal" data-bs-target="#searchModal"> <i class="fa fa-search me-3"></i> Search Products</a>
 

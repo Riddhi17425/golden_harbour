@@ -29,8 +29,34 @@
         </div>
     </div>
 </section>
-<!-- section circle Certifications-->
+
+
 <section class="certificates section_space">
+    <div class="container">
+ <div class="row mt-5 justify-content-center">
+                @if(isset($certificates) && count($certificates) > 0)
+                    @foreach($certificates as $certificate)
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                            <a href="{{asset('public/certificate_images/'.$certificate->image)}}" data-fancybox="certifications" data-caption="{{ $certificate->title }}" class="custom-cert-link">
+                                <div class="custom-cert-card">
+                                    <div class="custom-cert-img-wrap">
+                                        <img src="{{asset('public/certificate_images/'.$certificate->image)}}" alt="{{ $certificate->title }}" class="custom-cert-img">
+                                    </div>
+                                    <div class="custom-cert-footer">
+                                        <h5 class="custom-cert-title">{{ $certificate->title }}</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
+    </div>
+</section>
+
+
+<!-- section circle Certifications-->
+<!-- <section class="certificates section_space">
     <div class="container">
         <div class="certi_wrapper">
             @foreach ($certificates as $certificate )
@@ -45,5 +71,5 @@
             @endforeach
         </div>
     </div>
-</section>
+</section> -->
 @include('layouts.frontfooter')

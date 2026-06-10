@@ -101,11 +101,17 @@
 .enquiry-now-wrapper {
     position: fixed;
     top: 50%;
-    right: -35px;
+    right: -45px;
     transform: translateY(-50%);
     rotate: 90deg;
     z-index: 1001;
 }
+
+.enquiry-now-wrapper .btn--ripple
+{
+    padding:16px 40px;
+}
+
 </style>
 
 <footer class="footer">
@@ -828,6 +834,8 @@ $(document).ready(function() {
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.12.4/build/js/intlTelInput.min.js"></script>
 <!-- aos -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+ <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
 <script>
 AOS.init();
 </script>
@@ -922,6 +930,25 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+
+
+ <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if(typeof Fancybox !== 'undefined') {
+            Fancybox.bind("[data-fancybox]", {
+                Hash: false, // Prevents URL changes
+                wheel: "zoom", // scroll wheel se image zoom hogi, left-right slide nahi hogi
+                Images: {
+                    zoom: true
+                },
+                Thumbs: {
+                    autoStart: true // Shows the thumbnail slider at the bottom
+                }
+            });
+        }
+    });
+ </script>
+
 </body>
 
 </html>
