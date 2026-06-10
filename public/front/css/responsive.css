@@ -41,6 +41,15 @@
         left:40px;
 }
 
+.navbar-brand img
+{
+      width: 230px;
+}
+
+.desktop-menu .nav-link {
+    font-size: 16px !important;
+}
+
 }
 @media (max-width: 1600px) {
     
@@ -91,7 +100,7 @@
 }
 @media (max-width: 1450px) {
     .linkedin-slider .Catalogues_card_txt {padding: 10px 0 0;}
-    .navbar-brand img{width:250px;}
+    /* .navbar-brand img{width:250px;} */
      .menu-container { width:440px;}
      .offcanvas.offcanvas-start { width: 440px;}
       .about-submenu-slider.show{left: 440px;}
@@ -277,12 +286,27 @@ h1.main_head{
 @media (max-width: 1367px) {
     .certi_box {width: 240px; height: 240px;}
     .certi_title{font-size:14px;line-height:18px;}
+
+    
 }
 @media (max-width: 1281px) {
     .milestone-video video {
   max-width: 550px;
   width: 80%;
 }
+
+    .btn--ripple {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+.navbar-brand img {
+        width: 170px;
+    }
+
+    .desktop-menu .nav-link {
+        font-size: 14px !important;
+    }
     
         .home_page_catalog {
     padding: 40px 70px;
@@ -1081,6 +1105,10 @@ padding: 30px 0px;
 
 }
 @media (max-width: 576px) {
+
+  .new_header nav {
+  padding: 0 10px;
+}
     
         .home_page_catalog {
         padding: 20px 20px;
@@ -1144,7 +1172,7 @@ padding: 30px 0px;
 
 }
     .navbar-brand img{
-        width:140px;
+        width:130px;
     }
     .Gallery_slider .swiper::after {
    

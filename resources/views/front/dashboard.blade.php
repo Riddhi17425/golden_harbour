@@ -298,13 +298,13 @@
         </div>
     </section>
 
-      <section class="mt-100 viewport white">
+      <section class="mt-100 white">
         <div class="container">
             <div class="row text-center justify-content-center">
                 <h2 class="main_head text-center col-md-12">Certified for Trust.</h2>
             </div>
             
-            <div class="row mt-5 justify-content-center">
+            <div class="row pt-4 justify-content-center">
                 @if(isset($certificates) && count($certificates) > 0)
                     @foreach($certificates as $certificate)
                         <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
@@ -1070,17 +1070,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
  </script>
-    
- <!-- Fancybox JS -->
- <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
- <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        if(typeof Fancybox !== 'undefined') {
-            Fancybox.bind("[data-fancybox]", {
-                autoStart: true,
-            });
-        }
-    });
- </script>
+
 
 @include('layouts.frontfooter')
