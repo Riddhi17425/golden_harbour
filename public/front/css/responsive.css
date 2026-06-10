@@ -663,13 +663,14 @@ h1.main_head{
     padding-bottom: 0px;
     padding-top: 20px;
 }
+
     
         .mt-100 {
         margin-top: 40px;
     }
     .why{padding-top: 30px;}
         .navbar-brand img { width: 140px;}
-    .lang-select {padding: 5px 15px;}
+    .lang-select {padding-right: 14px;}
     .lang-select svg{width: 20px;}
     .goog-te-gadget select{font-size:12px;}
     .menu_wrapper .sidebar_submenu .submenu-link{  padding: 0.5rem 0.5rem;}
@@ -1105,6 +1106,15 @@ padding: 30px 0px;
 
 }
 @media (max-width: 576px) {
+
+  .search-custem-filter {
+    grid-template-columns: 1fr;
+}
+
+/* .site-header .fa-search
+{
+  color: var(--blue) !important;
+} */
 
   .new_header nav {
   padding: 0 10px;

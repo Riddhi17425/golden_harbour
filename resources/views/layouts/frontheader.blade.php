@@ -402,7 +402,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
                 // Get all active categories, subcategories, and products
                 $categories = DB::table('category')->whereNull('deleted_at')->get();
-                $industryProduct = DB::table('industry_product')->whereNull('deleted_at')->get();
            
             @endphp
             <div class="about-submenu-slider" id="productSubmenuSlider">
@@ -734,6 +733,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                      <a  href="javascript:void(0)" class="btn btn--ripple d-none d-lg-flex align-items-center mt-0" id="ripple" data-bs-toggle="modal" data-bs-target="#searchModal"> <i class="fa fa-search me-3"></i> Search Products</a>
 
                     <a href="{{ route('contact') }}" class="btn btn--ripple d-none d-lg-flex align-items-center mt-0" id="ripple">Request Quote</a>
+
+                    <i class="fa fa-search d-lg-none text-white" data-bs-toggle="modal" data-bs-target="#searchModal"></i>
                     
                     <div class="lang-select">
                         <span><svg class="light_logo" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"
@@ -783,7 +784,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
     <!-- Search Modal -->
     <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content shadow-lg border-0">
                 <div class="modal-header border-0 pb-0">
                     <h5 class="modal-title" id="searchModalLabel">What are you looking for?</h5>
@@ -814,17 +815,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                     @endif
                                 @endforeach
                                 @endif
-                            </div>
-                            <h6 class="mb-3 my-3">Filter by Industry</h6>
-                            <div class="search-custem-filter">
-                                @if(isset($industryProduct) && is_countable($industryProduct) && count($industryProduct) > 0)
-                                @foreach ($industryProduct as $key => $industry)
-                                    <div class="form-check" style="display: flex; align-items: center; margin: 0;">
-                                        <input class="form-check-input shadow-none m-0 product-search-industry" type="checkbox" id="filterInd_{{ $key }}" value="{{ $industry->id }}">
-                                        <label class="form-check-label" for="filterInd_{{ $key }}"> {{ $industry->title }}</label>
-                                    </div>
-                                @endforeach
-                                @endif
+
+                                {{--
+                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterProduct" value="product" checked>
+                                    <label class="form-check-label" for="filterProduct">Non Ferrous Metal & Alloys</label>
+                                </div>
+                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterResource" value="resource">
+                                    <label class="form-check-label" for="filterResource">Hydrualic & Instrumentation</label>
+                                </div>
+                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterNews" value="news">
+                                    <label class="form-check-label" for="filterNews">Heat Exchanger, Condensors Pipes, Tubes & Fittings</label>
+                                </div>
+
+                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterWelding" value="news">
+                                    <label class="form-check-label" for="filterWelding">Welding, Electrical and Hoses</label>
+                                </div>
+
+                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterNonMetallic" value="filterNonMetallic">
+                                    <label class="form-check-label" for="filterNonMetallic">Non Metallic</label>
+                                </div>
+
+                                <div class="form-check" style="display: flex; align-items: center; margin: 0;">
+                                    <input class="form-check-input shadow-none m-0" type="checkbox" id="filterOtherProducts" value="filterOtherProducts">
+                                    <label class="form-check-label" for="filterOtherProducts">Other Products</label>
+                                </div> --}}
                             </div>
                         </div>
                     </form>
@@ -1055,7 +1074,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Rename Google Translate dropdown options for mobile
+    // Rename Google Translate dropdown options for mobile safely without freezing the browser!
     document.addEventListener("DOMContentLoaded", function() {
         function updateTranslateText() {
             if (window.innerWidth <= 767.98) {
@@ -1063,30 +1082,37 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (select) {
                     for (var i = 0; i < select.options.length; i++) {
                         var opt = select.options[i];
-                        if (opt.value === "" && opt.text.includes("Select")) {
+                        if (opt.value === "" && opt.text !== "EN") {
                             opt.text = "EN"; // Default placeholder
-                        } else if (opt.value === "en" || opt.text.includes("English")) {
+                        } else if (opt.value === "en" && opt.text !== "EN") {
                             opt.text = "EN";
-                        } else if (opt.value === "ar" || opt.text.includes("Arabic")) {
+                        } else if (opt.value === "ar" && opt.text !== "AR") {
                             opt.text = "AR";
                         }
                     }
-                    return true;
                 }
             }
-            return false;
         }
 
-        // Lightweight check for Google Translate element instead of heavy MutationObserver
-        var attempts = 0;
-        var intervalId = setInterval(function() {
-            var success = updateTranslateText();
-            // Stop checking once successfully updated, or after 20 attempts (10 seconds)
-            if (success || attempts > 20) {
-                clearInterval(intervalId);
+        // MutationObserver to detect when Google Translate injects the select element
+        var observer = new MutationObserver(function(mutations) {
+            // 1. Temporarily disconnect observer so our own text changes don't trigger it again!
+            observer.disconnect();
+            
+            // 2. Perform changes
+            updateTranslateText();
+            
+            // 3. Re-observe safely
+            var targetNode = document.getElementById('google_translate_element');
+            if (targetNode) {
+                observer.observe(targetNode, { childList: true, subtree: true });
             }
-            attempts++;
-        }, 500);
+        });
+
+        var targetNode = document.getElementById('google_translate_element');
+        if (targetNode) {
+            observer.observe(targetNode, { childList: true, subtree: true });
+        }
 
         window.addEventListener('resize', updateTranslateText);
     });
@@ -1109,14 +1135,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return categories;
         }
 
-        function selectedIndustries() {
-            const industries = [];
-            $('.product-search-industry:checked').each(function() {
-                industries.push($(this).val());
-            });
-            return industries;
-        }
-
         function showMessage(message) {
             $resultsBox.show().html(`<div class="p-3 text-muted">${message}</div>`);
         }
@@ -1129,13 +1147,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             $resultsBox.show();
             const html = items.map((item) => `
-                <a href="${item.url}" class="d-flex gap-3">
-                    <img src="${item.image}" alt="${item.title}" width="75">
-                    <div>
-                        <strong>${item.title}</strong>
-                        <small><b>${item.type}</b> | ${item.category} | ${item.subcategory}</small>
-                        ${item.industries ? `<small class="text-muted d-block mt-1"><b>Industries</b> - ${item.industries}</small>` : ''}
-                    </div>
+                <a href="${item.url}">
+                    <strong>${item.title}</strong>
+                    <small>${item.type} | ${item.category} | ${item.subcategory}</small>
                 </a>
             `).join('');
             $resultsBox.html(html);
@@ -1151,8 +1165,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const data = {
                 query: query,
-                categories: selectedCategories(),
-                industries: selectedIndustries()
+                categories: selectedCategories()
             };
 
             showMessage('Searching...');
@@ -1175,7 +1188,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         $input.on('input', queueSearch);
-        $(document).on('change', '.product-search-category, .product-search-industry', searchProducts);
+        $(document).on('change', '.product-search-category', searchProducts);
 
         $form.on('submit', function (event) {
             event.preventDefault();
