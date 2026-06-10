@@ -227,6 +227,29 @@
             color: var(--black, #111);
             font-weight: 500;
         }
+        #productSearchResults {
+            max-height: 320px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            display: none;
+        }
+        #productSearchResults a {
+            display: block;
+            padding: 12px 15px;
+            color: var(--black, #111);
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+        }
+        #productSearchResults a:hover {
+            background: #f8f8f8;
+            color: var(--gold, #C4A458);
+        }
+        #productSearchResults small {
+            display: block;
+            color: var(--gray, #808080);
+            margin-top: 4px;
+        }
     </style>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -732,26 +755,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <div id="google_translate_element" ></div>
                     </div>
                     <div class="mobile_ham light_logo">
-                         <button class="hamburger-btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#navigationOffcanvas"
-        aria-controls="navigationOffcanvas">
-        <div class="hamburger-icon  ">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </button>
-     </div>
-    <div class="mobile_ham dark_logo">
-                         <button class="hamburger-btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#navigationOffcanvas"
-        aria-controls="navigationOffcanvas">
-        <div class="hamburger-icon ">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </button>
+                         <button class="hamburger-btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#navigationOffcanvas" aria-controls="navigationOffcanvas">
+                        <div class="hamburger-icon  ">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </button>
+                    </div>
+                    <div class="mobile_ham dark_logo">
+                        <button class="hamburger-btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#navigationOffcanvas"
+                        aria-controls="navigationOffcanvas">
+                            <div class="hamburger-icon ">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </button>
                     </div>
                 </div>
             </nav>
@@ -767,14 +789,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(0) !important"></button>
                 </div>
                 <div class="modal-body p-4 p-md-5 pt-3">
-                    <form action="#" method="GET" class="search-form mt-2">
+                    <form action="#" method="GET" class="search-form mt-2" id="productSearchForm">
                         <div class="input-group mb-4">
                             <span class="input-group-text bg-transparent border-0" id="search-icon">
                                 <i class="fas fa-search fs-5"></i>
                             </span>
-                            <input type="text" class="form-control border-0 shadow-none ps-2" placeholder="Search products..." aria-label="Search" aria-describedby="search-icon">
+                            <input type="text" class="form-control border-0 shadow-none ps-2" id="productSearchInput" placeholder="Search products..." aria-label="Search" aria-describedby="search-icon" autocomplete="off">
                             <button class="btn btn--ripple m-0 border-0 rounded-0 px-4" type="submit" style="margin-top: 0 !important; border-radius: 0 4px 4px 0 !important;">Search</button>
                         </div>
+                        <div id="productSearchResults" class="mb-4"></div>
                         
                         <!-- Premium Filter System -->
                         <div class="filter-system mt-4">
@@ -784,10 +807,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 @foreach ($categories as $key => $category)
                                     @if (strtolower($category->name) !== 'ferrous metal & alloys')
                                         <div class="form-check" style="display: flex; align-items: center; margin: 0;">
-                                            <a href="{{ route('subcategorylist', ['category' => $category->url]) }}" class="submenu-link">
-                                                <input class="form-check-input shadow-none m-0" type="checkbox" id="filterCat_{{ $key }}" value="{{ $category->id }}" name="filterCat[{{ $category->id }}]">
-                                                <label class="form-check-label" for="filterCat_{{ $key }}"> {{ $category->name }}</label>
-                                            </a>
+                                            <input class="form-check-input shadow-none m-0 product-search-category" type="checkbox" id="filterCat_{{ $key }}" value="{{ $category->id }}">
+                                            <label class="form-check-label" for="filterCat_{{ $key }}"> {{ $category->name }}</label>
                                         </div>
                                     @endif
                                 @endforeach
@@ -828,18 +849,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
     </div>
-
-    
-
-
-
-
-
-
-
-
-
-
 
     <!--mobile sidemenu  offcanvas js-->
     
@@ -1045,30 +1054,109 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 </script>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,ar', // Only English & Arabic
+            layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+        }, 'google_translate_element');
+    }
 
+    function toggleGoogleTranslate() {
+        var translateElement = document.getElementById("google_translate_element");
+        if (translateElement.style.display === "none") {
+            translateElement.style.display = "block";
+        } else {
+            translateElement.style.display = "none";
+        }
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        const $form = $('#productSearchForm');
+        const $input = $('#productSearchInput');
+        const $resultsBox = $('#productSearchResults');
+        let searchTimer = null;
 
+        if (!$form.length || !$input.length || !$resultsBox.length) return;
 
-
-    <script type="text/javascript">
-    
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'en,ar', // Only English & Arabic
-                layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
-            }, 'google_translate_element');
+        function selectedCategories() {
+            const categories = [];
+            $('.product-search-category:checked').each(function() {
+                categories.push($(this).val());
+            });
+            return categories;
         }
 
-        function toggleGoogleTranslate() {
-            var translateElement = document.getElementById("google_translate_element");
-            if (translateElement.style.display === "none") {
-                translateElement.style.display = "block";
-            } else {
-                translateElement.style.display = "none";
+        function showMessage(message) {
+            $resultsBox.show().html(`<div class="p-3 text-muted">${message}</div>`);
+        }
+
+        function renderResults(items) {
+            if (!items.length) {
+                showMessage('No products found');
+                return;
             }
+
+            $resultsBox.show();
+            const html = items.map((item) => `
+                <a href="${item.url}">
+                    <strong>${item.title}</strong>
+                    <small>${item.type} | ${item.category} | ${item.subcategory}</small>
+                </a>
+            `).join('');
+            $resultsBox.html(html);
         }
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        function searchProducts() {
+            const query = $.trim($input.val());
+
+            if (query.length < 2) {
+                $resultsBox.hide().html('');
+                return;
+            }
+
+            const data = {
+                query: query,
+                categories: selectedCategories()
+            };
+
+            showMessage('Searching...');
+
+            $.ajax({
+                url: "{{ route('product.search') }}",
+                method: "GET",
+                data: data,
+                dataType: "json",
+                success: renderResults,
+                error: function() {
+                    showMessage('Search is unavailable right now');
+                }
+            });
+        }
+
+        function queueSearch() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(searchProducts, 300);
+        }
+
+        $input.on('input', queueSearch);
+        $(document).on('change', '.product-search-category', searchProducts);
+
+        $form.on('submit', function (event) {
+            event.preventDefault();
+            const $firstResult = $resultsBox.find('a').first();
+
+            if ($firstResult.length) {
+                window.location.href = $firstResult.attr('href');
+                return;
+            }
+
+            searchProducts();
+        });
+    });
+</script>
  
-    <script type="text/javascript"
-        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

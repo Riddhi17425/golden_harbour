@@ -93,6 +93,7 @@ Route::post('/inquiery-store', [DashboardController::class, 'inquieryStore'])->n
 
 Route::get('/search', [DashboardController::class, 'Search'])->name('search');
 Route::get('/autocomplete-search', [DashboardController::class, 'autocomplete'])->name('autocomplete.search');
+Route::get('/product-search', [DashboardController::class, 'productSearch'])->name('product.search');
 
 Route::get('login', [DashboardController::class, 'login'])->name('login');
 

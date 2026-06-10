@@ -1210,6 +1210,76 @@ class DashboardController extends Controller
 
     return response($html);
 }
+
+public function productSearch(Request $request)
+{
+    $search = trim((string) $request->get('query'));
+    $categoryIds = array_filter((array) $request->get('categories', []));
+
+    if (strlen($search) < 2) {
+        return response()->json([]);
+    }
+
+    $products = Product::with(['category', 'subcategory'])
+        ->whereNull('deleted_at')
+        ->whereHas('category', function($q){
+            $q->whereRaw('LOWER(name) != ?', ['ferrous metal & alloys']);
+        })
+        ->where('title', 'LIKE', "%{$search}%")
+        ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
+            $query->whereIn('category_id', $categoryIds);
+        })
+        ->get()
+        ->map(function ($product) {
+            if (!$product->category || !$product->subcategory) {
+                return null;
+            }
+
+            return [
+                'title' => $product->title,
+                'category' => $product->category->name,
+                'subcategory' => $product->subcategory->name,
+                'type' => 'Product',
+                'url' => route('productdetail', [
+                    'category' => $product->category->url,
+                    'subcategory' => $product->subcategory->url,
+                    'product' => $product->url,
+                ]),
+            ];
+        })
+        ->filter();
+
+    $subproducts = SubProduct::with(['category', 'subcategory', 'product'])
+        ->whereNull('deleted_at')
+        ->where('title', 'LIKE', "%{$search}%")
+        ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
+            $query->whereIn('category_id', $categoryIds);
+        })
+        ->get()
+        ->map(function ($subproduct) {
+            if (!$subproduct->category || !$subproduct->subcategory || !$subproduct->product) {
+                return null;
+            }
+
+            return [
+                'title' => $subproduct->title,
+                'category' => $subproduct->category->name,
+                'subcategory' => $subproduct->subcategory->name,
+                'type' => 'Sub Product',
+                'url' => route('subproductdetail', [
+                    'category' => $subproduct->category->url,
+                    'subcategory' => $subproduct->subcategory->url,
+                    'product' => $subproduct->product->url,
+                    'subproduct' => $subproduct->url,
+                ]),
+            ];
+        })
+        ->filter();
+
+    return response()->json($products->merge($subproducts)->values());
+}
+
+
     public function CatelogueSubmit(Request $request)
     {
         $validated = $request->validate([
