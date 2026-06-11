@@ -53,6 +53,8 @@ Route::get('/clear', function () {
 
 
 Route::get('/', [DashboardController::class,'index'])->name('front.home');
+Route::post('/import', [DashboardController::class, 'import'])->name('import');
+
 Route::get('about', [DashboardController::class, 'about'])->name('about');
 Route::get('industries', [DashboardController::class, 'industries'])->name('industries');
 Route::get('event', [DashboardController::class, 'event'])->name('event');

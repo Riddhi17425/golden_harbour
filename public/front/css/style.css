@@ -813,13 +813,14 @@ h1.main_head {
   transform: translateY(-2px);
   border-color: #C4A458 !important;
 }
+
 .btn--ripple:hover svg path,
 .btn-check:active+.btn svg path,
 .btn-check:checked+.btn svg path,
 .btn.active svg path,
 .btn.show svg path,
 .btn:active svg path {
-  stroke: #fff !important; 
+  stroke: #fff !important;
 }
 
 .btn--ripple span {
@@ -4276,7 +4277,7 @@ transform: translateY(-30%);
 
 .new_hero_content_1 {
   position: absolute;
-  width: 550px;
+  width: 580px;
   left: 0;
   top: 28%;
   transform: translateY(50%);
@@ -4612,7 +4613,7 @@ transform: translateY(-30%);
 .search-custem-filter {
   display: grid;
   gap: 20px;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .search-custem-filter .form-check {

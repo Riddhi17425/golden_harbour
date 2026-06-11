@@ -123,6 +123,154 @@ class DashboardController extends Controller
         ));
     }
 
+    public function import(Request $request)
+    {
+        // <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+        //     @csrf
+        //     <input type="file" name="file" accept=".csv">
+        //     <button type="submit">Import</button>
+        // </form>
+
+        $file = fopen($request->file('file')->getRealPath(), 'r');
+        // Skip header row
+        fgetcsv($file);
+
+        // IMPORT CATEGORY DETAILS
+        // while (($row = fgetcsv($file, 0, ',')) !== false) {
+        //     $url = trim($row[0] ?? '');
+        //     $metaTitle = $row[1] ?? '';
+        //     $metaDescription = $row[2] ?? '';
+        //     $faqs = $row[3] ?? '';
+
+        //     if (empty($url)) {
+        //         continue;
+        //     }
+        //     Category::where('url', $url)->update([
+        //         'meta_title'       => $metaTitle,
+        //         'meta_description' => $metaDescription,
+        //         'faqs'             => $faqs,
+        //     ]);
+        // }
+
+        // IMPORT SUB CATEGORY DETAILS
+        $categories = Category::pluck('id', 'url')->toArray();
+        while (($row = fgetcsv($file, 0, ',')) !== false) {
+            $categoryUrl     = trim($row[0] ?? '');
+            $subCategoryUrl  = trim($row[1] ?? '');
+            $metaTitle       = $row[2] ?? '';
+            $metaDescription = $row[3] ?? '';
+            $faqs            = $row[4] ?? '';
+
+            $categoryId = $categories[$categoryUrl] ?? null;
+            if (!$categoryId) {
+                continue;
+            }
+
+            SubCategory::where('category_id', $categoryId)
+                ->where('url', $subCategoryUrl)
+                ->update([
+                    'meta_title'       => $metaTitle,
+                    'meta_description' => $metaDescription,
+                    'faqs'             => $faqs,
+                ]);
+        }
+
+        // IMPORT PRODUCT
+        // $categories = Category::pluck('id', 'url')->toArray();
+        // $subCategories = SubCategory::select('id', 'url', 'category_id')
+        //     ->get()
+        //     ->groupBy('category_id')
+        //     ->map(function ($items) {
+        //         return $items->pluck('id', 'url')->toArray();
+        //     })
+        //     ->toArray();
+
+        // while (($row = fgetcsv($file, 0, ',')) !== false) {
+
+        //     $categoryUrl    = trim($row[0] ?? '');
+        //     $subCategoryUrl = trim($row[1] ?? '');
+        //     $productUrl     = trim($row[2] ?? '');
+        //     $metaTitle      = $row[3] ?? '';
+        //     $metaDesc       = $row[4] ?? '';
+        //     $faqs           = $row[5] ?? '';
+
+        //     if (!$categoryUrl || !$subCategoryUrl || !$productUrl) {
+        //         continue;
+        //     }
+
+        //     $categoryId = $categories[$categoryUrl] ?? null;
+        //     if (!$categoryId) {
+        //         continue;
+        //     }
+
+        //     $subCategoryId = $subCategories[$categoryId][$subCategoryUrl] ?? null;
+        //     if (!$subCategoryId) {
+        //         continue;
+        //     }
+
+        //     Product::where('category_id', $categoryId)
+        //         ->where('subcategory_id', $subCategoryId)
+        //         ->where('url', $productUrl)
+        //         ->update([
+        //             'meta_title'       => $metaTitle,
+        //             'meta_description' => $metaDesc,
+        //             'faqs'             => $faqs,
+        //         ]);
+        // }
+
+        // IMPORT SUB PRODUCT
+        // $categories = Category::pluck('id', 'url')->toArray();
+        // $subCategories = SubCategory::select('id', 'url', 'category_id')
+        //     ->get()
+        //     ->groupBy('category_id')
+        //     ->map(fn($items) => $items->pluck('id', 'url')->toArray())
+        //     ->toArray();
+
+        // $products = Product::select('id', 'url', 'subcategory_id')
+        //     ->get()
+        //     ->groupBy('subcategory_id')
+        //     ->map(fn($items) => $items->pluck('id', 'url')->toArray())
+        //     ->toArray();
+
+        // while (($row = fgetcsv($file, 0, ',')) !== false) {
+
+        //     $categoryUrl     = trim($row[0] ?? '');
+        //     $subCategoryUrl  = trim($row[1] ?? '');
+        //     $productUrl      = trim($row[2] ?? '');
+        //     $subProductUrl   = trim($row[3] ?? '');
+        //     $metaTitle       = $row[4] ?? '';
+        //     $metaDesc        = $row[5] ?? '';
+        //     $faqs            = $row[6] ?? '';
+
+        //     if (!$categoryUrl || !$subCategoryUrl || !$productUrl || !$subProductUrl) {
+        //         continue;
+        //     }
+
+        //     $categoryId = $categories[$categoryUrl] ?? null;
+        //     if (!$categoryId) continue;
+
+        //     $subCategoryId = $subCategories[$categoryId][$subCategoryUrl] ?? null;
+        //     if (!$subCategoryId) continue;
+
+        //     $productId = $products[$subCategoryId][$productUrl] ?? null;
+        //     if (!$productId) continue;
+
+        //     SubProduct::where('category_id', $categoryId)
+        //         ->where('subcategory_id', $subCategoryId)
+        //         ->where('product_id', $productId)
+        //         ->where('url', $subProductUrl)
+        //         ->update([
+        //             'meta_title'       => $metaTitle,
+        //             'meta_description' => $metaDesc,
+        //             'faqs'             => $faqs,
+        //         ]);
+        // }
+
+
+        fclose($file);
+        die;
+    }
+
     public function inquieryStore(Request $request){
         $request->validate([
             'firstname' => [
@@ -1217,6 +1365,7 @@ public function productSearch(Request $request)
 {
     $search = trim((string) $request->get('query'));
     $categoryIds = array_filter((array) $request->get('categories', []));
+    $industryIds = array_filter((array) $request->get('industries', []));
 
     if (strlen($search) < 2) {
         return response()->json([]);
@@ -1231,25 +1380,15 @@ public function productSearch(Request $request)
         ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
             $query->whereIn('category_id', $categoryIds);
         })
-        ->get()
-        ->map(function ($product) {
-            if (!$product->category || !$product->subcategory) {
-                return null;
-            }
-
-            return [
-                'title' => $product->title,
-                'category' => $product->category->name,
-                'subcategory' => $product->subcategory->name,
-                'type' => 'Product',
-                'url' => route('productdetail', [
-                    'category' => $product->category->url,
-                    'subcategory' => $product->subcategory->url,
-                    'product' => $product->url,
-                ]),
-            ];
+        ->when(!empty($industryIds), function ($query) use ($industryIds) {
+            $query->where(function ($q) use ($industryIds) {
+                foreach ($industryIds as $id) {
+                    $q->orWhere('industries', 'LIKE', "%\"{$id}\"%")
+                      ->orWhere('industries', 'LIKE', "%{$id}%");
+                }
+            });
         })
-        ->filter();
+        ->get();
 
     $subproducts = SubProduct::with(['category', 'subcategory', 'product'])
         ->whereNull('deleted_at')
@@ -1257,28 +1396,116 @@ public function productSearch(Request $request)
         ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
             $query->whereIn('category_id', $categoryIds);
         })
-        ->get()
-        ->map(function ($subproduct) {
-            if (!$subproduct->category || !$subproduct->subcategory || !$subproduct->product) {
-                return null;
-            }
-
-            return [
-                'title' => $subproduct->title,
-                'category' => $subproduct->category->name,
-                'subcategory' => $subproduct->subcategory->name,
-                'type' => 'Sub Product',
-                'url' => route('subproductdetail', [
-                    'category' => $subproduct->category->url,
-                    'subcategory' => $subproduct->subcategory->url,
-                    'product' => $subproduct->product->url,
-                    'subproduct' => $subproduct->url,
-                ]),
-            ];
+        ->when(!empty($industryIds), function ($query) use ($industryIds) {
+            $query->whereHas('product', function ($q) use ($industryIds) {
+                $q->where(function ($sq) use ($industryIds) {
+                    foreach ($industryIds as $id) {
+                        $sq->orWhere('industries', 'LIKE', "%\"{$id}\"%")
+                           ->orWhere('industries', 'LIKE', "%{$id}%");
+                    }
+                });
+            });
         })
-        ->filter();
+        ->get();
 
-    return response()->json($products->merge($subproducts)->values());
+    // Collect all industry IDs
+    $allIndustryIds = [];
+    foreach ($products as $product) {
+        $pInds = $product->industries;
+        if (is_string($pInds)) {
+            $pInds = json_decode($pInds, true);
+        }
+        if (is_array($pInds)) {
+            $allIndustryIds = array_merge($allIndustryIds, $pInds);
+        }
+    }
+    foreach ($subproducts as $subproduct) {
+        if ($subproduct->product) {
+            $pInds = $subproduct->product->industries;
+            if (is_string($pInds)) {
+                $pInds = json_decode($pInds, true);
+            }
+            if (is_array($pInds)) {
+                $allIndustryIds = array_merge($allIndustryIds, $pInds);
+            }
+        }
+    }
+    $allIndustryIds = array_unique(array_filter(array_map('intval', $allIndustryIds)));
+
+    $industryMap = [];
+    if (!empty($allIndustryIds)) {
+        $industryMap = IndustryProduct::whereIn('id', $allIndustryIds)
+            ->whereNull('deleted_at')
+            ->pluck('title', 'id')
+            ->toArray();
+    }
+
+    $mappedProducts = $products->map(function ($product) use ($industryMap) {
+        if (!$product->category || !$product->subcategory) {
+            return null;
+        }
+
+        $pInds = $product->industries;
+        if (is_string($pInds)) {
+            $pInds = json_decode($pInds, true);
+        }
+        $pInds = is_array($pInds) ? array_map('intval', $pInds) : [];
+        $productIndustries = [];
+        foreach ($pInds as $id) {
+            if (isset($industryMap[$id])) {
+                $productIndustries[] = $industryMap[$id];
+            }
+        }
+
+        return [
+            'title' => $product->title,
+            'category' => $product->category->name,
+            'subcategory' => $product->subcategory->name,
+            'image' => asset('public/product_front_image/' . $product->front_image),
+            'type' => 'Product',
+            'industries' => implode(', ', $productIndustries),
+            'url' => route('productdetail', [
+                'category' => $product->category->url,
+                'subcategory' => $product->subcategory->url,
+                'product' => $product->url,
+            ]),
+        ];
+    })->filter();
+
+    $mappedSubproducts = $subproducts->map(function ($subproduct) use ($industryMap) {
+        if (!$subproduct->category || !$subproduct->subcategory || !$subproduct->product) {
+            return null;
+        }
+
+        $pInds = $subproduct->product->industries;
+        if (is_string($pInds)) {
+            $pInds = json_decode($pInds, true);
+        }
+        $pInds = is_array($pInds) ? array_map('intval', $pInds) : [];
+        $subproductIndustries = [];
+        foreach ($pInds as $id) {
+            if (isset($industryMap[$id])) {
+                $subproductIndustries[] = $industryMap[$id];
+            }
+        }
+
+        return [
+            'title' => $subproduct->title,
+            'category' => $subproduct->category->name,
+            'subcategory' => $subproduct->subcategory->name,
+            'image' => asset('public/subproduct_front_image/' . $subproduct->front_image),
+            'type' => 'Sub Product',
+            'industries' => implode(', ', $subproductIndustries),
+            'url' => route('subproductdetail', [
+                'category' => $subproduct->category->url,
+                'subcategory' => $subproduct->subcategory->url,
+                'product' => $subproduct->product->url,
+                'subproduct' => $subproduct->url,
+            ]),
+        ];
+    })->filter();
+
+    return response()->json($mappedProducts->merge($mappedSubproducts)->values());
 }
 
 
@@ -1423,10 +1650,11 @@ public function productSearch(Request $request)
             Log::error('Google Sheet error in DatasheetSubmit: ' . $e->getMessage());
         }
         
-        $pdfUrl = asset('public/product_pdf/' . $validated['pdf_name']);
-        return redirect()->back()
-            ->with('success', 'Your request has been submitted successfully and your download will start shortly.')
-            ->with('download_pdf', $pdfUrl);
+        return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
+
+        //$pdfUrl = asset('public/product_pdf/' . $validated['pdf_name']);
+        //return redirect()->back()->with('success', 'Your request has been submitted successfully');
+        //->with('download_pdf', $pdfUrl);
     }
     
     public function novacancystore(Request $request)
