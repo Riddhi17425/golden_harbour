@@ -241,6 +241,8 @@
             text-decoration: none;
             border-bottom: 1px solid #eee;
         }
+
+
         #productSearchResults a:hover {
             background: #f8f8f8;
             color: var(--gold, #C4A458);
@@ -250,6 +252,35 @@
             color: var(--gray, #808080);
             margin-top: 4px;
         }
+
+        @media (max-width: 728px) {
+            #productSearchResults a img {
+                width: 75px;
+                height: 75px;
+                object-fit: cover;
+            }
+
+            #searchModal .modal-header {
+    padding: 20px 20px 20px;
+}
+
+#searchModal .modal-title {
+    font-size: 20px;
+}
+
+#searchModal .search-form input {
+    font-size: 16px;
+    padding: 8px;
+}
+
+#searchModal .btn-close {
+    margin-right: 0;
+    margin-top: 0;
+}
+
+
+        }
+
     </style>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
