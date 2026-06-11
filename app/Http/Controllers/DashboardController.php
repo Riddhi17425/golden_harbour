@@ -1650,10 +1650,11 @@ public function productSearch(Request $request)
             Log::error('Google Sheet error in DatasheetSubmit: ' . $e->getMessage());
         }
         
-        $pdfUrl = asset('public/product_pdf/' . $validated['pdf_name']);
-        return redirect()->back()
-            ->with('success', 'Your request has been submitted successfully and your download will start shortly.')
-            ->with('download_pdf', $pdfUrl);
+        return redirect()->route('thankyou')->with('success', 'Your message has been sent successfully.');
+
+        //$pdfUrl = asset('public/product_pdf/' . $validated['pdf_name']);
+        //return redirect()->back()->with('success', 'Your request has been submitted successfully');
+        //->with('download_pdf', $pdfUrl);
     }
     
     public function novacancystore(Request $request)

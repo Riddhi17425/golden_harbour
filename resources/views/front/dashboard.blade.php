@@ -223,7 +223,7 @@
                 <div class="shape_info_slider">
                        <div class="shape_info_mobile">
                             <div>
-                                <img src="{{ asset('public/front/images/Energy-and-Power.png') }}" alt="Oil-gas" class="img-fluid mb-3 bd_10" loading="lazy">
+                                <img src="{{ asset('public/front/images/Energy-and-Power.webp') }}" alt="Oil-gas" class="img-fluid mb-3 bd_10" loading="lazy">
                             </div>
                              <h6 class="shape_title text-start">Oil & Gas</h6>
                             <p class="text-white">Meeting the rigorous demands of the oil and gas sector with certified, high-performance products designed for safety, efficiency, and extreme environments. From exploration to refining, we help drive operations that power the world.
@@ -231,7 +231,7 @@
                         </div>
                         <div class="shape_info_mobile">
                             <div>
-                                <img src="{{ asset('public/front/images/Oil-gas.png') }}" alt="Energy-and-Power" class="img-fluid mb-3 bd_10" loading="lazy">
+                                <img src="{{ asset('public/front/images/Oil-gas.webp') }}" alt="Energy-and-Power" class="img-fluid mb-3 bd_10" loading="lazy">
                             </div>
                             <h6 class="shape_title text-start">Energy and Power</h6>
                             <p class="text-white">Supporting power generation and distribution with engineering solutions built to perform under 
@@ -240,7 +240,7 @@
                         </div>
                         <div class="shape_info_mobile">
                             <div>
-                                <img src="{{ asset('public/front/images/Shipbuilding-and-Repair.png') }}" alt="Shipbuilding-and-Repair" class="img-fluid mb-3 bd_10" loading="lazy">
+                                <img src="{{ asset('public/front/images/Shipbuilding-and-Repair.webp') }}" alt="Shipbuilding-and-Repair" class="img-fluid mb-3 bd_10" loading="lazy">
                             </div>
                             <h6 class="shape_title text-start">Shipbuilding and Repair</h6>
                             <p class="text-white">Equipping the marine sector with precision-engineered products essential for shipbuilding, retrofitting, and repair. Our range ensures structural integrity, seaworthiness, and reliability even in the most challenging maritime conditions.
@@ -248,7 +248,7 @@
                         </div>
                         <div class="shape_info_mobile">
                             <div>
-                                <img src="{{ asset('public/front/images/Offshore-Onshore.png') }}" alt="Offshore-Onshore" class="img-fluid mb-3 bd_10" loading="lazy">
+                                <img src="{{ asset('public/front/images/Offshore-Onshore.webp') }}" alt="Offshore-Onshore" class="img-fluid mb-3 bd_10" loading="lazy">
                             </div>
                             <h6 class="shape_title text-start">Offshore & Onshore</h6>
                             <p class="text-white"> From offshore platforms to onshore facilities, we provide robust solutions that thrive in harsh, high-risk environments. Engineered for resilience and tested for performance, our products support critical operations every step of the way.
@@ -528,7 +528,7 @@
                     <p>We leverage our established regional presence to cut logistics time, guaranteeing immediate stock access and efficient fulfillment for your critical projects.</p>
                 </div>
                 <div class="col-md-7">
-                    <img src="{{ asset('public/front/images/maps-country.png') }}" alt="map" class="img-fluid" loading="lazy">
+                    <img src="{{ asset('public/front/images/maps-country.webp') }}" alt="map" class="img-fluid" loading="lazy">
                     <!--<img src="{{ asset('public/front/images/bahrain-map.png') }}" alt="map" class="img-fluid bahrain">-->
                     <!--<a href="javascript:void(0)" class="bahrain-location" data-bs-toggle="tooltip"-->
                     <!--    data-bs-placement="top" title="Flat 3, Building 50486, HIDD, Kingdom of Bahrain">-->
