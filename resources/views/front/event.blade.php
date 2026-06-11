@@ -6,9 +6,9 @@
             <div class="col"></div>
             <div class="col-12 col-lg-5 mt-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home"> <a href="{{ url('/') }}">HOME ></a>
+                    <p class="main_routing_home"> <a href="{{ url('/') }}">HOME ></a>
                         <span >RESOURCE > </span> <span 
-                            class="routing_home_news">EVENT</span></h6>
+                            class="routing_home_news">EVENT</span></p>
                     <h1 class="main_head">Our Events & Exhibitions</h1>
                     <h2 class="main_head_small">Stay Updated on Our Industry Presence</h2>
                     <p class="card-text ">Join us at Golden Harbour as we participate in leading industry events and exhibitions across the Energy, Marine,

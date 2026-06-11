@@ -7,7 +7,7 @@
             <div class="col"></div>
             <div class="col-12 col-lg-5 mt-md-5 mt-4 me-30">
                 <div class="">
-                    <h6 class="main_routing_home"><a href="{{url('/')}}">HOME ></a>  <span>About > </span> <span class="routing_home_news">Company Profile</span></h6>
+                    <p class="main_routing_home"><a href="{{url('/')}}">HOME ></a>  <span>About > </span> <span class="routing_home_news">Company Profile</span></p>
                     <h1 class="main_head">About Us</h1>
                     <!--<h1 class="main_head">This is Golden Harbour</h1>-->
                     <h2 class="main_head_small">Powering Industry. Delivering Trust. Defining Standards.</h2>

@@ -92,11 +92,11 @@ table tr:hover {
             <div class="col"></div>
             <div class=" col-12 col-lg-5 mt-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home">
+                    <p class="main_routing_home">
                         <a href="{{ url('/') }}">HOME ></a>
                         <a href="Javascript:void(0)">BLOG ></a>
                         <span class="routing_home_news">BLOG detail</span>
-                    </h6>
+                    </p>
                     <h1 class="main_head">{{ $blogsdetail->title }}</h1>
                 </div>
             </div>

@@ -9,9 +9,9 @@
             <div class="col"></div>
             <div class="col-12 col-lg-5 mt-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home"><a href="{{ url('/') }}">HOME ></a>
+                    <p class="main_routing_home"><a href="{{ url('/') }}">HOME ></a>
                         <span>RESOURCE > </span> <span class="routing_home_news"> gallery</span>
-                    </h6>
+                    </p>
                     <h1 class="main_head">Our Gallery</h1>
                     <h2 class="main_head_small">A Visual Journey of Our Excellence</h2>
                     <p class="card-text"> Every frame reveals more than just our work; it captures the discipline, detail, and dedication behind everything we stand for.

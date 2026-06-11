@@ -7,9 +7,9 @@
             <div class="col"></div>
             <div class="col-12 col-lg-5 mt-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home"><a href="{{ url('/') }}">HOME ></a>
+                    <p class="main_routing_home"><a href="{{ url('/') }}">HOME ></a>
                        <span>RESOURCE > </span> <span  class="routing_home_news"> FAQ's</span>
-                    </h6>
+                    </p>
                     <h1 class="main_head">FAQs</h1>
                     <h2 class="main_head_small">Your Questions, Answered !</h2>
                     <p class="card-text ">At Golden Harbour, we believe clarity builds trust. This section answers key questions about our sourcing, standards, and operations, helping you move forward with confidence.

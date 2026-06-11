@@ -7,9 +7,9 @@
             <div class="col"></div>
             <div class="col-12 col-lg-5  mt-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home">
+                    <p class="main_routing_home">
                          <a href="{{ url('/') }}">HOME ></a> <span>Career > </span> <span class="routing_home_news"> Our Culture & Values</span>
-                    </h6>
+                    </p>
                     <h1 class="main_head">Our Culture & Values</h1>
                     <h2 class="main_head_small">Building a Culture of Innovation & Excellence</h2>
                     <p class="card-text">At Golden Harbour, our culture is grounded in integrity, innovation, and a steadfast focus on our customers. We foster an inclusive, transparent, and performance driven environment where excellence is a way of life and every team member is encouraged to take initiative, stay accountable, and contribute meaningfully to our shared mission. Our core values - reliability, consistency, commitment, service excellence, and customer-centricity, guide everything we do. We honor our promises, strive for excellence in every interaction, build lasting relationships, deliver trusted solutions, and always put our customers at the center of our efforts.

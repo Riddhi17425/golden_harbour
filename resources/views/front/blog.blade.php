@@ -8,10 +8,10 @@
             <div class="col"></div>
             <div class="col-12 col-lg-5 mt-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home">
+                    <p class="main_routing_home">
                         <a href="{{ url('/') }}">HOME ></a>
                         <span class="routing_home_news">BLOG</span>
-                    </h6>
+                    </p>
                     <h1 class="main_head">Golden Harbour blog</h1>
                     <h2 class="main_head_small">Latest Industry Insights</h2>
 

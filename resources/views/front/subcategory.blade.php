@@ -19,13 +19,13 @@
             <div class="col"></div>
             <div class="col-12 col-lg-5 mt-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home">
+                    <p class="main_routing_home">
                         <a href="{{url('/')}}">HOME ></a>
                         <span>Products ></span>
                         @if ($subcategory->isNotEmpty() && $subcategory->first()->category)
                         <span class="routing_home_news">{{ $subcategory->first()->category->name }}</span>
                         @endif
-                    </h6>
+                    </p>
                     <h1 class="main_head">{{$subcategory->first()->category->heading ?? ''}}</h1>
                     <!--<h2 class="main_head_small">{!! $subcategory->first()->category->subheading ?? '' !!}</h2>-->
                     @if ($subcategory->isNotEmpty())

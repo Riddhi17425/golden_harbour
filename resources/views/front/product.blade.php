@@ -33,7 +33,7 @@
 
                 <div class="col-12 col-lg-5 mt-5 me-30">
                     <div>
-                        <h6 class="main_routing_home">
+                        <p class="main_routing_home">
                             <a href="{{ url('/') }}">HOME ></a>
                 
                             @if($category)
@@ -56,7 +56,7 @@
                                 <span>NO SUBCATEGORY ></span>
                             @endif
                             
-                        </h6>
+                        </p>
                 
                         <h1 class="main_head">
                             {{ $subcategory->top_title ?? 'No Top Title' }}
@@ -190,10 +190,10 @@
         <div class="modal-content">
             <div class="modal-header d-block">
                 <div class="d-flex justify-content-between">
-                    <h5 class="modal-title main_head_small" id="exampleModalLabel">Product Enquiry </h5>
+                    <p class="modal-title main_head_small" id="exampleModalLabel">Product Enquiry </p>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <h6 class="mt-2">Get Quote Response Within 24 Hours</h6>
+                <p class="mt-2 fs-6">Get Quote Response Within 24 Hours</p>
             </div>
             
             <div class="modal-body">

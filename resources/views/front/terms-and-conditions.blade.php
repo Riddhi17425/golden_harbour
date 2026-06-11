@@ -4,11 +4,11 @@
         <div class="d-flex flex-wrap align-items-center justify-content-between">
             <div class="col-12 col-lg-12">
                 <div class="">
-                    <h6 class="main_routing_home">
+                    <p class="main_routing_home">
                              <a href="{{ url('/') }}">HOME ></a>
                         <span class="routing_home_news"> Terms and Conditions</span>
                             
-                            </h6>
+                            </p>
                     <h1 class="main_head">Terms and Conditions </h1>
                     <h2 class="main_head_tc main_head_line mb-3">Introduction</h2>
                     <p class="card-text ">Welcome to Golden Harbour’s website. By accessing or using this website, you agree to follow and be bound by these Terms and Conditions. Please read them carefully before using our site or engaging with our products and services. If you do not agree with any part of these terms, please discontinue using the website immediately.

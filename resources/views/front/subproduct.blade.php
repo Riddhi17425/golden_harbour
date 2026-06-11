@@ -37,7 +37,7 @@
 
                 <div class="col-12 col-lg-5 mt-5 me-30">
                     <div>
-                        <h6 class="main_routing_home">
+                        <p class="main_routing_home">
                             <a href="{{ url('/') }}">HOME ></a>
                 
                             @if($category)
@@ -64,7 +64,7 @@
                                 <span>NO SUBCATEGORY ></span>
                             @endif
                 
-                        </h6>
+                        </p>
                 
                         <h1 class="main_head">
                             {{ $product->title ?? 'No Top Title' }}

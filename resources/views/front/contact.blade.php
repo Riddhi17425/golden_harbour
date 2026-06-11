@@ -7,9 +7,9 @@
             <div class="col"></div>
             <div class="col-12 col-lg-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home"><a href="{{ url('/') }}">HOME ></a>
+                    <p class="main_routing_home"><a href="{{ url('/') }}">HOME ></a>
                         <span class="routing_home_news">CONTACT</span>
-                    </h6>
+                    </p>
                     <h1 class="main_head">Connect with us</h1>
                     <h2 class="main_head_small">Your Queries, Our Priority</h2>
 
@@ -202,7 +202,7 @@
                 class="img-fluid rounded">
         </div>
         <div class="contact_input col-lg-6 col-xl-6 p-3">
-            <h5 class="modal-title mb-4 fw-bold">Get Quote Response Within 24 Hours</h5>
+            <p class="modal-title mb-4 fs-6 fw-bold">Get Quote Response Within 24 Hours</p>
                 @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}

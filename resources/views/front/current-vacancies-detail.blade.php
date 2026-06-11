@@ -5,11 +5,11 @@
             <div class="col"></div>
             <div class="col-12 col-lg-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home">
+                    <p class="main_routing_home">
                         <a href="{{url('/')}}">HOME ></a>
                        <span>RESOURCE > </span>
                        <span class="routing_home_news"> Career Opportunities</span>
-                    </h6>
+                    </p>
                     <h1 class="main_head">Career Opportunities</h1>
                     <h2 class="main_head_small">big opportunity starts here!</h2>
                     <p class="card-text ">we are always looking for talented individuals who are eager to innovate, collaborate, and grow. Whether you're an experienced professional or just starting your career, we offer opportunities that match your skills and aspirations.
