@@ -202,7 +202,7 @@
             padding-left: 20px;
             color: var(--gold, #C4A458);
         }
-        #searchModal .filter-system h6 {
+        #searchModal .filter-system .search-custem-filter-title {
             font-size: 16px;
             color: var(--blue, #182A41) !important;
             font-weight: 600;
@@ -361,9 +361,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <div class="about-submenu-slider" id="aboutSubmenuSlider">
                 <div class="submenu-header">
-                    <h5 class="submenu-title">
+                    <p class="submenu-title">
                         About
-                    </h5>
+                    </p>
                 </div>
                 <div class="submenu-content">
                     <ul class="submenu-list">
@@ -379,9 +379,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
             <div class="about-submenu-slider" id="resourceSubmenuSlider">
                 <div class="submenu-header">
-                    <h5 class="submenu-title">
+                    <p class="submenu-title">
                         Resources
-                    </h5>
+                    </p>
                 </div>
                 <div class="submenu-content">
                     <ul class="submenu-list">
@@ -406,9 +406,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             @endphp
             <div class="about-submenu-slider" id="productSubmenuSlider">
                 <div class="submenu-header">
-                    <h5 class="submenu-title">
+                    <p class="submenu-title">
                         Product
-                    </h5>
+                    </p>
                 </div>
                 <div class="submenu-content">
                      
@@ -444,9 +444,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
             <div class="about-submenu-slider" id="careerSubmenuSlider">
                 <div class="submenu-header">
-                    <h5 class="submenu-title">
+                    <p class="submenu-title">
                         Career
-                    </h5>
+                    </p>
                 </div>
                 <div class="submenu-content">
                     <ul class="submenu-list">
@@ -562,9 +562,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </svg> Back
             </button>
               <div class="submenu-header">
-                    <h5 class="submenu-title">
+                    <p class="submenu-title">
                         About
-                    </h5>
+                    </p>
                 </div>
                 <div class="submenu-content pt-0">
                     <ul class="submenu-list">
@@ -588,9 +588,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </svg> Back
             </button>
               <div class="submenu-header">
-                    <h5 class="submenu-title">
+                    <p class="submenu-title">
                         Resource
-                    </h5>
+                    </p>
                 </div>
                 <div class="submenu-content pt-0">
                     <ul class="submenu-list">
@@ -614,9 +614,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </svg> Back
             </button>
               <div class="submenu-header">
-                    <h5 class="submenu-title">
+                    <p class="submenu-title">
                         Product 
-                    </h5>
+                    </p>
                 </div>
                 <div class="submenu-content pt-0">
                     <ul class="submenu-list">
@@ -648,9 +648,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </svg> Back
             </button>
               <div class="submenu-header">
-                    <h5 class="submenu-title">
+                    <p class="submenu-title">
                         Career
-                    </h5>
+                    </p>
                 </div>
                 <div class="submenu-content pt-0">
                    <ul class="submenu-list">
@@ -734,7 +734,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                     <a href="{{ route('contact') }}" class="btn btn--ripple d-none d-lg-flex align-items-center mt-0" id="ripple">Request Quote</a>
 
-                    <i class="fa fa-search d-lg-none text-white" data-bs-toggle="modal" data-bs-target="#searchModal"></i>
+                    <i class="fa fa-search d-lg-none" data-bs-toggle="modal" data-bs-target="#searchModal"></i>
                     
                     <div class="lang-select">
                         <span><svg class="light_logo" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"
@@ -787,7 +787,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content shadow-lg border-0">
                 <div class="modal-header border-0 pb-0">
-                    <h5 class="modal-title" id="searchModalLabel">What are you looking for?</h5>
+                    <p class="modal-title mb-0" id="searchModalLabel">What are you looking for?</p>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(0) !important"></button>
                 </div>
                 <div class="modal-body p-4 p-md-5 pt-3">
@@ -803,7 +803,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         
                         <!-- Premium Filter System -->
                         <div class="filter-system mt-4">
-                            <h6 class="mb-3">Filter by Category</h6>
+                            <p class="mb-3 search-custem-filter-title">Filter by Category</p>
                             <div class="search-custem-filter">
                                 @if(isset($categories) && is_countable($categories) && count($categories) > 0)
                                 @foreach ($categories as $key => $category)
@@ -816,7 +816,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 @endforeach
                                 @endif
                             </div>
-                            <h6 class="mb-3 my-3">Filter by Industry</h6>
+                            <p class="mb-3 mt-4 search-custem-filter-title">Filter by Industry</p>
                             <div class="search-custem-filter">
                                 @if(isset($industryProduct) && is_countable($industryProduct) && count($industryProduct) > 0)
                                 @foreach ($industryProduct as $key => $industry)

@@ -674,7 +674,7 @@ h1.main_head{
     .lang-select svg{width: 20px;}
     .goog-te-gadget select{font-size:12px;}
     .menu_wrapper .sidebar_submenu .submenu-link{  padding: 0.5rem 0.5rem;}
-    .new_hero_content_1 { width: auto;left: 0; top: 14%;}
+    .new_hero_content_1 { width: auto;left: 0; top: 6%;}
     .shape{    background-color: var(--blue) !important;    background-image: none !important;}
     .why .nav-item {
         padding-bottom: 0px;
@@ -1086,6 +1086,11 @@ padding: 30px 0px;
     flex-wrap: wrap;
     padding: 22px 14px;
   }
+
+   .new_hero_content_1 h1{
+      font-size: 20px;
+  }
+
 }
 
 
@@ -1111,10 +1116,19 @@ padding: 30px 0px;
     grid-template-columns: 1fr;
 }
 
-/* .site-header .fa-search
+
+ .fa-search
 {
-  color: var(--blue) !important;
-} */
+  color: var(--blue);
+}
+
+.index-page .fa-search
+{
+  color: var(--white);
+}
+
+
+
 
   .new_header nav {
   padding: 0 10px;
