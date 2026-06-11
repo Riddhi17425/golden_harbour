@@ -46,7 +46,7 @@
     <div class="modal-dialog modal-dialog-centered   modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title main_head_small" id="exampleModalLabel">Product Enquiry </h5>
+                <p class="modal-title main_head_small" id="exampleModalLabel">Product Enquiry </p>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
