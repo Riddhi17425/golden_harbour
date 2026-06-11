@@ -521,7 +521,7 @@
 
     <section class=" viewport white flex-wrap" style="height: 100%;">
         
-        <div class="container map-space dark">
+        <div class="container map-space dark px-2">
             <div class="row align-items-center">
                 <div class="col-md-5 global-contant mt-0 mt-md-5 mb-md-0 mb-5">
                     <h2 class="main_head mt-3">Strategic Global Supply Network </h2>
