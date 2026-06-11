@@ -1177,7 +1177,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
 
-        function queueSearch() {
+        function queueSearch() { 
             clearTimeout(searchTimer);
             searchTimer = setTimeout(searchProducts, 300);
         }
