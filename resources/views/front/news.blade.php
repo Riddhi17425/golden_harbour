@@ -6,8 +6,8 @@
             <div class="col"></div>
             <div class="col-12 col-lg-5 mt-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home"><a href="{{ url('/') }}">HOME ></a>
-                        <span class="routing_home_news">NEWS</span></h6>
+                    <p class="main_routing_home"><a href="{{ url('/') }}">HOME ></a>
+                        <span class="routing_home_news">NEWS</span></p>
                     <h1 class="main_head">Our News & Updates</h1>
                     <h2 class="main_head_small">Latest Industry Insights</h2>
                     <p class="card-text">Stay ahead with curated perspectives and expert takes on market shifts, technological advancements, and evolving industry trends. At Golden Harbour, we share insights that matter, helping you make informed decisions in a rapidly changing industrial landscape.

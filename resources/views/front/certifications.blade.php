@@ -7,9 +7,9 @@
             <div class="col"></div>
             <div class="col-12 col-lg-5 mt-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home"><a href="{{url('/')}}">HOME ></a>  <span>About > </span> <span class="routing_home_news">
+                    <p class="main_routing_home"><a href="{{url('/')}}">HOME ></a>  <span>About > </span> <span class="routing_home_news">
                             CERTIFICATIONS</spam>
-                    </h6>
+</p>
                     <h1 class="main_head">Our Certification</h1>
                     <h2 class="main_head_small">Our Commitment to Quality</h2>
                     <p class="card-text">

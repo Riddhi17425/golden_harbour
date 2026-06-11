@@ -7,11 +7,11 @@
             <div class="col"></div> 
             <div class="col-12 col-lg-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home">
+                    <p class="main_routing_home">
                             <a href="{{ url('/') }}">HOME ></a>
                 <span> About > </span>
                   <span class="routing_home_news"> Our Partners</span>
-                            </h6>
+                            </p>
                     <h1 class="main_head">Our Principals</h1>
                     <!-- <h2 class="main_head_small">A Leader in Specialized Engineering Solutions</h2> -->
                     <p class="card-text ">Golden Harbour partners with leading global manufacturers to deliver trusted, high-performance solutions across the marine, offshore, oilfield, and industrial sectors. Our long-standing alliances reflect our commitment to quality, innovation, and operational excellence.

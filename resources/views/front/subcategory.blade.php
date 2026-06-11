@@ -11,25 +11,26 @@ $breadcrumSchema = [
 ],
 ];
 @endphp
-<section class=" news_details_header_main">
-   <div class=" container-fluid px-lg-0">
-      <div class="d-flex flex-wrap align-items-center justify-content-between">
-         <div class="col"></div>
-         <div class="col-12 col-lg-5 mt-5 me-30">
-            <div class="">
-               <h6 class="main_routing_home">
-                  <a href="{{url('/')}}">HOME ></a>
-                  <span>Products ></span>
-                  @if ($subcategory->isNotEmpty() && $subcategory->first()->category)
-                  <span class="routing_home_news">{{ $subcategory->first()->category->name }}</span>
-                  @endif
-               </h6>
-               <h1 class="main_head">{{$subcategory->first()->category->heading ?? ''}}</h1>
-               <!--<h2 class="main_head_small">{!! $subcategory->first()->category->subheading ?? '' !!}</h2>-->
-               @if ($subcategory->isNotEmpty())
-               <p class="card-text">{!! $subcategory->first()->category->short_description ?? '' !!}</p>
-               @endif
-               </p>
+<section class="news_details_header_main">
+    <div class="container-fluid px-lg-0">
+        <div class="d-flex flex-wrap align-items-center justify-content-between">
+            <div class="col"></div>
+            <div class="col-12 col-lg-5 mt-5 me-30">
+                <div class="">
+                    <p class="main_routing_home">
+                        <a href="{{url('/')}}">HOME ></a>
+                        <span>Products ></span>
+                        @if ($subcategory->isNotEmpty() && $subcategory->first()->category)
+                        <span class="routing_home_news">{{ $subcategory->first()->category->name }}</span>
+                        @endif
+                    </p>
+                    <h1 class="main_head">{{$subcategory->first()->category->heading ?? ''}}</h1>
+                    <!--<h2 class="main_head_small">{!! $subcategory->first()->category->subheading ?? '' !!}</h2>-->
+                    @if ($subcategory->isNotEmpty())
+                    <p class="card-text">{!! $subcategory->first()->category->short_description ?? '' !!}</p>
+                    @endif
+                    </p>
+                </div>
             </div>
          </div>
          <div class="col-12 col-lg-6 d-flex justify-content-end">

@@ -4,10 +4,10 @@
         <div class="d-flex flex-wrap align-items-center justify-content-between">
             <div class="col-12 col-lg-12">
                 <div class="">
-                    <h6 class="main_routing_home">
+                    <p class="main_routing_home">
                                  <a href="{{ url('/') }}">HOME ></a>
                                  <span class="routing_home_news"> Privacy Policy</span>
-                            </h6>
+                            </p>
                     <h1 class="main_head">Privacy Policy</h1>
                     <h2 class="main_head_tc main_head_line mb-3">Introduction</h2>
                     <p class="card-text ">Golden Harbour values and respects your privacy. This policy explains how we collect, use, and protect your personal information when you visit our website, communicate with us, or use our products and services.

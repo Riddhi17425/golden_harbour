@@ -6,11 +6,11 @@
           <div class="col"></div>
          <div class="col-12 col-lg-5 me-30">
             <div class="">
-               <h6 class="main_routing_home">
+               <p class="main_routing_home">
                   <a href="{{url('/')}}">HOME ></a>
                   <a href="Javascript:void(0)">RESOURCE ></a>
                   <span class="routing_home_news"> E-CATALOGUE</span>
-               </h6>
+               </p>
                <h1 class="main_head">Our E-Catalogues</h1>
                <h2 class="main_head_small">Explore Our Product Range</h2>
                <p class="card-text">Browse through our comprehensive collection of product catalogues designed to help you explore, compare, and choose with clarity. Each edition is thoughtfully compiled to offer detailed information and practical insights for confident decision-making.

@@ -5,10 +5,10 @@
             <div class="col"></div>
             <div class=" col-12 col-lg-5 mt-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home"><a href="{{ url('/') }}">HOME ></a>
+                    <p class="main_routing_home"><a href="{{ url('/') }}">HOME ></a>
                         <a href="Javascript:void(0)">NEWS ></a>
                         <a href="{{ route('news') }}"
-                            class="routing_home_news">NEWS detail</a></h6>
+                            class="routing_home_news">NEWS detail</a></p>
                     <h1 class="main_head">Golden Harbour’s Role in Advancing Instrumentation Fittings for the Oil &
                         Gas Industry</h1>
                 </div>

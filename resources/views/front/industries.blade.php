@@ -8,9 +8,9 @@
             <div class="col"></div>
             <div class="col-12 col-lg-5 mt-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home"><a href="{{ url('/') }}">HOME > </a>
+                    <p class="main_routing_home"><a href="{{ url('/') }}">HOME > </a>
                     <span class="routing_home_news">Industries</span>
-                    </h6>
+                    </p>
                     <h1 class="main_head">Industries We Serve</h1>
                     <h2 class="main_head_small">Tailored Solutions for Diverse Sectors</h2>
                     <p class="card-text">At Golden Harbour, we don’t just serve industries, we stand beside them. Our commitment goes beyond supply; we deliver performance-driven solutions that keep critical sectors moving forward with confidence.</p>

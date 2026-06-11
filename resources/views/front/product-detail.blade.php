@@ -55,7 +55,7 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
             <div class="col"></div>
             <div class="col-12 col-lg-5 mt-5 me-30">
                 <div class="">
-                    <h6 class="main_routing_home">
+                    <p class="main_routing_home">
                         <a href="{{ url('/') }}">HOME > </a>
                         <a href="{{ route('subcategorylist', $currentCategory->url) }}">{{ $currentCategory->name }}
                             ></a>
@@ -63,7 +63,7 @@ $currentSubcategory = $isSubProduct ? $subcategory : $product->subcategory;
                             $currentSubcategory->name }} ></a>
                         <!--<span class="routing_home_news"> {{ $currentSubcategory->name }} ></span>-->
                         <!--<span class="routing_home_news"> {{ $currentProduct->title }}</span>-->
-                    </h6>
+                    </p>
                     <h1 class="main_head">{{ $currentProduct->top_title }}</h1>
                     <!--<h2 class="main_head_small">Highly Durable Products</h2>-->
                     <!--<h2 class="main_head_small">{{ $currentProduct->sub_title }}</h2>-->
@@ -249,10 +249,10 @@ $industrydata = $industrydata ?? collect();
         <div class="modal-content">
             <div class="modal-header d-block">
                 <div class="d-flex justify-content-between">
-                <h5 class="modal-title main_head_small" id="exampleModalLabel">Product Enquiry </h5>
+                <p class="modal-title main_head_small" id="exampleModalLabel">Product Enquiry </p>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <h6 class="mt-2">Get Quote Response Within 24 Hours</h6>
+                <p class="mt-2 fs-6">Get Quote Response Within 24 Hours</p>
             </div>
             <div class="modal-body">
                 <div class="row     justify-content-center">

@@ -344,7 +344,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Get Quote Response Within 24 Hours</h5>
+                <p class="modal-title fs-6">Get Quote Response Within 24 Hours</p>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

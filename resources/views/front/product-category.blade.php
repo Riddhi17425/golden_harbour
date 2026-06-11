@@ -6,11 +6,11 @@
             <div class="col"></div>
             <div class="col-12 col-lg-5 mt-5 me-30">
                 <div>
-                    <h6 class="main_routing_home">
+                    <p class="main_routing_home">
                         <a href="{{ url('/') }}">HOME ></a>
                         <a href="{{ url('product') }}">Products ></a>
                         <span class="routing_home_news">{{ $pageTitle ?? 'Products' }}</span>
-                    </h6>
+                    </p>
                     <h1 class="main_head">{{ $pageTitle ?? 'Our Wide Range of Products' }}</h1>
                     <h2 class="main_head_small">{{ $pageSubtitle ?? 'highly durable Products' }}</h2>
                     <p class="card-text">{{ $pageDescription ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...' }}</p>
