@@ -732,7 +732,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                    
                      <a  href="javascript:void(0)" class="btn btn--ripple d-none d-lg-flex align-items-center mt-0" id="ripple" data-bs-toggle="modal" data-bs-target="#searchModal"> <i class="fa fa-search me-3"></i> Search Products</a>
 
-                    <a href="{{ route('contact') }}" class="btn btn--ripple d-none d-lg-flex align-items-center mt-0" id="ripple">Request Quote</a>
+                    <a href="{{ route('contact') }}" onclick="localStorage.setItem('scrollToBuildTogether', '1')" class="btn btn--ripple d-none d-lg-flex align-items-center mt-0" id="ripple">Request Quote</a>
 
                     <i class="fa fa-search d-lg-none" data-bs-toggle="modal" data-bs-target="#searchModal"></i>
                     
