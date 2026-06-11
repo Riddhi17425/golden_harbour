@@ -1325,8 +1325,14 @@ class DashboardController extends Controller
 
     // Products with parent category and subcategory
     $products = Product::with(['category', 'subcategory'])
-        ->where('title', 'LIKE', "%$query%")
-        ->get(['title', 'url', 'category_id', 'subcategory_id']);
+        ->where(function ($q) use ($query) {
+            $q->where('title', 'LIKE', "%{$query}%")
+              ->orWhereHas('subcategory', function ($subQ) use ($query) {
+                  $subQ->where('name', 'LIKE', "%{$query}%");
+              })
+              ->orWhereRaw('EXISTS (SELECT 1 FROM subcategory WHERE subcategory.id = product.subcategory_id AND CONCAT(subcategory.name, " ", product.title) LIKE ?)', ["%{$query}%"]);
+        })
+        ->get(['title', 'url', 'category_id', 'subcategory_id', 'id']);
 
     $html = '';
 
@@ -1376,7 +1382,13 @@ public function productSearch(Request $request)
         ->whereHas('category', function($q){
             $q->whereRaw('LOWER(name) != ?', ['ferrous metal & alloys']);
         })
-        ->where('title', 'LIKE', "%{$search}%")
+        ->where(function ($q) use ($search) {
+            $q->where('title', 'LIKE', "%{$search}%")
+              ->orWhereHas('subcategory', function ($subQ) use ($search) {
+                  $subQ->where('name', 'LIKE', "%{$search}%");
+              })
+              ->orWhereRaw('EXISTS (SELECT 1 FROM subcategory WHERE subcategory.id = product.subcategory_id AND CONCAT(subcategory.name, " ", product.title) LIKE ?)', ["%{$search}%"]);
+        })
         ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
             $query->whereIn('category_id', $categoryIds);
         })
@@ -1392,7 +1404,14 @@ public function productSearch(Request $request)
 
     $subproducts = SubProduct::with(['category', 'subcategory', 'product'])
         ->whereNull('deleted_at')
-        ->where('title', 'LIKE', "%{$search}%")
+        ->where(function ($q) use ($search) {
+            $q->where('title', 'LIKE', "%{$search}%")
+              ->orWhereHas('subcategory', function ($subQ) use ($search) {
+                  $subQ->where('name', 'LIKE', "%{$search}%");
+              })
+              ->orWhereRaw('EXISTS (SELECT 1 FROM subcategory WHERE subcategory.id = subproduct.subcategory_id AND CONCAT(subcategory.name, " ", subproduct.title) LIKE ?)', ["%{$search}%"])
+              ->orWhereRaw('EXISTS (SELECT 1 FROM product WHERE product.id = subproduct.product_id AND CONCAT(product.title, " ", subproduct.title) LIKE ?)', ["%{$search}%"]);
+        })
         ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
             $query->whereIn('category_id', $categoryIds);
         })
