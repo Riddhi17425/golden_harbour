@@ -51,7 +51,27 @@
 }
 
 }
-@media (max-width: 1600px) {
+@media (max-width: 1601px) {
+
+  .hero-highlights span {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+  .new_hero_content_1 {
+    width: 500px;
+
+  }
+
+  .new_hero_content_2 ul {
+    font-size: 20px;
+}
+
+.new_hero_content_2 ul li {
+  margin-bottom:12px;
+}
+
+
     
     .home_page_catalog {
     padding: 40px 100px;
@@ -99,6 +119,22 @@
   }
 }
 @media (max-width: 1450px) {
+
+    .hero-highlights span {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+    .new_hero_content_2 ul {
+    font-size: 18px;
+}
+
+
+    .new_hero_content_1 {
+        width: 450px;
+    }
+
+
     .linkedin-slider .Catalogues_card_txt {padding: 10px 0 0;}
     /* .navbar-brand img{width:250px;} */
      .menu-container { width:440px;}
@@ -114,7 +150,7 @@
        .shape_title{    font-size: 25px;}
     .partner_counter p{font-size: 20px;line-height: 26px;}
     .partner_counter .count{font-size: 50px;}
-    .new_hero_content_1 h1{    font-size: 30px;}
+    .new_hero_content_1 h1{    font-size: 28px;}
     .partner_txt p{font-size: 18px;}
     .mt-100 {margin-top: 60px;}
     .partner_counter_wrapper {margin-top: 30px;}
@@ -290,6 +326,14 @@ h1.main_head{
         .btn--ripple {
         font-size: 15px;
     }
+
+        .new_hero_content_2 ul {
+    font-size: 16px;
+}
+
+  .hero-highlights .highlight-item {
+    padding: 14px;
+}
 
     
 }
@@ -662,6 +706,9 @@ h1.main_head{
 }
 
 @media (max-width: 730px) {
+
+
+
     .milestone-section {
 
     padding-bottom: 0px;

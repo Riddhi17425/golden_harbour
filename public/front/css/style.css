@@ -3804,7 +3804,7 @@ transform: translateY(-30%);
 }
 
 .about-submenu-slider.hiding .submenu-content,
-.about-submenu-slider.hiding .submenu-header. .product-submenuchild-slider.submenu-content,
+.about-submenu-slider.hiding .submenu-header .product-submenuchild-slider.submenu-content,
 .product-submenuchild-slider .submenu-header {
   opacity: 0;
   transition-delay: 0s;
@@ -4292,8 +4292,8 @@ transform: translateY(-30%);
   position: absolute;
   right: 0;
   bottom: 10%;
-  padding-left: 20px;
-  border-left: 2px solid #fff;
+  /* padding-left: 20px; */
+  /* border-left: 2px solid #fff; */
 }
 
 /*.new_header {*/
@@ -4672,3 +4672,66 @@ transform: translateY(-30%);
   font-weight: 500;
 }
 
+
+.new_hero_content_2 ul {
+    /* padding-left: 1rem; */
+    font-size: 24px;
+}
+
+.new_hero_content_2 ul li {
+  margin-bottom:16px;
+}
+
+
+/* Hero Highlights Styling */
+.hero-highlights .highlight-item {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: 4px solid #C4A458;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+.hero-highlights .highlight-icon {
+    /* display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #C4A458 0%, #A28236 100%);
+    border-radius: 50%;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(196, 164, 88, 0.4); */
+}
+
+.hero-highlights .highlight-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.hero-highlights span {
+    font-size: 20px;
+    line-height: 1.5;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+    letter-spacing: 0.3px;
+}
+
+
+.hero-highlights .highlight-icon {
+    /* display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(196, 164, 88, 0.3);
+    border-radius: 50%; */
+}
+
+.hero-highlights .highlight-icon svg {
+    width: 20px;
+    height: 20px;
+}
