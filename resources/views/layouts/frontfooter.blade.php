@@ -342,7 +342,7 @@
 
 <div class="enquiry-now-wrapper network">
     <button type="button" class="btn btn--ripple mt-0" data-bs-toggle="modal" data-bs-target="#enquiryNowModal"
-        title="Enquiry Now" id="ripple">required now</button>
+        title="Enquiry Now" id="ripple">Required Now</button>
 </div>
 @if ($errors->any())
     <div style="color:red;">
