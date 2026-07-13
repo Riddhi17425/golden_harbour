@@ -1160,24 +1160,25 @@ document.addEventListener("DOMContentLoaded", function () {
             $resultsBox.show().html(`<div class="p-3 text-muted">${message}</div>`);
         }
 
-        function renderResults(items) {
+        function renderResults(items, suggestion = null) {
             if (!items.length) {
                 showMessage('No products found');
                 return;
             }
 
             $resultsBox.show();
+            const suggestionHtml = suggestion ? `<div class="px-3 py-2 text-muted">Showing results for <strong>${suggestion}</strong></div>` : '';
             const html = items.map((item) => `
                 <a href="${item.url}" class="d-flex gap-3">
                     <img src="${item.image}" alt="${item.title}" width="75">
                     <div>
                         <strong>${item.subcategory} ${item.title}</strong>
-                        <small><b>${item.type}</b> | ${item.category}</small>
+                        <small><b>Category</b> | ${item.category}</small>
                         ${item.industries ? `<small class="text-muted d-block mt-1"><b>Industries</b> - ${item.industries}</small>` : ''}
                     </div>
                 </a>
             `).join('');
-            $resultsBox.html(html);
+            $resultsBox.html(suggestionHtml + html);
         }
 
         function searchProducts() {
@@ -1201,7 +1202,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "GET",
                 data: data,
                 dataType: "json",
-                success: renderResults,
+                success: function(response) {
+                    if ($.isArray(response)) {
+                        renderResults(response);
+                        return;
+                    }
+
+                    renderResults(response.items || [], response.suggestion || null);
+                },
                 error: function() {
                     showMessage('Search is unavailable right now');
                 }

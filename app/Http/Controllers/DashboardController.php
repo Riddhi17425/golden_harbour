@@ -1375,55 +1375,15 @@ public function productSearch(Request $request)
         return response()->json([]);
     }
 
-    $products = Product::with(['category', 'subcategory'])
-        ->whereNull('deleted_at')
-        ->whereHas('category', function($q){
-            $q->whereRaw('LOWER(name) != ?', ['ferrous metal & alloys']);
-        })
-        ->where(function ($q) use ($search) {
-            $q->where('title', 'LIKE', "%{$search}%")
-              ->orWhereHas('subcategory', function ($subQ) use ($search) {
-                  $subQ->where('name', 'LIKE', "%{$search}%");
-              })
-              ->orWhereRaw('EXISTS (SELECT 1 FROM subcategory WHERE subcategory.id = product.subcategory_id AND CONCAT(subcategory.name, " ", product.title) LIKE ?)', ["%{$search}%"]);
-        })
-        ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
-            $query->whereIn('category_id', $categoryIds);
-        })
-        ->when(!empty($industryIds), function ($query) use ($industryIds) {
-            $query->where(function ($q) use ($industryIds) {
-                foreach ($industryIds as $id) {
-                    $q->orWhere('industries', 'LIKE', "%\"{$id}\"%")
-                      ->orWhere('industries', 'LIKE', "%{$id}%");
-                }
-            });
-        })
-        ->get();
+    [$products, $subproducts] = $this->getProductSearchMatches($search, $categoryIds, $industryIds);
 
-    $subproducts = SubProduct::with(['category', 'subcategory', 'product'])
-        ->whereNull('deleted_at')
-        ->where(function ($q) use ($search) {
-            $q->where('title', 'LIKE', "%{$search}%")
-              ->orWhereHas('subcategory', function ($subQ) use ($search) {
-                  $subQ->where('name', 'LIKE', "%{$search}%");
-              })
-              ->orWhereRaw('EXISTS (SELECT 1 FROM subcategory WHERE subcategory.id = subproduct.subcategory_id AND CONCAT(subcategory.name, " ", subproduct.title) LIKE ?)', ["%{$search}%"])
-              ->orWhereRaw('EXISTS (SELECT 1 FROM product WHERE product.id = subproduct.product_id AND CONCAT(product.title, " ", subproduct.title) LIKE ?)', ["%{$search}%"]);
-        })
-        ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
-            $query->whereIn('category_id', $categoryIds);
-        })
-        ->when(!empty($industryIds), function ($query) use ($industryIds) {
-            $query->whereHas('product', function ($q) use ($industryIds) {
-                $q->where(function ($sq) use ($industryIds) {
-                    foreach ($industryIds as $id) {
-                        $sq->orWhere('industries', 'LIKE', "%\"{$id}\"%")
-                           ->orWhere('industries', 'LIKE', "%{$id}%");
-                    }
-                });
-            });
-        })
-        ->get();
+    $suggestedSearch = null;
+    if ($products->isEmpty() && $subproducts->isEmpty()) {
+        $suggestedSearch = $this->suggestProductSearchTerm($search, $categoryIds, $industryIds);
+        if ($suggestedSearch) {
+            [$products, $subproducts] = $this->getProductSearchMatches($suggestedSearch, $categoryIds, $industryIds);
+        }
+    }
 
     // Collect all industry IDs
     $allIndustryIds = [];
@@ -1522,7 +1482,183 @@ public function productSearch(Request $request)
         ];
     })->filter();
 
-    return response()->json($mappedProducts->merge($mappedSubproducts)->values());
+    $results = $mappedProducts->merge($mappedSubproducts)->values();
+
+    if ($suggestedSearch && $results->isNotEmpty()) {
+        return response()->json([
+            'suggestion' => $suggestedSearch,
+            'items' => $results,
+        ]);
+    }
+
+    return response()->json($results);
+}
+
+private function getProductSearchMatches($search, $categoryIds, $industryIds)
+{
+    $products = Product::with(['category', 'subcategory'])
+        ->whereNull('deleted_at')
+        ->whereHas('category', function($q){
+            $q->whereRaw('LOWER(name) != ?', ['ferrous metal & alloys']);
+        })
+        ->where(function ($q) use ($search) {
+            $q->where('title', 'LIKE', "%{$search}%")
+              ->orWhereHas('subcategory', function ($subQ) use ($search) {
+                  $subQ->where('name', 'LIKE', "%{$search}%");
+              })
+              ->orWhereRaw('EXISTS (SELECT 1 FROM subcategory WHERE subcategory.id = product.subcategory_id AND CONCAT(subcategory.name, " ", product.title) LIKE ?)', ["%{$search}%"]);
+        })
+        ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
+            $query->whereIn('category_id', $categoryIds);
+        })
+        ->when(!empty($industryIds), function ($query) use ($industryIds) {
+            $query->where(function ($q) use ($industryIds) {
+                foreach ($industryIds as $id) {
+                    $q->orWhere('industries', 'LIKE', "%\"{$id}\"%")
+                      ->orWhere('industries', 'LIKE', "%{$id}%");
+                }
+            });
+        })
+        ->get();
+
+    $subproducts = SubProduct::with(['category', 'subcategory', 'product'])
+        ->whereNull('deleted_at')
+        ->where(function ($q) use ($search) {
+            $q->where('title', 'LIKE', "%{$search}%")
+              ->orWhereHas('subcategory', function ($subQ) use ($search) {
+                  $subQ->where('name', 'LIKE', "%{$search}%");
+              })
+              ->orWhereRaw('EXISTS (SELECT 1 FROM subcategory WHERE subcategory.id = subproduct.subcategory_id AND CONCAT(subcategory.name, " ", subproduct.title) LIKE ?)', ["%{$search}%"])
+              ->orWhereRaw('EXISTS (SELECT 1 FROM product WHERE product.id = subproduct.product_id AND CONCAT(product.title, " ", subproduct.title) LIKE ?)', ["%{$search}%"]);
+        })
+        ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
+            $query->whereIn('category_id', $categoryIds);
+        })
+        ->when(!empty($industryIds), function ($query) use ($industryIds) {
+            $query->whereHas('product', function ($q) use ($industryIds) {
+                $q->where(function ($sq) use ($industryIds) {
+                    foreach ($industryIds as $id) {
+                        $sq->orWhere('industries', 'LIKE', "%\"{$id}\"%")
+                           ->orWhere('industries', 'LIKE', "%{$id}%");
+                    }
+                });
+            });
+        })
+        ->get();
+
+    return [$products, $subproducts];
+}
+
+private function suggestProductSearchTerm($search, $categoryIds, $industryIds)
+{
+    $phrases = $this->productSearchPhrases($categoryIds, $industryIds);
+    $normalizedSearch = $this->normalizeSearchText($search);
+    if ($normalizedSearch === '') {
+        return null;
+    }
+
+    foreach ($phrases as $phrase) {
+        if (strpos($this->normalizeSearchText($phrase), $normalizedSearch) === 0) {
+            return $phrase;
+        }
+    }
+
+    $words = [];
+    foreach ($phrases as $phrase) {
+        foreach (explode(' ', $this->normalizeSearchText($phrase)) as $word) {
+            if (strlen($word) > 2) {
+                $words[$word] = $word;
+            }
+        }
+    }
+
+    $corrected = [];
+    foreach (explode(' ', $normalizedSearch) as $queryWord) {
+        if ($queryWord === '') {
+            continue;
+        }
+
+        $bestWord = $queryWord;
+        $bestDistance = 99;
+        foreach ($words as $word) {
+            if (abs(strlen($word) - strlen($queryWord)) > 2) {
+                continue;
+            }
+
+            $distance = levenshtein($queryWord, $word);
+            if ($distance < $bestDistance) {
+                $bestDistance = $distance;
+                $bestWord = $word;
+            }
+        }
+
+        $corrected[] = $bestDistance <= 2 ? $bestWord : $queryWord;
+    }
+
+    $suggestion = trim(implode(' ', $corrected));
+    return $suggestion !== $normalizedSearch ? $suggestion : null;
+}
+
+private function productSearchPhrases($categoryIds, $industryIds)
+{
+    $products = Product::with(['category', 'subcategory'])
+        ->whereNull('deleted_at')
+        ->whereHas('category', function($q){
+            $q->whereRaw('LOWER(name) != ?', ['ferrous metal & alloys']);
+        })
+        ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
+            $query->whereIn('category_id', $categoryIds);
+        })
+        ->when(!empty($industryIds), function ($query) use ($industryIds) {
+            $query->where(function ($q) use ($industryIds) {
+                foreach ($industryIds as $id) {
+                    $q->orWhere('industries', 'LIKE', "%\"{$id}\"%")
+                      ->orWhere('industries', 'LIKE', "%{$id}%");
+                }
+            });
+        })
+        ->limit(300)
+        ->get();
+
+    $subproducts = SubProduct::with(['category', 'subcategory', 'product'])
+        ->whereNull('deleted_at')
+        ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
+            $query->whereIn('category_id', $categoryIds);
+        })
+        ->when(!empty($industryIds), function ($query) use ($industryIds) {
+            $query->whereHas('product', function ($q) use ($industryIds) {
+                $q->where(function ($sq) use ($industryIds) {
+                    foreach ($industryIds as $id) {
+                        $sq->orWhere('industries', 'LIKE', "%\"{$id}\"%")
+                           ->orWhere('industries', 'LIKE', "%{$id}%");
+                    }
+                });
+            });
+        })
+        ->limit(300)
+        ->get();
+
+    $phrases = [];
+    foreach ($products as $product) {
+        $phrases[] = $product->title;
+        $phrases[] = trim(($product->subcategory->name ?? '') . ' ' . $product->title);
+        $phrases[] = trim(($product->category->name ?? '') . ' ' . ($product->subcategory->name ?? '') . ' ' . $product->title);
+    }
+
+    foreach ($subproducts as $subproduct) {
+        $phrases[] = $subproduct->title;
+        $phrases[] = trim(($subproduct->product->title ?? '') . ' ' . $subproduct->title);
+        $phrases[] = trim(($subproduct->subcategory->name ?? '') . ' ' . $subproduct->title);
+    }
+
+    return array_values(array_filter(array_unique($phrases)));
+}
+
+private function normalizeSearchText($value)
+{
+    $value = strtolower((string) $value);
+    $value = preg_replace('/[^a-z0-9]+/', ' ', $value);
+    return trim(preg_replace('/\s+/', ' ', $value));
 }
 
 
