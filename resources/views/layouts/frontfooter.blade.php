@@ -20,11 +20,24 @@
     border-radius: 10px 0 0 10px;
     transition: all .5s ease-in-out;
     vertical-align: middle;
+    animation: pulse-whatsapp 2s infinite;
+}
+
+@keyframes pulse-whatsapp {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.8);
+    }
+    70% {
+        box-shadow: 0 0 0 20px rgba(37, 211, 102, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
 }
 
 .float-buttons {
     position: fixed;
-    top: 80%;
+    top: 75%;
     right: 0;
     z-index: 900;
 }
@@ -67,7 +80,7 @@
     border-radius: 10px 0 0 10px;
     transition: all .5s ease-in-out;
     vertical-align: middle;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .CallButton i {
@@ -101,7 +114,7 @@
 .enquiry-now-wrapper {
     position: fixed;
     top: 50%;
-    right: -45px;
+    right: -35px;
     transform: translateY(-50%);
     rotate: 90deg;
     z-index: 1001;
@@ -329,7 +342,7 @@
 
 <div class="enquiry-now-wrapper network">
     <button type="button" class="btn btn--ripple mt-0" data-bs-toggle="modal" data-bs-target="#enquiryNowModal"
-        title="Enquiry Now" id="ripple">Request Quote</button>
+        title="Enquiry Now" id="ripple">Enquiry Now</button>
 </div>
 @if ($errors->any())
     <div style="color:red;">

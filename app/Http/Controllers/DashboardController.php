@@ -153,71 +153,69 @@ class DashboardController extends Controller
         // }
 
         // IMPORT SUB CATEGORY DETAILS
+        // $categories = Category::pluck('id', 'url')->toArray();
+        // while (($row = fgetcsv($file, 0, ',')) !== false) {
+        //     $categoryUrl     = trim($row[0] ?? '');
+        //     $subCategoryUrl  = trim($row[1] ?? '');
+        //     $metaTitle       = $row[2] ?? '';
+        //     $metaDescription = $row[3] ?? '';
+        //     $faqs            = $row[4] ?? '';
+            
+        //     $categoryId = $categories[$categoryUrl] ?? null;
+        //     if (!$categoryId) {
+        //         continue;
+        //     }
+
+        //     SubCategory::where('category_id', $categoryId)
+        //         ->where('url', $subCategoryUrl)
+        //         ->update([
+        //             'meta_title'       => $metaTitle,
+        //             'meta_description' => $metaDescription,
+        //             'faqs'             => $faqs,
+        //         ]);
+        // }
+     
+        // IMPORT PRODUCT
         $categories = Category::pluck('id', 'url')->toArray();
+        $subCategories = SubCategory::select('id', 'url', 'category_id')
+            ->get()
+            ->groupBy('category_id')
+            ->map(function ($items) {
+                return $items->pluck('id', 'url')->toArray();
+            })
+            ->toArray();
+
         while (($row = fgetcsv($file, 0, ',')) !== false) {
-            $categoryUrl     = trim($row[0] ?? '');
-            $subCategoryUrl  = trim($row[1] ?? '');
-            $metaTitle       = $row[2] ?? '';
-            $metaDescription = $row[3] ?? '';
-            $faqs            = $row[4] ?? '';
+            $categoryUrl    = trim($row[0] ?? '');
+            $subCategoryUrl = trim($row[1] ?? '');
+            $productUrl     = trim($row[2] ?? '');
+            $metaTitle      = $row[3] ?? '';
+            $metaDesc       = $row[4] ?? '';
+            $faqs           = $row[5] ?? '';
+
+            if (!$categoryUrl || !$subCategoryUrl || !$productUrl) {
+                continue;
+            }
 
             $categoryId = $categories[$categoryUrl] ?? null;
             if (!$categoryId) {
                 continue;
             }
 
-            SubCategory::where('category_id', $categoryId)
-                ->where('url', $subCategoryUrl)
+            $subCategoryId = $subCategories[$categoryId][$subCategoryUrl] ?? null;
+            if (!$subCategoryId) {
+                continue;
+            }
+            Product::where('category_id', $categoryId)
+                ->where('subcategory_id', $subCategoryId)
+                ->where('url', $productUrl)
                 ->update([
-                    'meta_title'       => $metaTitle,
-                    'meta_description' => $metaDescription,
+                    //'meta_title'       => $metaTitle,
+                    //'meta_description' => $metaDesc,
                     'faqs'             => $faqs,
                 ]);
         }
-
-        // IMPORT PRODUCT
-        // $categories = Category::pluck('id', 'url')->toArray();
-        // $subCategories = SubCategory::select('id', 'url', 'category_id')
-        //     ->get()
-        //     ->groupBy('category_id')
-        //     ->map(function ($items) {
-        //         return $items->pluck('id', 'url')->toArray();
-        //     })
-        //     ->toArray();
-
-        // while (($row = fgetcsv($file, 0, ',')) !== false) {
-
-        //     $categoryUrl    = trim($row[0] ?? '');
-        //     $subCategoryUrl = trim($row[1] ?? '');
-        //     $productUrl     = trim($row[2] ?? '');
-        //     $metaTitle      = $row[3] ?? '';
-        //     $metaDesc       = $row[4] ?? '';
-        //     $faqs           = $row[5] ?? '';
-
-        //     if (!$categoryUrl || !$subCategoryUrl || !$productUrl) {
-        //         continue;
-        //     }
-
-        //     $categoryId = $categories[$categoryUrl] ?? null;
-        //     if (!$categoryId) {
-        //         continue;
-        //     }
-
-        //     $subCategoryId = $subCategories[$categoryId][$subCategoryUrl] ?? null;
-        //     if (!$subCategoryId) {
-        //         continue;
-        //     }
-
-        //     Product::where('category_id', $categoryId)
-        //         ->where('subcategory_id', $subCategoryId)
-        //         ->where('url', $productUrl)
-        //         ->update([
-        //             'meta_title'       => $metaTitle,
-        //             'meta_description' => $metaDesc,
-        //             'faqs'             => $faqs,
-        //         ]);
-        // }
-
+        die;
         // IMPORT SUB PRODUCT
         // $categories = Category::pluck('id', 'url')->toArray();
         // $subCategories = SubCategory::select('id', 'url', 'category_id')

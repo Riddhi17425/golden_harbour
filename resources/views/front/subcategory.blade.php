@@ -133,7 +133,7 @@ $breadcrumSchema = [
                <img src="{{ asset('public/subcategory_image/' . $item->image) }}"
                   alt="{{  str_replace(['-', '_'],' ', pathinfo($item->image, PATHINFO_FILENAME)) }}"
                   class="w-100">
-               <h3 class="mt-4">{{ $item->name }}</h3>
+               <h3 class="mt-4">{{ $item->name }} </h3>
                {!! $item->description !!}
                @php
                $categoryName = strtolower($item->category->name ?? '');

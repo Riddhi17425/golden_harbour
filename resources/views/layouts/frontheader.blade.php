@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{!! $meta_title ?? $title ?? 'Golden Harbour' !!}</title>
     <meta name="description" content="{{ strip_tags($meta_description ?? $description ?? 'Golden Harbour') }}">
-    {{-- <meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/> --}}
+    <meta name="robots" content="nofollow, noindex"/>
     <link rel="canonical" href="{{ url()->current() }}" />
 
     <link rel="icon" type="image/x-icon" href="{{ asset('public/front/images/GH_Favicon.png')}}">
@@ -1171,8 +1171,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 <a href="${item.url}" class="d-flex gap-3">
                     <img src="${item.image}" alt="${item.title}" width="75">
                     <div>
-                        <strong>${item.title}</strong>
-                        <small><b>${item.type}</b> | ${item.category} | ${item.subcategory}</small>
+                        <strong>${item.subcategory} ${item.title}</strong>
+                        <small><b>${item.type}</b> | ${item.category}</small>
                         ${item.industries ? `<small class="text-muted d-block mt-1"><b>Industries</b> - ${item.industries}</small>` : ''}
                     </div>
                 </a>
