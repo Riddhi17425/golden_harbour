@@ -282,7 +282,7 @@
 
                             <li class="d-flex gap-2 align-items-center">
                                 <span>
-                                    
+
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -369,13 +369,13 @@
                         <div class="row">
                             <div class="col-12 col-lg-6 mb-4">
                                 <label for="first-name" class="form-label"><b>First Name *:</b></label>
-                                <input type="text" class="form-control px-0" id="inq_firstname" name="firstname" 
+                                <input type="text" class="form-control px-0" id="inq_firstname" name="firstname"
                                     oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').replace(/\s+/g, ' ').trimStart();"
                                     placeholder="Enter your First Name" maxlength="40" minlength="2">
                             </div>
                             <div class="col-12 col-lg-6  mb-4">
                                 <label for="last-name" class="form-label"><b>Last Name *:</b></label>
-                                <input type="text" class="form-control px-0" id="inq_lastname" name="lastname" 
+                                <input type="text" class="form-control px-0" id="inq_lastname" name="lastname"
                                     oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').replace(/\s+/g, ' ').trimStart();"
                                     placeholder="Enter your Last Name" maxlength="40" minlength="2">
                             </div>
@@ -389,7 +389,7 @@
                             <div class="col-12 col-lg-6 mb-4">
                                 <label for="phone" class="form-label"><b>Phone Number *:</b></label>
                                 <input type="tel" class="form-control px-0" id="inq_number" name="number" maxlength="15"
-                                    minlength="10" 
+                                    minlength="10"
                                     oninput="this.value = this.value.replace(/[^0-9+]/g, '').replace(/(?!^)\+/g, '').slice(0, 15);"
                                     placeholder="Enter your Phone Number" pattern="\d{10,15}"
                                     title="Phone number should be between 10 to 15 digits">
@@ -402,7 +402,7 @@
                             </div>
                             <div class="col-12 col-lg-6 mb-4">
                                 <label for="city" class="form-label"><b>City *:</b></label>
-                                <input type="text" class="form-control px-0" id="inq_city" name="city" 
+                                <input type="text" class="form-control px-0" id="inq_city" name="city"
                                     placeholder="Enter your City Name" maxlength="30" minlength="2">
                             </div>
 
@@ -418,7 +418,7 @@
                             </div>
 
                         </div>
-                
+
                         <div class="col-lg-12">
                         <div class="form_item">
                             <div id="inquiry-recaptcha"></div>
@@ -561,28 +561,65 @@
         filter: invert(1);
     }
 </style>
-<script src="https://www.google.com/recaptcha/api.js?onload=onloadRecaptchaCallback&render=explicit" async defer></script>
+
 
 
 <!--// for render captcha and working for both so thats why created command by Darshan -->
 <script>
-    let contactCaptchaWidgetId;
-    let inquiryCaptchaWidgetId;
+ let contactCaptchaWidgetId;
+let inquiryCaptchaWidgetId;
+let brassformWidgetId;
+let vacancyWidgetId;
+let applicationWidgetId;
+let catalogueWidgetId;
 
-    function onloadRecaptchaCallback() {
-        if (document.getElementById('inquiry-recaptcha')) {
-            contactCaptchaWidgetId = grecaptcha.render('inquiry-recaptcha', {
-                'sitekey': "{{ env('RECAPTCHA_SITE_KEY') }}"
-            });
-        }
-
-        if (document.getElementById('inquiry-recaptcha')) {
-            inquiryCaptchaWidgetId = grecaptcha.render('inquiry-recaptcha', {
-                'sitekey': "{{ env('RECAPTCHA_SITE_KEY') }}"
-            });
-        }
+function onloadRecaptchaCallback() {
+    if (document.getElementById('inquiry-recaptcha')) {
+        inquiryCaptchaWidgetId = grecaptcha.render('inquiry-recaptcha', {
+            'sitekey': "{{ config('services.recaptcha.site_key') }}"
+        });
     }
+    if (document.getElementById('contact-recaptcha')) {
+        contactCaptchaWidgetId = grecaptcha.render('contact-recaptcha', {
+            'sitekey': "{{ config('services.recaptcha.site_key') }}",
+            callback: function (token) { if (typeof onCaptchaSuccess === 'function') onCaptchaSuccess(token); },
+            'expired-callback': function () { if (typeof onCaptchaExpired === 'function') onCaptchaExpired(); }
+        });
+    }
+    if (document.getElementById('brassform-recaptcha')) {
+        brassformWidgetId = grecaptcha.render('brassform-recaptcha', {
+            'sitekey': "{{ config('services.recaptcha.site_key') }}",
+            callback: function () { $('#recaptcha-error').hide(); },
+            'expired-callback': function () {
+                $('#recaptcha-error').html('Captcha expired, please verify again.').show();
+            }
+        });
+    }
+    if (document.getElementById('vacancy-recaptcha')) {
+        vacancyWidgetId = grecaptcha.render('vacancy-recaptcha', {
+            'sitekey': "{{ config('services.recaptcha.site_key') }}",
+            callback: function () { $('#recaptcha-error').hide(); }
+        });
+    }
+    if (document.getElementById('application-recaptcha')) {
+        applicationWidgetId = grecaptcha.render('application-recaptcha', {
+            'sitekey': "{{ config('services.recaptcha.site_key') }}",
+            callback: function () { $('#recaptcha-error').hide(); }
+        });
+    }
+    if (document.getElementById('catalogue-recaptcha-container')) {
+        catalogueWidgetId = grecaptcha.render('catalogue-recaptcha-container', {
+            'sitekey': "{{ config('services.recaptcha.site_key') }}",
+            callback: function (token) {
+                $('#catalogue-g-recaptcha-response').val(token);
+                $('#catalogue-error-static-recaptcha').text('');
+            }
+        });
+    }
+}
 </script>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadRecaptchaCallback&render=explicit" async defer></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -605,7 +642,7 @@
 
     });
 </script>
-    
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script>
@@ -639,7 +676,7 @@
 //             let submitBtn = $('#submitBtn');
 
 //             let recaptchaResponse = grecaptcha.getResponse(inquiryCaptchaWidgetId);
-            
+
 //             if (recaptchaResponse === '') {
 //                 $('#inq_recaptcha-error').text('Please verify that you are not a robot.');
 //                 isValid = false;
@@ -662,7 +699,7 @@
 //             // Last Name
 //             if (lastname === '') {
 //                 showError('inq_lastname', 'Last Name is required.');
-//             } 
+//             }
 //             // Email
 //             if (email === '') {
 //                 showError('inq_email', 'Email is required.');
@@ -675,20 +712,20 @@
 //             // Phone Number
 //             if (number === '') {
 //                 showError('inq_number', 'Phone Number is required.');
-//             } 
+//             }
 //             // Company Name
 //             if (company_name === '') {
 //                 showError('inq_company_name', 'Company Name is required.');
-//             } 
+//             }
 
 //             // City
 //             if (city === '') {
 //                 showError('inq_city', 'City is required.');
-//             } 
+//             }
 //             // Subject
 //             if (subject === '') {
 //                 showError('inq_subject', 'Subject is required.');
-//             } 
+//             }
 //             // Optional Message Validation
 //             if (message !== '' && message.length < 3) {
 //                 showError('inq_message', 'Message must be at least 3 characters if entered.');
@@ -816,7 +853,7 @@ $(document).ready(function() {
                 return false;
             }
 
-            let recaptchaResponse = grecaptcha.getResponse(contactCaptchaWidgetId);
+            let recaptchaResponse = grecaptcha.getResponse(inquiryCaptchaWidgetId);
             if (recaptchaResponse === "") {
                 $('#inq_recaptcha-error').html("Please verify that you are not a robot.").show();
                 return false;
@@ -824,14 +861,14 @@ $(document).ready(function() {
                 $('#inq_recaptcha-error').empty().hide();
             }
               // Disable submit button and change text
-            const $submitBtn = $('#contactform').find(':submit');
+            const $submitBtn = $('#inquiryForm').find(':submit');
             $submitBtn.prop('disabled', true).text('Submitting...');
 
             form.submit(); // Proceed with form submission
         }
     });
-});    
-    
+});
+
 </script>
 
 
@@ -847,7 +884,7 @@ $(document).ready(function() {
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.12.4/build/js/intlTelInput.min.js"></script>
 <!-- aos -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
+
  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
 <script>
 AOS.init();

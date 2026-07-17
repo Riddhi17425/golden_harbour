@@ -131,7 +131,7 @@
                             <span><img width="24px" heght="24px" src="{{ asset('public/front/images/phone.svg') }}" alt="phone"></span>
                             <a href="tel:+97148876953">+971 4 887 6953</a>
                         </li>
-                        
+
                     </ul>
                     <h2 class="contact-map_img_dubai main_head position-absolute">JEBEL ALI</h2>
                 </div>
@@ -190,10 +190,10 @@
 <section class="section_space"  id="build-together" >
     <div class=" container-fluid my-5">
          <div class=" text-center">
-            
+
         <h2 class="main_head text-center">Let’s Build Something Great Together</h2>
         <div class="effect_line position-relative col-md-5"></div>
-        
+
     </div>
 
     <div class="row my-5">
@@ -226,7 +226,7 @@
                             placeholder="Enter your Last Name" maxlength="40" minlength="2">
                     </div>
                 </div>
-            
+
                 <div class="row mb-4">
                     <div class="col-md-6 mb-4 mb-lg-0">
                         <label for="email" class="form-label"><b>Email ID *:</b></label>
@@ -242,7 +242,7 @@
                             title="Phone number should be between 10 to 15 digits">
                     </div>
                 </div>
-            
+
                 <div class="row mb-4">
                     <div class="col-md-6 mb-4 mb-lg-0">
                         <label for="company" class="form-label"><b>Company Name *:</b></label>
@@ -255,7 +255,7 @@
                             placeholder="Enter your City Name" maxlength="30" minlength="2">
                     </div>
                 </div>
-            
+
                 <div class="row mb-4">
                     <div class="col-md-6 mb-4 mb-lg-0">
                         <label for="subject" class="form-label"><b>Subject *:</b></label>
@@ -268,23 +268,20 @@
                             placeholder="Enter your Message" ></textarea>
                     </div>
                 </div>
-            
+
                 <div class="col-lg-12">
                     <div class="form_item">
                         <!--<div id="contact-recaptcha"></div>-->
                         <!--<div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>-->
-                        <div class="g-recaptcha"
-                         data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"
-                         data-callback="onCaptchaSuccess"
-                         data-expired-callback="onCaptchaExpired"></div>
-     
+                        <div id="contact-recaptcha"></div>
+
                         <div id="recaptcha-error" class="error-message" style="color: red; margin-top: 5px;"></div>
                         @error('g-recaptcha-response')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
-            
+
                 <button type="submit" class="btn btn--ripple" id="ripple">Submit
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white" stroke-width="1.5"
@@ -359,7 +356,6 @@
 
 
 @include('layouts.frontfooter')
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         if (localStorage.getItem('scrollToBuildTogether') === '1') {
@@ -537,7 +533,7 @@ $(document).ready(function() {
                 'mintemail.com',
                 'mytemp.email'
     ];
-        
+
             if (fakeDomains.includes(emailDomain)) {
                 $('#email-error')
                     .html('Please provide a valid email address.')
@@ -559,7 +555,7 @@ $(document).ready(function() {
                     .show();
                 return false;
             }
-            
+
             $('#recaptcha-error').empty().hide();
 
             const $submitBtn = $('#contactform').find(':submit');

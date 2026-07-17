@@ -28,14 +28,14 @@
                     $product = $products->first();
                     $category = $product->category ?? $category ?? null;
                     $subcategory = $product->subcategory ?? null;
-                    
+
                 @endphp
 
                 <div class="col-12 col-lg-5 mt-5 me-30">
                     <div>
                         <p class="main_routing_home">
                             <a href="{{ url('/') }}">HOME ></a>
-                
+
                             @if($category)
                                 <a href="{{ route('subcategorylist', $category->url) }}">
                                     {{ $category->name }}>
@@ -43,29 +43,29 @@
                             @else
                                 <span>NO CATEGORY ></span>
                             @endif
-                            
-                            
-                
+
+
+
                             @if($category && $subcategory)
                                 <!--<a href="{{ route('productlist', [$category->url, $subcategory->url]) }}">-->
                                 <!--    {{ $subcategory->name }} -->
                                 <!--</a>-->
-                                
+
                                 <span class="routing_home_news"> {{ $subcategory->name }} </span>
                             @else
                                 <span>NO SUBCATEGORY ></span>
                             @endif
-                            
+
                         </p>
-                
+
                         <h1 class="main_head">
                             {{ $subcategory->top_title ?? 'No Top Title' }}
                         </h1>
-                
+
                         <!--<h2 class="main_head_small">-->
                         <!--    {{ $subcategory->title ?? 'No Title' }}-->
                         <!--</h2>-->
-                
+
                         <p class="card-text">
                             {!! $subcategory->description ?? 'No Description' !!}
                         </p>
@@ -99,8 +99,8 @@
                             <h3>{{ $product->subcategory->name }} {{ $product->title }}</h3>
                         {!! $product->short_description !!}
                        </div>
-                        
-                        
+
+
                         @if(!empty($product->subproducts) && $product->subproducts->isNotEmpty())
                             <a class="btn btn--ripple read-more-btn mt-2"
                                    href="{{ route('subproductlist', ['category' => $product->category->url, 'subcategory' => $product->subcategory->url, 'product' => $product->url]) }}">
@@ -117,7 +117,7 @@
                                         <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </a>
-                        
+
                             <a class="btn btn--ripple view-btn ms-md-2"
                                href="{{ route('productdetail', ['category' => $product->category->url, 'subcategory' => $product->subcategory->url, 'product' => $product->url]) }}">
                                 View Detail
@@ -195,7 +195,7 @@
                 </div>
                 <p class="mt-2 fs-6">Get Quote Response Within 24 Hours</p>
             </div>
-            
+
             <div class="modal-body">
                 <div class="row justify-content-center">
                     <form class=" contact_input col-md-11" id="brassform" method="Post" action="{{ route('product.enquiry.store') }}" enctype="multipart/form-data">
@@ -248,18 +248,15 @@
                             <div class="form-group">
                                 <!--<div class="g-recaptcha" data-sitekey="6LcrR-grAAAAAJQi2hs3EmXwPw0f6AtPiAhDHUh9" data-callback="verifyCaptcha"></div>-->
                                 <!--<small id="recaptcha-error" style="color: red; display: none;"></small>-->
-                                <div class="g-recaptcha"
-                                 data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"
-                                 data-callback="onCaptchaSuccess"
-                                 data-expired-callback="onCaptchaExpired"></div>
-             
+                             <div id="brassform-recaptcha"></div>
+
                                 <div id="recaptcha-error" class="error-message" style="color: red; margin-top: 5px;"></div>
                                 @error('g-recaptcha-response')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            
-                            
+
+
                             <button type="submit" class="btn btn--ripple col-md-5" id="submitBtn">Enquiry Now <svg xmlns="http://www.w3.org/2000/svg"
                                     width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white" stroke-width="1.5"
@@ -281,21 +278,13 @@
     {!! json_encode($breadcrumSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>
 
-    
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 @include('layouts.frontfooter')
 <script>
 // function verifyCaptcha() {
 //     $('#recaptcha-error').hide();
 // }
 
-let captchaToken = "";
-function onCaptchaSuccess(token) {
-    captchaToken = token;
-}
-function onCaptchaExpired() {
-    captchaToken = "";
-}
 
 $(document).ready(function(){
     $('.open-enquiry').on('click', function(){
@@ -393,66 +382,66 @@ $(document).ready(function(){
         submitHandler: function(form) {
 
             console.log("Submit handler triggered"); // DEBUG
-        
+
             $('#email-error').empty().hide();
             $('#recaptcha-error').empty().hide();
-        
+
             const email = $('#email').val().trim();
-        
+
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-        
+
             if (!emailPattern.test(email)) {
                 $('#email-error').html('Please enter a valid email address.').show();
                 return false;
             }
-        
+
             const fakeDomains = [
                 'mailinator.com','10minutemail.com','guerrillamail.com','tempmail.com',
                 'temp-mail.org','throwawaymail.com','maildrop.cc','dispostable.com',
                 'getairmail.com','moakt.com','spamgourmet.com','yopmail.com'
             ];
-        
+
             const emailDomain = email.split('@')[1]?.toLowerCase();
-        
+
             if (fakeDomains.some(domain => emailDomain.includes(domain))) {
                 $('#email-error').html('Temporary emails not allowed.').show();
                 return false;
             }
-            
+
             // if (grecaptcha.getResponse() === "") {
             //     $('#recaptcha-error').html("Please verify captcha").show();
             //     return false;
             // }
-            if (!captchaToken) {
+            if (grecaptcha.getResponse(brassformWidgetId) === "") {
                 $('#recaptcha-error')
                     .html("Please verify that you are not a robot.")
                     .show();
                 return false;
             }
             $('#recaptcha-error').empty().hide();
-            
+
             const submitBtn = $('#submitBtn');
             submitBtn.prop('disabled', true);
             submitBtn.html('Submitting...');
-        
+
             console.log("After disable:", submitBtn.prop('disabled'));
-        
+
             // small delay to reflect UI
             setTimeout(function () {
                 form.submit();
             }, 100);
-        
+
             return false;
         }
     });
 });
 </script>
- 
+
 <style>
     .error {
         color: red;
         font-size: 14px;
-       
+
     }
 </style>
 <script>

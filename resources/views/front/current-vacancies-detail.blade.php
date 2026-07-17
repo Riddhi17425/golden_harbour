@@ -70,7 +70,7 @@
                                 <label for="Profile" class="form-label"><b>LinkedIn Profile :</b></label>
                                 <input type="text" class="form-control px-0" id="profile" name="linked_link" maxlength="50" placeholder="Enter your LinkedIn Profile">
                             </div>
-                                <input type="hidden" name="applied_for" value="{{ $job->title }}"> 
+                                <input type="hidden" name="applied_for" value="{{ $job->title }}">
                             <div class="col-md-12">
                                 <label for="uploadResume" class="form-label"><b>Upload Resume *:</b></label>
                                 <label class="custom-file-upload">
@@ -80,8 +80,7 @@
                                 </label>
                                 <div id="uploadResume-error" style="color: red; display: none;"></div>
                             </div>
-                            <div class="form-group">
-                                <div class="g-recaptcha" data-sitekey="6LcsVn0rAAAAAAFsfEMC6Y7LXXKYzurDb7GDAAJY" data-callback="verifyCaptcha"></div>
+                          <div id="vacancy-recaptcha"></div>
                                 <small id="recaptcha-error" style="color: red; display: none;"></small>
                             </div>
                             <!-- <div class="col-md-12 ">
@@ -110,7 +109,7 @@
 });
 
 </script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 @include('layouts.frontfooter')
 
 <script>
@@ -224,7 +223,7 @@
          }
 
          // reCAPTCHA validation
-         if (grecaptcha.getResponse() === '') {
+       if (grecaptcha.getResponse(vacancyWidgetId) === '') {
             $('#recaptcha-error').text('Please complete the reCAPTCHA').show();
             isValid = false;
          } else {
@@ -245,6 +244,6 @@
     .error {
         color: red;
         font-size: 14px;
-        
+
     }
 </style>

@@ -104,12 +104,11 @@ $breadcrumSchema = [
                            placeholder="Enter message here">
                      </div>
                      <div class="form-group">
-                        <div class="g-recaptcha" data-sitekey="6LcrR-grAAAAAJQi2hs3EmXwPw0f6AtPiAhDHUh9"
-                           data-callback="verifyCaptcha"></div>
+                        <div id="brassform-recaptcha"></div>
                         <small id="recaptcha-error" style="color: red; display: none;"></small>
                      </div>
                      <button type="submit" class="btn btn--ripple col-md-5" id="ripple">
-                        Submit 
+                        Submit
                         <svg
                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                            fill="none">
@@ -152,7 +151,7 @@ $breadcrumSchema = [
                   data-product="{{ $item->products->first()->title ?? $item->name }}"
                   data-category="{{ $item->category->name ?? '' }}"
                   data-subcategory="{{ $item->name }}">
-                  Request Quote 
+                  Request Quote
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
                      <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75"
                         stroke="white" stroke-width="1.5"
@@ -201,19 +200,15 @@ $breadcrumSchema = [
 <script type="application/ld+json">
    {!! json_encode($breadcrumSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @include('layouts.frontfooter')
 <script>
-   function verifyCaptcha() {
-       $('#recaptcha-error').hide();
-   }
-   
+
    $(document).ready(function () {
        $('.open-enquiry').on('click', function () {
            const title = $(this).data('product');
            $('#enquiry-product-name').val(title);
        });
-   
+
        $(document).on('shown.bs.modal', '.productmodal', function () {
            if (!$(this).data('slick-initialized')) {
                $(this).find('.slider-for').slick({
@@ -235,11 +230,11 @@ $breadcrumSchema = [
                $(this).data('slick-initialized', true);
            }
        });
-   
+
        $.validator.addMethod("recaptchaRequired", function (value, element, param) {
-           return grecaptcha.getResponse() !== "";
+           return grecaptcha.getResponse(brassformWidgetId);
        }, "Please verify that you are not a robot.");
-   
+
        $("#brassform").validate({
            rules: {
                firstname: { required: true },
@@ -290,7 +285,7 @@ $breadcrumSchema = [
                    $('#email-error').html('Please provide a valid email address.').show();
                    return false;
                }
-               if (grecaptcha.getResponse() === "") {
+               if (grecaptcha.getResponse(brassformWidgetId) === "") {
                    $('#recaptcha-error').html("Please verify that you are not a robot.").show();
                    return false;
                } else {
@@ -312,13 +307,13 @@ $breadcrumSchema = [
 <script>
    document.addEventListener('DOMContentLoaded', function () {
        const enquiryModal = document.getElementById('exampleModalform');
-   
+
        enquiryModal.addEventListener('show.bs.modal', function (event) {
            const button = event.relatedTarget;
            const productTitle = button.getAttribute('data-product');
            const category = button.getAttribute('data-category');
            const subcategory = button.getAttribute('data-subcategory');
-   
+
            document.getElementById('modal_product_title').value = productTitle || '';
            document.getElementById('modal_product_category').value = category || '';
            document.getElementById('modal_product_subcategory').value = subcategory || '';
@@ -330,12 +325,12 @@ $breadcrumSchema = [
        const product = $(this).data('product');
        const category = $(this).data('category');
        const subcategory = $(this).data('subcategory');
-   
+
        // Set readonly visible inputs
        $('#product_name').val(product);
        $('#category_name').val(category);
        $('#subcategory_name').val(subcategory);
-   
+
        // Set hidden inputs for backend
        $('#modal_product_title').val(product);
        $('#modal_product_category').val(category);
