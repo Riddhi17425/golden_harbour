@@ -344,7 +344,7 @@
 
     <section class="why mt-100 viewport dark">
         <div class="container">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-md-6 col-12">
                     <div class="why_left">
                         <div>

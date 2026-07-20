@@ -319,7 +319,17 @@ h1.main_head{
 }
 
 
-@media (max-width: 1367px) {
+@media (max-width: 1370px) {
+
+  .shape_info_wrapper {
+    margin-top: 50px;
+}
+
+      .main_head {
+        font-size: 36px;
+        line-height: 48px;
+    }
+
     .certi_box {width: 240px; height: 240px;}
     .certi_title{font-size:14px;line-height:18px;}
 
