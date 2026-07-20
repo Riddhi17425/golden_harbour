@@ -37,7 +37,7 @@
 
 .float-buttons {
     position: fixed;
-    top: 80%;
+    top: 75%;
     right: 0;
     z-index: 900;
 }
@@ -80,7 +80,7 @@
     border-radius: 10px 0 0 10px;
     transition: all .5s ease-in-out;
     vertical-align: middle;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .CallButton i {
@@ -342,7 +342,7 @@
 
 <div class="enquiry-now-wrapper network">
     <button type="button" class="btn btn--ripple mt-0" data-bs-toggle="modal" data-bs-target="#enquiryNowModal"
-        title="Enquiry Now" id="ripple">Required Now</button>
+        title="Enquiry Now" id="ripple">Enquiry Now</button>
 </div>
 @if ($errors->any())
     <div style="color:red;">
