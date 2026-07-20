@@ -8,7 +8,7 @@
                     $product =  $subproduct->product ?? $product ?? null;
                     $category = $subproduct->category ?? $category ?? null;
                     $subcategory = $subproduct->subcategory ?? $subcategory ?? null;
-                
+
                     $breadcrumSchema = [
                         '@context' => 'https://schema.org/',
                         '@type' => 'BreadcrumbList',
@@ -39,7 +39,7 @@
                     <div>
                         <p class="main_routing_home">
                             <a href="{{ url('/') }}">HOME ></a>
-                
+
                             @if($category)
                                 <a href="{{ route('subcategorylist', $category->url) }}">
                                     {{ $category->name }} >
@@ -47,7 +47,7 @@
                             @else
                                 <span>NO CATEGORY ></span>
                             @endif
-                
+
                             @if($category && $subcategory)
                                 <a href="{{ route('productlist', [$category->url, $subcategory->url]) }}">
                                     {{ $subcategory->name }} >
@@ -55,7 +55,7 @@
                             @else
                                 <span>NO SUBCATEGORY ></span>
                             @endif
-                            
+
                             @if($product && $subcategory && $category)
                                 <a href="{{ route('subproductlist', [$category->url, $subcategory->url, $product->url]) }}">
                                     {{ $product->title }} >
@@ -63,17 +63,17 @@
                             @else
                                 <span>NO SUBCATEGORY ></span>
                             @endif
-                
+
                         </p>
-                
+
                         <h1 class="main_head">
                             {{ $product->title ?? 'No Top Title' }}
                         </h1>
-                
+
                         <!--<h2 class="main_head_small">-->
                         <!--    {{ $subcategory->title ?? 'No Title' }}-->
                         <!--</h2>-->
-                
+
                         <p class="card-text">
                             {!! $product->short_description ?? 'No Description' !!}
                         </p>
@@ -103,18 +103,18 @@
                         </a>
                         <h3>{{ $product->title }}</h3>
                         {!! $product->short_description !!}
-                        
+
                                 <a class="btn btn--ripple open-enquiry" data-bs-toggle="modal" data-bs-target="#exampleModalform" data-product="Instrumentation Tubes"  data-subproduct="{{ $subproduct->title ?? '' }}" data-category="{{ $category->name ?? '' }}" data-subcategory="{{ $subcategory->name ?? '' }}">
                                     Enquiry Now
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
                                         <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </a>
-                        
+
                             <a class="btn btn--ripple view-btn ms-md-2"
-                               href="{{ route('subproductdetail', 
-                               ['category' => $product->category->url, 
-                               'subcategory' => $product->subcategory->url, 
+                               href="{{ route('subproductdetail',
+                               ['category' => $product->category->url,
+                               'subcategory' => $product->subcategory->url,
                                'product' => $product->product->url,
                                'subproduct' => $product->url]) }}">
                                 View Detail
@@ -122,7 +122,7 @@
                                     <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="#172A42" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </a>
-                    
+
 
                     </div>
                 </div>
@@ -186,7 +186,7 @@
     <div class="modal-dialog modal-dialog-centered   modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                 <p class="modal-title main_head_small" id="exampleModalLabel">Product Enquiry </p> 
+                 <p class="modal-title main_head_small" id="exampleModalLabel">Product Enquiry </p>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -241,7 +241,7 @@
                                 <div id="phone-error" style="color: red; display: none;"></div>
                             </div>
                             <div class="form-group">
-                                <div class="g-recaptcha" data-sitekey="6LcrR-grAAAAAJQi2hs3EmXwPw0f6AtPiAhDHUh9" data-callback="verifyCaptcha"></div>
+                                <div id="brassform-recaptcha"></div>
                                 <small id="recaptcha-error" style="color: red; display: none;"></small>
                             </div>
                             <button type="submit" class="btn btn--ripple col-md-5" id="ripple">Submit <svg xmlns="http://www.w3.org/2000/svg"
@@ -265,12 +265,8 @@
     {!! json_encode($breadcrumSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>
 
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @include('layouts.frontfooter')
 <script>
-function verifyCaptcha() {
-    $('#recaptcha-error').hide();
-}
 
 $(document).ready(function(){
     $('.open-enquiry').on('click', function(){
@@ -301,7 +297,7 @@ $(document).ready(function(){
     });
 
     $.validator.addMethod("recaptchaRequired", function(value, element, param) {
-        return grecaptcha.getResponse() !== "";
+        return grecaptcha.getResponse(brassformWidgetId) !== "";
     }, "Please verify that you are not a robot.");
 
     $("#brassform").validate({
@@ -355,7 +351,7 @@ $(document).ready(function(){
                 $('#email-error').html('Please provide a valid email address.').show();
                 return false;
             }
-            if (grecaptcha.getResponse() === "") {
+            if (grecaptcha.getResponse(brassformWidgetId) === "") {
                 $('#recaptcha-error').html("Please verify that you are not a robot.").show();
                 return false;
             } else {
@@ -368,12 +364,12 @@ $(document).ready(function(){
     });
 });
 </script>
- 
+
 <style>
     .error {
         color: red;
         font-size: 14px;
-       
+
     }
 </style>
 <script>

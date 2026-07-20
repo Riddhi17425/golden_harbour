@@ -41,7 +41,7 @@
         <div class="container">
             <div class="new_hero_wrapper">
                 <div class="new_hero_content_1">
-                    <h1 class="text-white">Trusted Industrial Metals, Alloys & Materials Supplier in UAE</h1>
+                    <h1 class="text-white">Trusted Industrial Metals, <br> Alloys & Materials <br> Supplier in UAE</h1>
                      <a href="javascript:void(0)" onclick="document.getElementById('non-ferrous').scrollIntoView({behavior: 'smooth', block: 'start'})" class="btn btn--ripple" id="ripple">Explore Our Product Range<svg
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="#fff" stroke-width="1.5"
@@ -49,12 +49,6 @@
                         </svg></a>
                 </div>
                 <div class="new_hero_content_2 col-lg-4">
-                    {{-- <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="file" accept=".csv">
-                        <button type="submit">Import</button>
-                    </form> --}}
-                    
                     <ul class="hero-highlights list-unstyled mt-4 pe-lg-4 pe-0">
                         <li class="highlight-item mb-3 d-flex align-items-center">
                             <div class="highlight-icon me-3">
@@ -70,7 +64,7 @@
 <path d="M19.0597 0.361322V9.55697C13.8386 9.55697 9.62924 13.7664 9.57504 19.0417H9.52084V19.0959H0V18.9513C0 18.1384 0.0541994 17.3254 0.198728 16.5485C0.198728 16.4582 0.198733 16.3498 0.252931 16.2595C0.307129 15.7356 0.39746 15.2117 0.541988 14.7239C0.632319 14.2903 0.740713 13.8567 0.885242 13.4231C1.26463 12.1224 1.78855 10.93 2.45699 9.79183C2.65572 9.44857 2.83638 9.12338 3.07124 8.78012C3.21577 8.49107 3.3603 8.31041 3.50483 8.11168C3.79389 7.73229 4.08294 7.3529 4.3178 7.00965C4.75139 6.53993 5.18497 6.05214 5.61856 5.61856C5.90762 5.3295 6.19667 5.04044 6.52186 4.80558C7.24451 4.13714 7.96715 3.55902 8.78013 3.0351C9.15951 2.80025 9.5931 2.56539 10.0267 2.31246C11.3636 1.58982 12.845 0.975569 14.3806 0.632313C14.8142 0.487785 15.2839 0.397454 15.7175 0.343256C16.0608 0.252925 16.4402 0.198727 16.8195 0.144529C17.2531 0.0903304 17.6867 0.0541982 18.1203 0.0541982C18.319 -5.21541e-08 18.5539 0 18.7887 0C18.9875 0.0541983 19.0778 0.144529 19.0778 0.343256L19.0597 0.361322Z" fill="#C4A458"/>
 </svg>
                             </div>
-                            <span class="text-white fw-medium">One of the Middle East's Largest Stockists of Non-Ferrous Metals & Alloys</span>
+                            <span class="text-white fw-medium">One of the Middle East's Largest Stockists of Bronze, Stainless Steel, Copper & Industrial Metal Alloys</span>
                         </li>
                         <li class="highlight-item mb-3 d-flex align-items-center">
                             <div class="highlight-icon me-3">
@@ -78,7 +72,7 @@
 <path d="M19.0597 0.361322V9.55697C13.8386 9.55697 9.62924 13.7664 9.57504 19.0417H9.52084V19.0959H0V18.9513C0 18.1384 0.0541994 17.3254 0.198728 16.5485C0.198728 16.4582 0.198733 16.3498 0.252931 16.2595C0.307129 15.7356 0.39746 15.2117 0.541988 14.7239C0.632319 14.2903 0.740713 13.8567 0.885242 13.4231C1.26463 12.1224 1.78855 10.93 2.45699 9.79183C2.65572 9.44857 2.83638 9.12338 3.07124 8.78012C3.21577 8.49107 3.3603 8.31041 3.50483 8.11168C3.79389 7.73229 4.08294 7.3529 4.3178 7.00965C4.75139 6.53993 5.18497 6.05214 5.61856 5.61856C5.90762 5.3295 6.19667 5.04044 6.52186 4.80558C7.24451 4.13714 7.96715 3.55902 8.78013 3.0351C9.15951 2.80025 9.5931 2.56539 10.0267 2.31246C11.3636 1.58982 12.845 0.975569 14.3806 0.632313C14.8142 0.487785 15.2839 0.397454 15.7175 0.343256C16.0608 0.252925 16.4402 0.198727 16.8195 0.144529C17.2531 0.0903304 17.6867 0.0541982 18.1203 0.0541982C18.319 -5.21541e-08 18.5539 0 18.7887 0C18.9875 0.0541983 19.0778 0.144529 19.0778 0.343256L19.0597 0.361322Z" fill="#C4A458"/>
 </svg>
                             </div>
-                            <span class="text-white fw-medium">A Legacy of Trust and Reliability Since 1938.</span>
+                            <span class="text-white fw-medium">35+ Years of Trusted Supply Excellence Across Global Industries</span>
                         </li>
                     </ul>
                     <!--<p class="text-white">Your Strategic Partner for Oil & Gas, Offshore, Onshore, Marine & Industrial Supply Solutions | Home to the Middle East's Largest Nonferrous Stock | A Legacy of Trust and Reliability Since 1938.</p>-->
@@ -218,7 +212,7 @@
              <div class="shape_container d-block d-lg-none">
                 <div class="row align-items-center">
                     <div class="col-md-9">
-                        <h2 class="main_head main_head_line text-white">Shaping Industrial Excellence</h2>
+                        <h2 class="main_head main_head_line text-white">Serving Industries Across the GCC</h2>
                         <p class="mb-0 text-white">Excellence in industry isn't built overnight, it’s forged through
                             precision,
                             performance, and purpose. Across every sector we serve, our focus remains the same:
@@ -595,6 +589,12 @@
                         <div class="talk-to-us-arrow-line">
                         </div>
                         <div class="main-link-group">
+                            <!--<form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">-->
+                            <!--    @csrf-->
+                            <!--    <input type="file" name="file" accept=".csv">-->
+                            <!--    <button type="submit">Import</button>-->
+                            <!--</form>-->
+                            
                             <a data-bs-toggle="modal" data-bs-target="#e-catalogue" class="btn btn--ripple" id="ripple">Download Our
                                 Catalogue
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

@@ -29,7 +29,7 @@
                                         placeholder="Enter your contact number"
                                         title="Contact number should be between 10 to 15 digits">
                                 </div>
-                                
+
                                 <div class="col-md-12 mb-3">
                                     <label for="email" class="form-label"><b>Email Address*</b></label>
                                     <input type="email" class="form-control px-0" id="catalogue-email" name="email" maxlength="60"
@@ -65,11 +65,10 @@
                 </div>
             </div>
       </div>
-     
+
     </div>
   </div>
 </div>
-<script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -90,22 +89,8 @@ const fakeDomains = [
     'trashmail.com', 'mintemail.com', 'mytemp.email'
 ];
 
-let catalogueRecaptchaWidgetId = null;
-let catalogueRecaptchaRendered = false;
-let formSubmitting = false;
 
-function renderCatalogueRecaptcha() {
-    if (catalogueRecaptchaRendered) return;
-    catalogueRecaptchaRendered = true;
-    $('#catalogue-recaptcha-container').css('display', 'block');
-    catalogueRecaptchaWidgetId = grecaptcha.render('catalogue-recaptcha-container', {
-        'sitekey': '6LcrR-grAAAAAJQi2hs3EmXwPw0f6AtPiAhDHUh9',
-        'callback': function (token) {
-            $('#catalogue-g-recaptcha-response').val(token);
-            $('#catalogue-error-static-recaptcha').text('');
-        }
-    });
-}
+let formSubmitting = false;
 
 function showError(el, msg) {
     el.addClass('is-invalid');
@@ -121,11 +106,9 @@ function clearError(el) {
 $(document).ready(function () {
     const form = $('#catalogueform');
     const submitBtn = form.find('button[type="submit"]');
-    $('#catalogue-recaptcha-container').hide();
 
     // // Render reCAPTCHA on first input
     // form.find('input, textarea').one('input', function () {
-        renderCatalogueRecaptcha();
     // });
 
     // Auto validate required fields on input
@@ -180,42 +163,42 @@ $(document).ready(function () {
     // Form submission
         form.on('submit', function (e) {
             e.preventDefault();
-        
+
             if (formSubmitting) return;
-        
+
             let isValid = true;
-        
+
             const btn = submitBtn;
             const originalText = btn.html();
-        
+
             // ❌ remove ONLY field errors (NOT captcha container)
             $('.field-error').remove();
             $('.is-invalid').removeClass('is-invalid');
-        
+
             const fullName = $('#catalogue-fullname').val().trim();
             const company = $('#catalogue-company_name').val().trim();
             const message = $('#catalogue-message').val().trim();
             const email = $('#catalogue-email').val().trim();
             const phone = $('#catalogue-phone').val().trim();
-        
+
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             const emailDomain = email.split('@')[1]?.toLowerCase();
-        
+
             if (!fullName) {
                 showError($('#catalogue-fullname'), 'Full name is required.');
                 isValid = false;
             }
-        
+
             if (!company) {
                 showError($('#catalogue-company_name'), 'Company name is required.');
                 isValid = false;
             }
-        
+
             if (!message) {
                 showError($('#catalogue-message'), 'Message is required.');
                 isValid = false;
             }
-        
+
             if (!email) {
                 showError($('#catalogue-email'), 'Email is required.');
                 isValid = false;
@@ -226,7 +209,7 @@ $(document).ready(function () {
                 showError($('#catalogue-email'), 'Fake email not allowed.');
                 isValid = false;
             }
-        
+
             if (!phone) {
                 showError($('#catalogue-phone'), 'Phone required.');
                 isValid = false;
@@ -234,10 +217,10 @@ $(document).ready(function () {
                 showError($('#catalogue-phone'), 'Phone must be 10–15 digits.');
                 isValid = false;
             }
-        
+
             // ✅ CAPTCHA FIX (correct)
-            const recaptchaToken = grecaptcha.getResponse(catalogueRecaptchaWidgetId);
-        
+            const recaptchaToken = grecaptcha.getResponse(catalogueWidgetId);
+
             if (!recaptchaToken) {
                 $('#catalogue-error-static-recaptcha')
                     .text('Please complete the captcha.')
@@ -246,16 +229,16 @@ $(document).ready(function () {
             } else {
                 $('#catalogue-error-static-recaptcha').text('');
             }
-        
+
             // ---------- SUBMIT ----------
             if (isValid) {
                 formSubmitting = true;
                 btn.prop('disabled', true).html('Submitting...');
-        
+
                 setTimeout(() => {
                     form.off('submit').submit(); // IMPORTANT FIX
                 }, 100);
-        
+
             } else {
                 btn.prop('disabled', false);
                 btn.html(originalText);
@@ -263,18 +246,3 @@ $(document).ready(function () {
         });
 });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

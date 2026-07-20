@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{!! $meta_title ?? $title ?? 'Golden Harbour' !!}</title>
     <meta name="description" content="{{ strip_tags($meta_description ?? $description ?? 'Golden Harbour') }}">
-    {{-- <meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/> --}}
+    <meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/>
     <link rel="canonical" href="{{ url()->current() }}" />
 
     <link rel="icon" type="image/x-icon" href="{{ asset('public/front/images/GH_Favicon.png')}}">
@@ -29,7 +29,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
     <!-- Link font-awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.12.4/build/css/intlTelInput.css">
     <!-- Link Rubik font CSS -->
     <link
@@ -52,20 +52,20 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="627">
     <!-- OG Tags End -->
-    
+
     <!--Twitter X Card Tags-->
     <meta property="twitter:site" content="Golden Harbour">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $meta_title ?? $title ?? 'Golden Harbour' }}">
     <meta name="twitter:description" content="{{ $meta_description ?? $description ?? '' }}">
     <meta name="twitter:image" content="{{ $og_image ?? asset('public/front/images/GH_Favicon.png') }}">
-    
+
     <style>
 		 @media (max-width: 576px) {
 			 section.new_hero.dark {
 			background-position-x: 60%;
 		}}
-        
+
         /* Desktop Standard Dropdown Styles */
         .desktop-menu {
             flex-grow: 1;
@@ -101,7 +101,7 @@
             text-decoration: none;
             font-size: 18px;
         }
-        
+
         /* Handle Text Color based on light/dark headers */
         #siteHeader.index-page .desktop-menu .nav-link,
         .light-mode-nav .desktop-menu .nav-link {
@@ -112,12 +112,12 @@
         .dark-mode-nav .desktop-menu .nav-link {
             color: var(--black, #111);
         }
-        
+
         #siteHeader.index-page .desktop-menu .nav-link:hover,
         .desktop-menu .nav-link:hover {
             color: var(--gold, #C4A458);
         }
-        
+
         .desktop-menu .standard-dropdown .submenu-link {
             color: var(--black, #111);
             text-decoration: none;
@@ -131,7 +131,7 @@
             background-color: transparent;
             padding-left: 25px;
         }
-        
+
         /* Search Icon */
         .search-icon-btn {
             color: var(--white, #fff);
@@ -155,7 +155,7 @@
         .dark-mode-nav .search-icon-btn:hover {
             color: var(--gold, #C4A458);
         }
-        
+
         /* Search Modal Custom Design */
         #searchModal .modal-content {
             border-radius: 12px;
@@ -282,21 +282,10 @@
         }
 
     </style>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-MNDQPQZX');</script>
-<!-- End Google Tag Manager -->
 </head>
 
 <body>
- 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNDQPQZX"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+
     <!-- Hamburger Button -->
     <button class="hamburger-btn web-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#navigationOffcanvas"
         aria-controls="navigationOffcanvas">
@@ -326,13 +315,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </a>
                 </div>
 <!--                <div style="padding-top:20px; padding-bottom:67px;">-->
-  
+
 <!--        <img src="{{ asset('public/front/images/new_index/GOLDEN-HARBOUR-white.svg') }}" -->
 <!--             alt="logo" class="img-fluid white_logo">-->
-  
+
 <!--        <img src="{{ asset('public/front/images/new_index/GOLDEN-HARBOUR.svg') }}" -->
 <!--             alt="logo" class="img-fluid black_logo">-->
-   
+
 <!--</div>-->
 
                     <ul class="nav-menu">
@@ -342,7 +331,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <i class="fas fa-chevron-right dropdown-arrow"></i>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item">
                       <a href="#" class="nav-link" id="productToggle">
                         <span>Product</span>
@@ -355,7 +344,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <i class="fas fa-chevron-right dropdown-arrow"></i>
                       </a>
                     </li>
-                    
+
                      <li class="nav-item">
                         <a href="{{route('our-agencies')}}" class="nav-link">
                             <span>Our Partners </span>
@@ -430,7 +419,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
              @php
                 use Illuminate\Support\Facades\DB;
                 use Illuminate\Support\Str;
-    
+
                 // Get all active categories, subcategories, and products
                 $categories = DB::table('category')->whereNull('deleted_at')->get();
                 $industryProduct = DB::table('industry_product')->whereNull('deleted_at')->get();
@@ -442,7 +431,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </p>
                 </div>
                 <div class="submenu-content">
-                     
+
                     <ul class="submenu-list">
                         <!--@foreach ($categories as $category)-->
                         <!--    <li style="transition: all .6s ease .3s;"><a href="{{ route('subcategorylist',['category'=>$category->url])}}" class="submenu-link" >{{ $category->name }}</a>-->
@@ -457,10 +446,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 </li>
                             @endif
                         @endforeach
-                        
+
                         <!--<li style="transition: all .6s ease .3s;"><a href="#" class="submenu-link" >Non Ferrous Metal & Alloys</a>-->
                         <!--</li>-->
-                        
+
                         <!--<li style="transition: all .6s ease .4s;"><a href="#" class="submenu-link">Ferrous Metal & Alloys</a>-->
                         <!--</li>-->
                         <!--<li style="transition: all .6s ease .5s;"><a href="#" class="submenu-link">Hydrualic & Instrumentation</a></li>-->
@@ -469,7 +458,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <!--<li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Non Metallic</a>-->
                         <!--<li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Other Products</a>-->
                         <!--</li>-->
-                        
+
                     </ul>
                 </div>
             </div>
@@ -489,7 +478,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </ul>
                 </div>
             </div>
-            
+
             <!-- <div class="product-submenuchild-slider" id="productSubmenuchildSlider">-->
             <!--    <div class="submenu-header">-->
             <!--        <h5 class="submenu-title">-->
@@ -509,7 +498,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
            </div>
            <!--mobile body menu-->
             <div class="menu_wrapper d-flex d-md-none" id="menuWrapper">
-        
+
         <!-- Level 1 (Main Menu) -->
         <div class="menu_body">
             <div>
@@ -518,16 +507,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <img src="{{asset('public/front/images/new_index/GOLDEN-HARBOUR-white.svg')}}" alt="logo"
                         class="img-fluid">
                         </a>
-                    
+
                 </div>
 <!--                <div style="padding-top:20px; padding-bottom:67px;">-->
-  
+
 <!--        <img src="{{ asset('public/front/images/new_index/GOLDEN-HARBOUR-white.svg') }}" -->
 <!--             alt="logo" class="img-fluid white_logo">-->
-  
+
 <!--        <img src="{{ asset('public/front/images/new_index/GOLDEN-HARBOUR.svg') }}" -->
 <!--             alt="logo" class="img-fluid black_logo">-->
-   
+
 <!--</div>-->
 
                     <ul class="nav-menu list-unstyled sidemenu m-0 p-3">
@@ -581,7 +570,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </li>
                     </ul>
                 </div>
-       
+
         </div>
 
         <!-- Level 2 (About Menu) -->
@@ -646,7 +635,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </button>
               <div class="submenu-header">
                     <p class="submenu-title">
-                        Product 
+                        Product
                     </p>
                 </div>
                 <div class="submenu-content pt-0">
@@ -657,7 +646,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         @endforeach
                        <!--<li style="transition: all .6s ease .3s;"><a href="#" class="submenu-link" >Non Ferrous Metal & Alloys</a>-->
                        <!-- </li>-->
-                        
+
                        <!-- <li style="transition: all .6s ease .4s;"><a href="#" class="submenu-link">Ferrous Metal & Alloys</a>-->
                        <!-- </li>-->
                        <!-- <li style="transition: all .6s ease .5s;"><a href="#" class="submenu-link">Hydrualic & Instrumentation</a></li>-->
@@ -755,18 +744,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 </ul>
                             </div>
                         </li>
-                
+
                     </ul>
                 </div>
 
                 <div class="nav_right d-flex align-items-center gap-3 gap-lg-4">
-                   
+
                      <a  href="javascript:void(0)" class="btn btn--ripple d-none d-lg-flex align-items-center mt-0" id="ripple" data-bs-toggle="modal" data-bs-target="#searchModal"> <i class="fa fa-search me-3"></i> Search Products</a>
 
                     <a href="{{ route('contact') }}" onclick="localStorage.setItem('scrollToBuildTogether', '1')" class="btn btn--ripple d-none d-lg-flex align-items-center mt-0" id="ripple">Request Quote</a>
 
                     <i class="fa fa-search d-lg-none" data-bs-toggle="modal" data-bs-target="#searchModal"></i>
-                    
+
                     <div class="lang-select">
                         <span><svg class="light_logo" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"
                                 fill="none">
@@ -812,7 +801,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </nav>
         </div>
     </header>
-    
+
     <!-- Search Modal -->
     <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -831,7 +820,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <button class="btn btn--ripple m-0 border-0 rounded-0 px-4" type="submit" style="margin-top: 0 !important; border-radius: 0 4px 4px 0 !important;">Search</button>
                         </div>
                         <div id="productSearchResults" class="mb-4"></div>
-                        
+
                         <!-- Premium Filter System -->
                         <div class="filter-system mt-4">
                             <p class="mb-3 search-custem-filter-title">Filter by Category</p>
@@ -866,7 +855,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <!--mobile sidemenu  offcanvas js-->
-    
+
     @include('layouts.catalogue')
     <script>
 const wrapper = document.getElementById("menuWrapper");
@@ -917,17 +906,17 @@ document.addEventListener("click", function(e){
 });
 
 </script>
-    
+
         <script>
 document.addEventListener("DOMContentLoaded", function() {
     let header = document.getElementById("siteHeader");
     let path = window.location.pathname.toLowerCase();
 
     // Check if the path ends with any of the home page identifiers
-    let isHome = path === '/' || 
-                 path.endsWith('/index') || 
-                 path.endsWith('/index.php') ||     
-                 path.endsWith('/goldenharbour-preview') || 
+    let isHome = path === '/' ||
+                 path.endsWith('/index') ||
+                 path.endsWith('/index.php') ||
+                 path.endsWith('/goldenharbour-preview') ||
                  path.endsWith('/new-index') ||
                  path.endsWith('/golden_harbour') ||
                  path.endsWith('/golden_harbour/') ||
@@ -1055,7 +1044,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setupSubmenu("careerToggle", "careerSubmenuSlider");
         // ✅ Child submenu (inside Product → Non Ferrous Metal & Alloys)
     setupSubmenu("nonFerrousToggle", "productSubmenuchildSlider");
-    
+
         // Other nav link clicks (non-submenu)
         document.querySelectorAll('.nav-link').forEach(link => {
             if (["aboutToggle", "resourceToggle", "productToggle"].includes(link.id)) return;
@@ -1111,10 +1100,10 @@ document.addEventListener("DOMContentLoaded", function () {
         var observer = new MutationObserver(function(mutations) {
             // 1. Temporarily disconnect observer so our own text changes don't trigger it again!
             observer.disconnect();
-            
+
             // 2. Perform changes
             updateTranslateText();
-            
+
             // 3. Re-observe safely
             var targetNode = document.getElementById('google_translate_element');
             if (targetNode) {
@@ -1171,8 +1160,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 <a href="${item.url}" class="d-flex gap-3">
                     <img src="${item.image}" alt="${item.title}" width="75">
                     <div>
-                        <strong>${item.title}</strong>
-                        <small><b>${item.type}</b> | ${item.category} | ${item.subcategory}</small>
+                        <strong>${item.subcategory} ${item.title}</strong>
+                        <small><b>${item.type}</b> | ${item.category}</small>
                         ${item.industries ? `<small class="text-muted d-block mt-1"><b>Industries</b> - ${item.industries}</small>` : ''}
                     </div>
                 </a>
@@ -1208,7 +1197,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
 
-        function queueSearch() { 
+        function queueSearch() {
             clearTimeout(searchTimer);
             searchTimer = setTimeout(searchProducts, 300);
         }
@@ -1229,5 +1218,5 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 </script>
- 
+
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
