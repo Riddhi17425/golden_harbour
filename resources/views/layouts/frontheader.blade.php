@@ -838,12 +838,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div class="search-custem-filter">
                                 @if(isset($categories) && is_countable($categories) && count($categories) > 0)
                                 @foreach ($categories as $key => $category)
-                                    @if (strtolower($category->name) !== 'ferrous metal & alloys')
+                                    {{-- @if (strtolower($category->name) !== 'ferrous metal & alloys') --}}
                                         <div class="form-check" style="display: flex; align-items: center; margin: 0;">
                                             <input class="form-check-input shadow-none m-0 product-search-category" type="checkbox" id="filterCat_{{ $key }}" value="{{ $category->id }}">
                                             <label class="form-check-label" for="filterCat_{{ $key }}"> {{ $category->name }}</label>
                                         </div>
-                                    @endif
+                                    {{-- @endif --}}
                                 @endforeach
                                 @endif
                             </div>

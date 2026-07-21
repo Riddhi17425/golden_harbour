@@ -1498,9 +1498,9 @@ private function getProductSearchMatches($search, $categoryIds, $industryIds)
 {
     $products = Product::with(['category', 'subcategory'])
         ->whereNull('deleted_at')
-        ->whereHas('category', function($q){
-            $q->whereRaw('LOWER(name) != ?', ['ferrous metal & alloys']);
-        })
+        // ->whereHas('category', function($q){
+        //     $q->whereRaw('LOWER(name) != ?', ['ferrous metal & alloys']);
+        // })
         ->where(function ($q) use ($search) {
             $q->where('title', 'LIKE', "%{$search}%")
               ->orWhereHas('subcategory', function ($subQ) use ($search) {
