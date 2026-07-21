@@ -210,8 +210,8 @@ class DashboardController extends Controller
                 ->where('subcategory_id', $subCategoryId)
                 ->where('url', $productUrl)
                 ->update([
-                    //'meta_title'       => $metaTitle,
-                    //'meta_description' => $metaDesc,
+                    'meta_title'       => $metaTitle,
+                    'meta_description' => $metaDesc,
                     'faqs'             => $faqs,
                 ]);
         }
@@ -832,27 +832,27 @@ class DashboardController extends Controller
             'g-recaptcha-response' => 'required',
         ]);
     
-        $verifyResponse = Http::asForm()->post(
-            'https://www.google.com/recaptcha/api/siteverify',
-            [
-                'secret' => env('RECAPTCHA_SECRET_KEY'),
-                'response' => $request->input('g-recaptcha-response'),
-                'remoteip' => $request->ip(),
-            ]
-        );
-        if (!$verifyResponse->json('success')) {
-            Log::error('reCAPTCHA failed', [
-                'response' => $verifyResponse->json()
-            ]);
-            return back()->withErrors([
-                'g-recaptcha-response' => 'reCAPTCHA verification failed.'
-            ])->withInput();
-        }
-        if (!$verifyResponse->json('success')) {
-            return back()->withErrors([
-                'g-recaptcha-response' => 'reCAPTCHA failed.'
-            ]);
-        }
+        // $verifyResponse = Http::asForm()->post(
+        //     'https://www.google.com/recaptcha/api/siteverify',
+        //     [
+        //          'secret'   => config('services.recaptcha.secret_key'),
+        //         'response' => $request->input('g-recaptcha-response'),
+        //         'remoteip' => $request->ip(),
+        //     ]
+        // );
+        // if (!$verifyResponse->json('success')) {
+        //     Log::error('reCAPTCHA failed', [
+        //         'response' => $verifyResponse->json()
+        //     ]);
+        //     return back()->withErrors([
+        //         'g-recaptcha-response' => 'reCAPTCHA verification failed.'
+        //     ])->withInput();
+        // }
+        // if (!$verifyResponse->json('success')) {
+        //     return back()->withErrors([
+        //         'g-recaptcha-response' => 'reCAPTCHA failed.'
+        //     ]);
+        // }
     
         // 4. Email domain safety check (extra layer)
         $email = $validated['email'];

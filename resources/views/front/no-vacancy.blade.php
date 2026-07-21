@@ -81,7 +81,7 @@
                             <input type="text" class="form-control px-0" id="linkedInprofile" name="linked_in" maxlength="50" placeholder="Enter your LinkedIn Profile">
                             <!-- Removed validation span since LinkedIn validation is removed -->
                         </div>
-                        
+
                             <div class="col-md-12 ">
                                 <label for="uploadResume" class="form-label"><b>Upload Resume *:</b></label>
                                 <label class="custom-file-upload">
@@ -90,16 +90,15 @@
                                     <p><small>Max Size: 5 Mb</small></p>
                                     <div id="error-uploadResume" class="text-danger text-center" style="color: red;"></div>
                                 </label>
-                            </div>
-                        <div class="col-lg-12">
-                            <div class="form_item">
-                                <div class="g-recaptcha" data-sitekey="6LcrR-grAAAAAJQi2hs3EmXwPw0f6AtPiAhDHUh9" data-callback="recaptchaVerified"></div>
-                                <div id="recaptcha-error" class="error-message text-danger" style="color: red; margin-top: 5px; display: none;"></div>
-                                @error('g-recaptcha-response')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+                       <div class="col-lg-12">
+                        <div class="form_item">
+                            <div id="application-recaptcha"></div>
+                            <div id="recaptcha-error" class="error-message text-danger" style="color: red; margin-top: 5px; display: none;"></div>
+                            @error('g-recaptcha-response')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
+                    </div>
                         <div class="col-md-12">
                             <button type="submit" id="submitBtn" class="btn btn--ripple">Apply Now
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -120,7 +119,6 @@
         this.closest('.custom-file-upload').querySelector('.file-name').textContent = fileName;
     });
 </script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function () {
@@ -213,10 +211,6 @@ $(document).ready(function () {
         }
     });
 
-    // reCAPTCHA
-    window.recaptchaVerified = function () {
-        $('#recaptcha-error').hide();
-    };
 
     // FORM SUBMIT
     $('#applicationForm').on('submit', function (e) {
@@ -284,7 +278,7 @@ $(document).ready(function () {
         }
 
         // CAPTCHA
-        if (typeof grecaptcha !== 'undefined' && grecaptcha.getResponse() === '') {
+        if (typeof grecaptcha !== 'undefined' && grecaptcha.getResponse(applicationWidgetId) === '') {
             $('#recaptcha-error').text('Please verify that you are not a robot').show();
             isValid = false;
         } else {

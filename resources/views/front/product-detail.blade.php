@@ -306,9 +306,8 @@ $industrydata = $industrydata ?? collect();
                                 <label for="message" class="form-label"><b>Message :</b></label>
                                 <input type="text" class="form-control px-0" id="message" name="message" placeholder="Enter message here">
                             </div>
-                            <div class="form-group">
-                                <div class="g-recaptcha" data-sitekey="6LcrR-grAAAAAJQi2hs3EmXwPw0f6AtPiAhDHUh9"
-                                    data-callback="verifyCaptcha"></div>
+                           <div class="form-group">
+                                <div id="brassform-recaptcha"></div>
                                 <small id="recaptcha-error" style="color: red; display: none;"></small>
                             </div>
                             <button type="submit" class="btn btn--ripple col-md-5" id="ripple">Enquiry Now <svg
@@ -403,7 +402,6 @@ $industrydata = $industrydata ?? collect();
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
     function verifyCaptcha() {
         $('#recaptcha-error').hide();
@@ -438,8 +436,14 @@ $industrydata = $industrydata ?? collect();
         });
 
         $.validator.addMethod("recaptchaRequired", function (value, element, param) {
-            return grecaptcha.getResponse() !== "";
+            return brassformWidgetId !== null && grecaptcha.getResponse(brassformWidgetId) !== "";
         }, "Please verify that you are not a robot.");
+
+        $('#exampleModalform').on('hidden.bs.modal', function () {
+            if (brassformWidgetId !== null) {
+                grecaptcha.reset(brassformWidgetId);
+            }
+        });
 
         $("#brassform").validate({
             rules: {
@@ -492,7 +496,7 @@ $industrydata = $industrydata ?? collect();
                     $('#email-error').html('Please provide a valid email address.').show();
                     return false;
                 }
-                if (grecaptcha.getResponse() === "") {
+              if (grecaptcha.getResponse(brassformWidgetId) === "") {
                     $('#recaptcha-error').html("Please verify that you are not a robot.").show();
                     return false;
                 } else {

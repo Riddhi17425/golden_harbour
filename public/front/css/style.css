@@ -3989,6 +3989,11 @@ transform: translateY(-30%);
   margin-bottom: 40px;
 }
 
+.why .nav-item:last-child
+{
+  margin-bottom: 0px;
+}
+
 .why .nav-tabs .nav-link.active {
   color: #fff;
   background-color: transparent;
