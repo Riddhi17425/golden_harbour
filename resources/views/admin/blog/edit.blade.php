@@ -25,14 +25,14 @@
                         <h6 class="mb-0 fw-bold">Blog Information</h6>
                     </div>
                     <div class="row g-3 align-items-center">
-                       
+
                         <div class="col-md-6">
                             <label class="form-label">Blog Title</label>
                             <input type="text" id="title" name="title" value="{{ $data->title }}" required
                                 class="form-control">
                         </div>
-                        
-                             
+
+
                         <div class="col-md-12">
                             <label for="short_description" class="form-label">Blog Short description</label>
                             <textarea id="short_description" name="short_description"
@@ -43,12 +43,12 @@
                             <textarea id="description" name="description"
                                 class="form-control">{{ $data->description }}</textarea>
                         </div>
-                        
+
                         <div class="col-md-6">
                             <label for="date" class="form-label">Blog Date</label>
                             <input type="date" id="date" name="date" value="{{ $data->date }}" class="form-control">
                         </div>
-                        
+
                         <div class="col-md-6">
                             <label for="url" class="form-label">Blog Url</label>
                             <input type="text" id="url" name="url" value="{{ $data->url }}" required class="form-control">
@@ -63,7 +63,7 @@
                         <div class="card mb-3">
                             <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                                 <h6 class="mb-0 fw-bold">Blog Front Image</h6>
-                            </div> 
+                            </div>
                             <div class="card-body">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12">
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="card mb-3">
                             <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                                 <h6 class="mb-0 fw-bold">Blog Detail Image</h6>
@@ -95,13 +95,20 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="card mb-3">
                             <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                                 <h6 class="mb-0 fw-bold">Blog Cta Image</h6>
                             </div>
+
                             <div class="card-body">
                                 <div class="row g-3 align-items-center">
+
+                                 <div class="col-md-12">
+                                    <label class="form-label" for="cta_link">CTA Image Button Link</label>
+                                    <input type="text" id="cta_link" name="cta_link" value="{{ old('cta_link', $data->cta_link) }}" class="form-control" placeholder="e.g. /contact or https://example.com">
+                                </div>
+
                                     <div class="col-md-12">
                                         <label class="form-label" for="input-file-front">Blog Cta Image Upload</label>
                                         <input type="file" id="input-file-front" name="cta_image" class="dropify"
@@ -113,7 +120,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-12">
                             <label for="conclusion" class="form-label">Conclusion</label>
                             <textarea id="conclusion" name="conclusion"
@@ -128,19 +135,19 @@
                             <textarea id="meta_description" name="meta_description"
                                 class="form-control">{{ $data->meta_description }}</textarea>
                         </div>
-                        
+
                         @php
                                         $faqBlocks = is_array($data->title_description)
                                             ? $data->title_description
                                             : json_decode($data->title_description, true);
-                                    
+
                                         $faqBlocks = $faqBlocks ?? [];
                                     @endphp
                                         <div class="card mb-4 border">
                                             <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                                 <strong>FAQ Title & Description</strong>
                                                 <button type="button" id="addFaqBlock" class="btn btn-sm btn-success">+ Add More</button>
-                                            </div> 
+                                            </div>
                                             <div class="card-body" id="faqRepeater">
                                                 @forelse ($faqBlocks as $block)
                                                     <div class="faqGroup border rounded p-3 mb-3">
@@ -352,7 +359,7 @@ $(document).ready(function() {
                 </div>
             `;
             $('#faqRepeater').append(block);
-            
+
             // Re-init summernote for new textareas
             $('.summernote').summernote({
                 height: 200,

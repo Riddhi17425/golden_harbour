@@ -22,24 +22,24 @@
                         <h6 class="mb-0 fw-bold">Blog Information</h6>
                     </div>
                     <div class="row g-3 align-items-center">
-                        
+
                         <div class="col-md-6">
                             <label class="form-label">Blog Title</label>
-                            <input type="text" id="title" name="title" required class="form-control">
+                            <input type="text" id="title" name="title" value="{{ old('title') }}" required class="form-control">
                         </div>
-                        
+
                         <div class="col-md-12">
                             <label for="short_description" class="form-label">Blog Short description</label>
-                            <textarea id="short_description" name="short_description" class="form-control"></textarea>
+                            <textarea id="short_description" name="short_description" class="form-control">{{ old('short_description') }}</textarea>
                         </div>
                         <div class="col-md-12">
                             <label for="description" class="form-label">Blog Description</label>
-                            <textarea id="description" name="description" class="form-control"></textarea>
+                            <textarea id="description" name="description" class="form-control">{{ old('description') }}</textarea>
                         </div>
-                        
+
                         <div class="col-md-6">
                             <label for="date" class="form-label">Blog Date</label>
-                            <input type="date" id="date" name="date" class="form-control">
+                            <input type="date" id="date" name="date" value="{{ old('date') }}" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Blog Url</label>
@@ -51,38 +51,79 @@
                                 <option value="Active" {{ old('status', 'Active') === 'Active' ? 'selected' : '' }}>Active</option>
                                 <option value="InActive" {{ old('status') === 'InActive' ? 'selected' : '' }}>InActive</option>
                             </select>
-                        </div> 
-                        <div class="col-md-6">
-                            <label class="form-label" for="front_image">Blog Front Image</label>
-                            <input type="file" id="front_image" name="front_image" class="form-control">
                         </div>
-                       
-                        <div class="col-md-6">
-                            <label class="form-label" for="image">Blog Detail Image</label>
-                            <input type="file" id="detail_image" name="detail_image" class="form-control">
+
+                        <div class="card mb-3">
+                            <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                                <h6 class="mb-0 fw-bold">Blog Front Image</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-12">
+                                        <label class="form-label" for="front_image">Blog Front Image Upload</label>
+                                        <input type="file" id="front_image" name="front_image" class="dropify">
+                                    </div>
+                                    @if ($errors->has('front_image'))
+                                    <span class="text-danger">{{ $errors->first('front_image') }}</span>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
-                        
-                        <div class="col-md-12">
-                            <label class="form-label" for="banner_image">Blog Banner Image</label>
-                            <input type="file" id="banner_image" name="cta_image" class="form-control">
+
+                        <div class="card mb-3">
+                            <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                                <h6 class="mb-0 fw-bold">Blog Detail Image</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-12">
+                                        <label class="form-label" for="detail_image">Detail Image Upload</label>
+                                        <input type="file" id="detail_image" name="detail_image" class="dropify">
+                                    </div>
+                                    @if ($errors->has('detail_image'))
+                                    <span class="text-danger">{{ $errors->first('detail_image') }}</span>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
-                        
-                        
-                        
-                                              
+
+                        <div class="card mb-3">
+                            <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                                <h6 class="mb-0 fw-bold">Blog Cta Image</h6>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="row g-3 align-items-center">
+
+                                    <div class="col-md-12">
+                                        <label class="form-label" for="cta_link">CTA Image Button Link</label>
+                                        <input type="text" id="cta_link" name="cta_link" value="{{ old('cta_link') }}" class="form-control" placeholder="e.g. /contact or https://example.com">
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label class="form-label" for="cta_image">Blog Cta Image Upload</label>
+                                        <input type="file" id="cta_image" name="cta_image" class="dropify">
+                                    </div>
+                                    @if ($errors->has('cta_image'))
+                                    <span class="text-danger">{{ $errors->first('cta_image') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-md-12">
                             <label for="conclusion" class="form-label">Conclusion</label>
-                            <textarea id="conclusion" name="conclusion" class="form-control"></textarea>
+                            <textarea id="conclusion" name="conclusion" class="form-control">{{ old('conclusion') }}</textarea>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Meta Title</label>
-                            <input type="text" id="meta_title" name="meta_title" class="form-control">
+                            <input type="text" id="meta_title" name="meta_title" value="{{ old('meta_title') }}" class="form-control">
                         </div>
                         <div class="col-md-12">
                             <label for="meta_description" class="form-label">Meta Description</label>
-                            <textarea id="meta_description" name="meta_description" class="form-control"></textarea>
+                            <textarea id="meta_description" name="meta_description" class="form-control">{{ old('meta_description') }}</textarea>
                         </div>
-                        
+
                          <div class="card mb-4 border">
                             <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                 <strong>FAQ Title & Description</strong>
@@ -123,6 +164,9 @@
 <!-- Cropper CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
 
+<!-- Dropify CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropify/dist/css/dropify.min.css">
+
 <!--plugin css file -->
 <link rel="stylesheet" href="{!! asset('public/admin_public/dist/assets/plugin/multi-select/css/multi-select.css') !!}">
 <link rel="stylesheet"
@@ -139,6 +183,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
 <!-- Cropper JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+<!-- Dropify JS -->
+<script src="https://cdn.jsdelivr.net/npm/dropify/dist/js/dropify.min.js"></script>
 <script src="{!! asset('public/admin_public/dist/assets/plugin/multi-select/js/jquery.multi-select.js') !!}"></script>
 <script src="{!! asset('public/admin_public/dist/assets/plugin/bootstrap-tagsinput/bootstrap-tagsinput.js') !!}">
 </script>
@@ -148,6 +194,8 @@
 
 <script>
 $(document).ready(function() {
+    $('.dropify').dropify();
+
     $('#description,#detail_description,#slider_description').summernote({
         placeholder: 'Enter Blog Description here...',
         height: 300,
@@ -209,7 +257,7 @@ $(document).ready(function() {
         ]
     });
     $('.summernote').summernote({
-        placeholder: 'Enter CTA Text here...',
+        placeholder: 'Enter FAQ Description here...',
         height: 300,
         toolbar: [
             ['style', ['style']],
@@ -274,11 +322,6 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-    ClassicEditor.create(document.querySelector('#editor'))
-        .catch(error => {
-            console.error(error);
-        });
-
     $('#myCartTable').addClass('nowrap').dataTable({
         responsive: true,
         columnDefs: [{
@@ -298,8 +341,6 @@ $(document).ready(function() {
 });
 
 $(function() {
-    $('.dropify').dropify();
-
     var drEvent = $('#dropify-event').dropify();
     drEvent.on('dropify.beforeClear', function(event, element) {
         return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
@@ -318,76 +359,6 @@ $(function() {
         }
     });
 });
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('.add-more').addEventListener('click', function() {
-        let row = document.querySelector('.template').cloneNode(true);
-        row.classList.remove('template');
-        row.style.display = 'flex';
-        document.querySelector('.wattage-price-container').appendChild(row);
-    });
-
-    document.querySelector('.wattage-price-container').addEventListener('click', function(e) {
-        if (e.target.classList.contains('remove-row')) {
-            e.target.closest('.wattage-price-row').remove();
-        }
-    });
-});
-</script>
-<script>
-    function addImageInput() {
-    const container = document.getElementById('imageInputs');
-    const div = document.createElement('div');
-    div.classList.add('row', 'mb-3');
-
-    const randomId = 'summernote-' + Math.floor(Math.random() * 100000);
-
-    div.innerHTML = `
-        <div class="col-md-6 mb-2">
-            <input type="file" name="cta_image[]" class="form-control">
-        </div>
-        <div class="col-md-6 mb-2">
-            <input type="text" name="cta_alt[]" class="form-control" placeholder="Enter Alt Here">
-        </div>
-        <div class="col-md-6 mb-2">
-            <input type="text" name="cta_title[]" class="form-control" placeholder="Enter CTA Title">
-        </div>
-        <div class="col-md-12 mb-2">
-            <textarea id="${randomId}" name="cta_description[]" class="form-control summernote" placeholder="Enter CTA Description" rows="2"></textarea>
-        </div>
-        <div class="col-md-12">
-            <button type="button" class="btn btn-danger" onclick="removeInput(this)">Remove</button>
-        </div>
-    `;
-
-    container.appendChild(div);
-
-    $('#' + randomId).summernote({
-        placeholder: 'Enter CTA Description here...',
-        height: 300,
-        toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'italic', 'underline', 'clear']],
-            ['fontname', ['fontname']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']],
-            ['insert', ['link', 'picture', 'hr']],
-            ['view', ['fullscreen', 'codeview']],
-            ['help', ['help']]
-        ]
-    });
-}
-
-function removeInput(button) {
-    const container = document.getElementById('imageInputs');
-    const rows = container.querySelectorAll('.row.mb-3');
-    if (rows.length > 1) {
-        button.closest('.row').remove();
-    } else {
-        alert("At least one CTA block must remain.");
-    }
-}
-
 </script>
 
 <script>
@@ -416,7 +387,7 @@ function removeInput(button) {
                 </div>
             `;
             $('#faqRepeater').append(block);
-            
+
             // Re-init summernote for new textareas
             $('.summernote').summernote({
                 height: 200,

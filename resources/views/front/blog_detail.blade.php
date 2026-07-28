@@ -1,3 +1,7 @@
+@php
+use Illuminate\Support\Str;
+@endphp
+
 @include('layouts.frontheader', [
     'og_image' => asset('public/blogs/detail_image/'. $blogsdetail->detail_image)
 ])
@@ -118,9 +122,9 @@ table tr:hover {
     </section>
     <section class="my-5">
         <div class="container px-lg-0">
-            <a href="{{ route('contact') }}">
-            <img src="{{ asset('public/blogs/cta_image/'.$blogsdetail->cta_image) }}" alt="{{  str_replace(['-', '_'],' ', pathinfo($blogsdetail->cta_image, PATHINFO_FILENAME)) }}" class="img-fluid">
-           </a>
+           <a href="{{ $blogsdetail->cta_link ? (Str::startsWith($blogsdetail->cta_link, ['http://', 'https://']) ? $blogsdetail->cta_link : url($blogsdetail->cta_link)) : route('contact') }}">
+            <img src="{{ asset('public/blogs/cta_image/'.$blogsdetail->cta_image) }}" alt="{{ str_replace(['-', '_'],' ', pathinfo($blogsdetail->cta_image, PATHINFO_FILENAME)) }}" class="img-fluid">
+            </a>
         </div>
     </section>
     <section class=" container  news_details_coman_p">
@@ -133,16 +137,16 @@ table tr:hover {
         @if (!empty($blogsdetail->title_description) && count($blogsdetail->title_description) > 0)
             @php
                 $faqItems = [];
-    
+
                 if (!empty($blogsdetail->title_description)) {
-    
+
                     $decodedFaqItems = $blogsdetail->title_description;
-    
+
                     if (is_array($decodedFaqItems)) {
                         foreach ($decodedFaqItems as $item) {
                             $question = trim(strip_tags($item['faq_title'] ?? ''));
                             $answer = trim(strip_tags($item['faq_description'] ?? ''));
-    
+
                             if ($question && $answer) {
                                 $faqItems[] = [
                                     'question' => $question,
@@ -152,7 +156,7 @@ table tr:hover {
                         }
                     }
                 }
-    
+
                 $faqSchema = [
                     '@context' => 'https://schema.org',
                     '@type' => 'FAQPage',
@@ -174,7 +178,7 @@ table tr:hover {
                     <div id="accordionExample">
                         @foreach ($blogsdetail->title_description as $index => $faq)
                             <div class="mb-4">
-                                <h3 class="according_head" 
+                                <h3 class="according_head"
                                     data-bs-toggle="collapse"
                                     data-bs-target="#collapse{{ $index }}"
                                     aria-expanded="{{ $index === 0 ? 'true' : 'false' }}"
@@ -182,7 +186,7 @@ table tr:hover {
                                     {{ $faq['faq_title'] }}
                                      <span class="arrow"></span>
                                 </h3>
-                                <div id="collapse{{ $index }}" 
+                                <div id="collapse{{ $index }}"
                                     class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}"
                                     data-bs-parent="#accordionExample">
                                     <div>
