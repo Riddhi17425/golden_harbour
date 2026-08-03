@@ -11,12 +11,12 @@
 // });
 
 // tab slider mobile view
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const parent = document.getElementById('myTab');
 
-    if(window.innerWidth <= 991) { // only for mobile
+    if (window.innerWidth <= 991) { // only for mobile
         parent.querySelectorAll('.nav-link').forEach(tab => {
-            tab.addEventListener('click', function() {
+            tab.addEventListener('click', function () {
                 const tabRect = this.getBoundingClientRect();
                 const parentRect = parent.getBoundingClientRect();
 
@@ -32,15 +32,15 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-   function showTab(tabId) {
-        // Remove active from all tabs
-        document.querySelectorAll(".tabs-list li").forEach(li => li.classList.remove("active"));
-        document.querySelectorAll(".tab-pane").forEach(pane => pane.style.display = "none");
+function showTab(tabId) {
+    // Remove active from all tabs
+    document.querySelectorAll(".tabs-list li").forEach(li => li.classList.remove("active"));
+    document.querySelectorAll(".tab-pane").forEach(pane => pane.style.display = "none");
 
-        // Activate current tab
-        document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add("active");
-        document.getElementById(tabId).style.display = "block";
-    }
+    // Activate current tab
+    document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add("active");
+    document.getElementById(tabId).style.display = "block";
+}
 // /*-------------------------------------
 //   responsive side menu close js
 //     -------------------------------------*/
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //     }
 // });
 document.addEventListener("DOMContentLoaded", function () {
-    let isMobile = window.innerWidth <= 768; 
+    let isMobile = window.innerWidth <= 768;
     let video = document.getElementById("introVideo");
     let videoContainer = document.getElementById("videoContainer");
     let mainContent = document.getElementById("bodymainContent");
@@ -322,7 +322,7 @@ $(document).ready(function () {
         fadeEffect: {
             crossFade: true
         },
-         pauseOnFocus: false,
+        pauseOnFocus: false,
         pauseOnHover: false,
         // autoplay: false,
         autoplay: {
@@ -381,6 +381,8 @@ $(document).ready(function () {
         infinite: true,
         slidesToShow: 4,
         slidesToScroll: 1,
+        swipeToSlide: true,
+        touchThreshold: 100,
         autoplay: true,
         autoplaySpeed: 3000,
         speed: 600,
@@ -390,13 +392,15 @@ $(document).ready(function () {
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 2
+                    slidesToShow: 2,
+                    slidesToScroll: 1
                 }
             },
             {
                 breakpoint: 768,
                 settings: {
-                    slidesToShow: 1
+                    slidesToShow: 1,
+                    slidesToScroll: 1
                 }
             }
         ]
@@ -520,7 +524,7 @@ function toggleText(el) {
 
 // $(document).ready(function () {
 //     var $slider = $('.product_slider');
-   
+
 //     $slider.slick({
 //         dots: true,
 //         arrows: true,
@@ -590,79 +594,79 @@ $(document).ready(function () {
 
 
 
-    // Partner Slider (marquee effect)
- const $partnerSlider = $('.partner_slider');
+// Partner Slider (marquee effect)
+const $partnerSlider = $('.partner_slider');
 
 $partnerSlider.slick({
-  infinite: true,
-  slidesToShow: 8,
-  slidesToScroll: 1,
-  dots: false,
-  arrows: false,
-  autoplay: true,
-  autoplaySpeed: 0,
-  speed: 5000,
-  cssEase: 'linear',
-  pauseOnFocus: false,
-  pauseOnHover: false, // keep this false
-  responsive: [
-    {
-      breakpoint: 1440,
-      settings: {
-        slidesToShow: 6,
-      }
-    },
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 5,
-      }
-    },
-    {
-      breakpoint: 768,
-      settings: {
-        slidesToShow: 2,
-      }
-    }
-  ]
+    infinite: true,
+    slidesToShow: 8,
+    slidesToScroll: 1,
+    dots: false,
+    arrows: false,
+    autoplay: true,
+    autoplaySpeed: 0,
+    speed: 5000,
+    cssEase: 'linear',
+    pauseOnFocus: false,
+    pauseOnHover: false, // keep this false
+    responsive: [
+        {
+            breakpoint: 1440,
+            settings: {
+                slidesToShow: 6,
+            }
+        },
+        {
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 5,
+            }
+        },
+        {
+            breakpoint: 768,
+            settings: {
+                slidesToShow: 2,
+            }
+        }
+    ]
 });
 
 $partnerSlider.on('mouseenter', function () {
-  $partnerSlider.slick('slickPause');
+    $partnerSlider.slick('slickPause');
 });
 
 $partnerSlider.on('mouseleave', function () {
-  $partnerSlider.slick('slickPlay');
+    $partnerSlider.slick('slickPlay');
 });
 
 
-    $('.shape_info_slider').slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        dots: false,
-        arrows: false,
-        cssEase: 'linear',
-          autoplay: true,
-        autoplaySpeed: 3000,
-        speed: 600,
-        pauseOnFocus: false,
-        pauseOnHover: false,
-        // variableWidth: true.
-        responsive: [
-            {
-                breakpoint: 1440,
-                settings: {
-                    slidesToShow: 6,
-                }
-            },
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 2,
-                }
-            },
-            {
-                breakpoint: 768, settings: { slidesToShow: 1, }
+$('.shape_info_slider').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    dots: false,
+    arrows: false,
+    cssEase: 'linear',
+    autoplay: true,
+    autoplaySpeed: 3000,
+    speed: 600,
+    pauseOnFocus: false,
+    pauseOnHover: false,
+    // variableWidth: true.
+    responsive: [
+        {
+            breakpoint: 1440,
+            settings: {
+                slidesToShow: 6,
             }
-        ]
-    });
+        },
+        {
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 2,
+            }
+        },
+        {
+            breakpoint: 768, settings: { slidesToShow: 1, }
+        }
+    ]
+});

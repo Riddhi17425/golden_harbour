@@ -3989,8 +3989,7 @@ transform: translateY(-30%);
   margin-bottom: 40px;
 }
 
-.why .nav-item:last-child
-{
+.why .nav-item:last-child {
   margin-bottom: 0px;
 }
 
@@ -4679,29 +4678,29 @@ transform: translateY(-30%);
 
 
 .new_hero_content_2 ul {
-    /* padding-left: 1rem; */
-    font-size: 24px;
+  /* padding-left: 1rem; */
+  font-size: 24px;
 }
 
 .new_hero_content_2 ul li {
-  margin-bottom:16px;
+  margin-bottom: 16px;
 }
 
 
 /* Hero Highlights Styling */
 .hero-highlights .highlight-item {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-left: 4px solid #C4A458;
-    padding: 16px;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-left: 4px solid #C4A458;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
 
 .hero-highlights .highlight-icon {
-    /* display: flex;
+  /* display: flex;
     align-items: center;
     justify-content: center;
     min-width: 36px;
@@ -4713,20 +4712,20 @@ transform: translateY(-30%);
 }
 
 .hero-highlights .highlight-icon svg {
-    width: 18px;
-    height: 18px;
+  width: 18px;
+  height: 18px;
 }
 
 .hero-highlights span {
-    font-size: 20px;
-    line-height: 1.5;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-    letter-spacing: 0.3px;
+  font-size: 20px;
+  line-height: 1.5;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.3px;
 }
 
 
 .hero-highlights .highlight-icon {
-    /* display: flex;
+  /* display: flex;
     align-items: center;
     justify-content: center;
     min-width: 36px;
@@ -4737,6 +4736,7 @@ transform: translateY(-30%);
 }
 
 .hero-highlights .highlight-icon svg {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
+.custom-pagination .progress-bar { cursor: pointer; } 
