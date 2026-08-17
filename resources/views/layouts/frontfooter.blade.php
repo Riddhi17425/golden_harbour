@@ -266,7 +266,7 @@
                                             stroke="#565656" stroke-width="1.5" stroke-linecap="round"
                                             stroke-linejoin="round" />
                                     </svg>
-                                </span><a
+                                </span>
                                     href="https://www.google.com/maps/place/Golden+Harbour+LLC/@25.1166235,55.2225863,17z/data=!3m1!4b1!4m6!3m5!1s0x140dc5480f149847:0x845b4e89f74123d0!8m2!3d25.1166187!4d55.2251612!16s%2Fg%2F11b7010_5d?entry=ttu&g_ep=EgoyMDI1MDYxMS4wIKXMDSoASAFQAw%3D%3D">Plot
                                     No. 3690251, Al Quoz Ind. Area - 4, P.O. Box 13840, Dubai, UAE</a>
                             </li>
@@ -607,6 +607,15 @@ function onloadRecaptchaCallback() {
             callback: function () { $('#recaptcha-error').hide(); }
         });
     }
+
+    // ⛔ COMMENTED OUT — is block ko yahan se hata diya hai kyunki page-load ke waqt
+    // #e-catalogue modal hidden (display:none) hota hai. Google ka reCAPTCHA
+    // hidden/zero-width container ke andar render nahi kar pata, isliye widget
+    // silently fail ho jaata tha aur catalogueWidgetId kabhi set nahi hota tha —
+    // isi wajah se catalogue form ka Submit button crash/kaam nahi karta tha.
+    // Naya render logic neeche 'shown.bs.modal' event ke andar diya gaya hai,
+    // jo modal khulne PAR chalega (tab tak container visible ho chuka hoga).
+    /*
     if (document.getElementById('catalogue-recaptcha-container')) {
         catalogueWidgetId = grecaptcha.render('catalogue-recaptcha-container', {
             'sitekey': "{{ config('services.recaptcha.site_key') }}",
@@ -616,7 +625,29 @@ function onloadRecaptchaCallback() {
             }
         });
     }
+    */
 }
+
+// ✅ NAYA CODE — catalogue modal ke reCAPTCHA ko modal khulne PAR render karta hai,
+// page load pe nahi. Yeh fix karta hai ki widget hidden container mein render
+// hone ki wajah se fail ho jaata tha aur Submit button kaam nahi karta tha.
+document.addEventListener("DOMContentLoaded", function () {
+    const catalogueModal = document.getElementById('e-catalogue');
+    if (catalogueModal) {
+        catalogueModal.addEventListener('shown.bs.modal', function () {
+            // sirf ek baar render karo — dobara modal khulne par duplicate widget na bane
+            if (!catalogueWidgetId && typeof grecaptcha !== 'undefined' && document.getElementById('catalogue-recaptcha-container')) {
+                catalogueWidgetId = grecaptcha.render('catalogue-recaptcha-container', {
+                    'sitekey': "{{ config('services.recaptcha.site_key') }}",
+                    callback: function (token) {
+                        $('#catalogue-g-recaptcha-response').val(token);
+                        $('#catalogue-error-static-recaptcha').text('');
+                    }
+                });
+            }
+        });
+    }
+});
 </script>
 
 <script src="https://www.google.com/recaptcha/api.js?onload=onloadRecaptchaCallback&render=explicit" async defer></script>

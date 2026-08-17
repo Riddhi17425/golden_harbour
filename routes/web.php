@@ -31,6 +31,7 @@ use App\Http\Controllers\admin\AgencySliderController;
 use App\Http\Controllers\admin\BlogsController;
 use App\Http\Controllers\admin\HomePageBanner;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\SitemapController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,7 +51,7 @@ Route::get('/clear', function () {
     return 'Application cache cleared!';
 });
 
-
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::get('/', [DashboardController::class,'index'])->name('front.home');
 Route::post('/import', [DashboardController::class, 'import'])->name('import');
