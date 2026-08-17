@@ -618,6 +618,7 @@
                         </li>
                         <!--<li style="transition: all .6s ease .4s;"><a href="#" class="submenu-link" data-bs-toggle="modal" data-bs-target="#staticBackdrop">E-Catalogue</a>-->
                         <!--</li>-->
+						<li style="transition: all .6s ease .5s;"><a href="{{ route('blog') }}" class="submenu-link">Blogs</a></li>
                         <li style="transition: all .6s ease .5s;"><a href="{{route('gallery')}}" class="submenu-link">Gallery</a></li>
                         <li style="transition: all .6s ease .6s;"><a href="{{route('faq')}}" class="submenu-link">FAQ's</a>
                         </li>
