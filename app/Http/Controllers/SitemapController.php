@@ -6,7 +6,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\SubProduct;
-use App\Models\blog;
+use App\Models\Blog;
 use Illuminate\Support\Carbon;
 
 class SitemapController extends Controller

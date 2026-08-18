@@ -51,7 +51,9 @@ Route::get('/clear', function () {
     return 'Application cache cleared!';
 });
 
+// START - SITEMAP DYNAMIC
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+// END - SITEMAP DYNAMIC
 
 Route::get('/', [DashboardController::class,'index'])->name('front.home');
 Route::post('/import', [DashboardController::class, 'import'])->name('import');
