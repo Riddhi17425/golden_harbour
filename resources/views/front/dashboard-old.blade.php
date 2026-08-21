@@ -496,17 +496,6 @@
         </div>
     </section>
     <section class="linkedin_feed client_swiper_slider position-relative section">
-        <!--<div class="container">-->
-        <!--    <div class="row">-->
-        <!--        <div class="col-md-9">-->
-        <!--            <h2 class="main_head main_head_line">Latest LinkedIn Feed</h2>-->
-        <!--        </div>-->
-        <!--        <div class="col-lg-12 mt-5">-->
-        <!--            <script src="https://static.elfsight.com/platform/platform.js" async></script>-->
-        <!--            <div class="elfsight-app-3d4d170e-3438-4d41-ac7d-e7add6604e09" data-elfsight-app-lazy></div>-->
-        <!--        </div>-->
-        <!--    </div>-->
-        <!--</div>-->
         <div class="container">
     <div class="row">
         <div class="col-md-9">
@@ -529,7 +518,6 @@
                         </div>
                     </div>
                 </div>
-     
     </div>
 
 <div class="row">

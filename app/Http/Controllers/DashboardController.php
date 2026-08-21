@@ -63,7 +63,6 @@ class DashboardController extends Controller
         // $meta_description = 'With decades of expertise and experience, Golden Harbour provides reliable marine equipment and services tailored to your needs.';
         $meta_title = 'Metals, Alloys & Industrial Materials Supplier UAE | Golden Harbour';
         $meta_description = 'Golden Harbour is a trusted industrial material supplier in the UAE, providing metals, alloys, and engineering products to industrial sectors across the GCC.';
-    
         $clientdata = ValuableClient::whereNull('deleted_at')->get();
         $home_banner = HomeBanner::whereNull('deleted_at')->get();
         $whychoosedata = WhyChoose::whereNull('deleted_at')->get();
@@ -471,8 +470,6 @@ class DashboardController extends Controller
             Log::error('Google Sheets API request failed: ' . $e->getMessage());
             return back()->with('error', 'Failed to send the message. Please try again later.');
         }
-
-
     }
 
     public function about()
@@ -509,8 +506,8 @@ class DashboardController extends Controller
         return view('front.newsdetail',compact('title', 'description','newsdetail'));
     } 
     public function blogs(){
-        $title = 'Blogs';
-        $description = 'Blogs Description';
+        $title = 'Industry Insights & Resources | Golden Harbour Blog';
+        $description = 'Explore Golden Harbour’s knowledge hub for expert insights on industrial metals, engineering alloys, marine applications, and manufacturing practices across UAE.';
         $blogs = Blogs::whereNull('deleted_at')->where('status', 'Active')->orderBy('id', 'desc')->get();
         return view('front.blog',compact('title', 'description','blogs'));
     }

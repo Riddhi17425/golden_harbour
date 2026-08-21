@@ -3,38 +3,33 @@
 ])
 <style>
     html, body {
-    scroll-behavior: smooth;
+        scroll-behavior: smooth;
+        overscroll-behavior: none;
+    }
+    .new_home section {
+        transition: all 0.5s ease;
+    }
+    .new_home {
+        position: relative;
+    }
+    ::-webkit-scrollbar {
+        width: 5px
+    }
 
-  overscroll-behavior: none;
+    ::-webkit-scrollbar-track {
+        background: #cfe5ff;
+        border-radius: 10px
+    }
 
-
-}
-.new_home section {
-    transition: all 0.5s ease;
-}
-.new_home {
-    position: relative;
-}
-::-webkit-scrollbar {
-    width: 5px
-}
-
-::-webkit-scrollbar-track {
-    background: #cfe5ff;
-    border-radius: 10px
-}
-
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: #C4A458;
-}
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: #C4A458;
+    }
 
 
-.btn-close:hover {
-    filter: invert(1) !important;
-}
-
-
+    .btn-close:hover {
+        filter: invert(1) !important;
+    }
 </style>
 <div class="new_home">
     <section class="new_hero dark">
@@ -53,34 +48,28 @@
                         <li class="highlight-item mb-3 d-flex align-items-center">
                             <div class="highlight-icon me-3">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M19.0597 0.361322V9.55697C13.8386 9.55697 9.62924 13.7664 9.57504 19.0417H9.52084V19.0959H0V18.9513C0 18.1384 0.0541994 17.3254 0.198728 16.5485C0.198728 16.4582 0.198733 16.3498 0.252931 16.2595C0.307129 15.7356 0.39746 15.2117 0.541988 14.7239C0.632319 14.2903 0.740713 13.8567 0.885242 13.4231C1.26463 12.1224 1.78855 10.93 2.45699 9.79183C2.65572 9.44857 2.83638 9.12338 3.07124 8.78012C3.21577 8.49107 3.3603 8.31041 3.50483 8.11168C3.79389 7.73229 4.08294 7.3529 4.3178 7.00965C4.75139 6.53993 5.18497 6.05214 5.61856 5.61856C5.90762 5.3295 6.19667 5.04044 6.52186 4.80558C7.24451 4.13714 7.96715 3.55902 8.78013 3.0351C9.15951 2.80025 9.5931 2.56539 10.0267 2.31246C11.3636 1.58982 12.845 0.975569 14.3806 0.632313C14.8142 0.487785 15.2839 0.397454 15.7175 0.343256C16.0608 0.252925 16.4402 0.198727 16.8195 0.144529C17.2531 0.0903304 17.6867 0.0541982 18.1203 0.0541982C18.319 -5.21541e-08 18.5539 0 18.7887 0C18.9875 0.0541983 19.0778 0.144529 19.0778 0.343256L19.0597 0.361322Z" fill="#C4A458"/>
-</svg>
+                                    <path d="M19.0597 0.361322V9.55697C13.8386 9.55697 9.62924 13.7664 9.57504 19.0417H9.52084V19.0959H0V18.9513C0 18.1384 0.0541994 17.3254 0.198728 16.5485C0.198728 16.4582 0.198733 16.3498 0.252931 16.2595C0.307129 15.7356 0.39746 15.2117 0.541988 14.7239C0.632319 14.2903 0.740713 13.8567 0.885242 13.4231C1.26463 12.1224 1.78855 10.93 2.45699 9.79183C2.65572 9.44857 2.83638 9.12338 3.07124 8.78012C3.21577 8.49107 3.3603 8.31041 3.50483 8.11168C3.79389 7.73229 4.08294 7.3529 4.3178 7.00965C4.75139 6.53993 5.18497 6.05214 5.61856 5.61856C5.90762 5.3295 6.19667 5.04044 6.52186 4.80558C7.24451 4.13714 7.96715 3.55902 8.78013 3.0351C9.15951 2.80025 9.5931 2.56539 10.0267 2.31246C11.3636 1.58982 12.845 0.975569 14.3806 0.632313C14.8142 0.487785 15.2839 0.397454 15.7175 0.343256C16.0608 0.252925 16.4402 0.198727 16.8195 0.144529C17.2531 0.0903304 17.6867 0.0541982 18.1203 0.0541982C18.319 -5.21541e-08 18.5539 0 18.7887 0C18.9875 0.0541983 19.0778 0.144529 19.0778 0.343256L19.0597 0.361322Z" fill="#C4A458"/>
+                                    </svg>
                             </div>
                             <span class="text-white fw-medium">Strategic Supply Partner for Oil & Gas, Marine, Offshore & Industrial Sectors</span>
                         </li>
                         <li class="highlight-item mb-3 d-flex align-items-center">
                             <div class="highlight-icon me-3">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M19.0597 0.361322V9.55697C13.8386 9.55697 9.62924 13.7664 9.57504 19.0417H9.52084V19.0959H0V18.9513C0 18.1384 0.0541994 17.3254 0.198728 16.5485C0.198728 16.4582 0.198733 16.3498 0.252931 16.2595C0.307129 15.7356 0.39746 15.2117 0.541988 14.7239C0.632319 14.2903 0.740713 13.8567 0.885242 13.4231C1.26463 12.1224 1.78855 10.93 2.45699 9.79183C2.65572 9.44857 2.83638 9.12338 3.07124 8.78012C3.21577 8.49107 3.3603 8.31041 3.50483 8.11168C3.79389 7.73229 4.08294 7.3529 4.3178 7.00965C4.75139 6.53993 5.18497 6.05214 5.61856 5.61856C5.90762 5.3295 6.19667 5.04044 6.52186 4.80558C7.24451 4.13714 7.96715 3.55902 8.78013 3.0351C9.15951 2.80025 9.5931 2.56539 10.0267 2.31246C11.3636 1.58982 12.845 0.975569 14.3806 0.632313C14.8142 0.487785 15.2839 0.397454 15.7175 0.343256C16.0608 0.252925 16.4402 0.198727 16.8195 0.144529C17.2531 0.0903304 17.6867 0.0541982 18.1203 0.0541982C18.319 -5.21541e-08 18.5539 0 18.7887 0C18.9875 0.0541983 19.0778 0.144529 19.0778 0.343256L19.0597 0.361322Z" fill="#C4A458"/>
-</svg>
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19.0597 0.361322V9.55697C13.8386 9.55697 9.62924 13.7664 9.57504 19.0417H9.52084V19.0959H0V18.9513C0 18.1384 0.0541994 17.3254 0.198728 16.5485C0.198728 16.4582 0.198733 16.3498 0.252931 16.2595C0.307129 15.7356 0.39746 15.2117 0.541988 14.7239C0.632319 14.2903 0.740713 13.8567 0.885242 13.4231C1.26463 12.1224 1.78855 10.93 2.45699 9.79183C2.65572 9.44857 2.83638 9.12338 3.07124 8.78012C3.21577 8.49107 3.3603 8.31041 3.50483 8.11168C3.79389 7.73229 4.08294 7.3529 4.3178 7.00965C4.75139 6.53993 5.18497 6.05214 5.61856 5.61856C5.90762 5.3295 6.19667 5.04044 6.52186 4.80558C7.24451 4.13714 7.96715 3.55902 8.78013 3.0351C9.15951 2.80025 9.5931 2.56539 10.0267 2.31246C11.3636 1.58982 12.845 0.975569 14.3806 0.632313C14.8142 0.487785 15.2839 0.397454 15.7175 0.343256C16.0608 0.252925 16.4402 0.198727 16.8195 0.144529C17.2531 0.0903304 17.6867 0.0541982 18.1203 0.0541982C18.319 -5.21541e-08 18.5539 0 18.7887 0C18.9875 0.0541983 19.0778 0.144529 19.0778 0.343256L19.0597 0.361322Z" fill="#C4A458"/>
+                                    </svg>
                             </div>
                             <span class="text-white fw-medium">One of the Middle East's Largest Stockists of Bronze, Stainless Steel, Copper & Industrial Metal Alloys</span>
                         </li>
                         <li class="highlight-item mb-3 d-flex align-items-center">
                             <div class="highlight-icon me-3">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M19.0597 0.361322V9.55697C13.8386 9.55697 9.62924 13.7664 9.57504 19.0417H9.52084V19.0959H0V18.9513C0 18.1384 0.0541994 17.3254 0.198728 16.5485C0.198728 16.4582 0.198733 16.3498 0.252931 16.2595C0.307129 15.7356 0.39746 15.2117 0.541988 14.7239C0.632319 14.2903 0.740713 13.8567 0.885242 13.4231C1.26463 12.1224 1.78855 10.93 2.45699 9.79183C2.65572 9.44857 2.83638 9.12338 3.07124 8.78012C3.21577 8.49107 3.3603 8.31041 3.50483 8.11168C3.79389 7.73229 4.08294 7.3529 4.3178 7.00965C4.75139 6.53993 5.18497 6.05214 5.61856 5.61856C5.90762 5.3295 6.19667 5.04044 6.52186 4.80558C7.24451 4.13714 7.96715 3.55902 8.78013 3.0351C9.15951 2.80025 9.5931 2.56539 10.0267 2.31246C11.3636 1.58982 12.845 0.975569 14.3806 0.632313C14.8142 0.487785 15.2839 0.397454 15.7175 0.343256C16.0608 0.252925 16.4402 0.198727 16.8195 0.144529C17.2531 0.0903304 17.6867 0.0541982 18.1203 0.0541982C18.319 -5.21541e-08 18.5539 0 18.7887 0C18.9875 0.0541983 19.0778 0.144529 19.0778 0.343256L19.0597 0.361322Z" fill="#C4A458"/>
-</svg>
+                                <path d="M19.0597 0.361322V9.55697C13.8386 9.55697 9.62924 13.7664 9.57504 19.0417H9.52084V19.0959H0V18.9513C0 18.1384 0.0541994 17.3254 0.198728 16.5485C0.198728 16.4582 0.198733 16.3498 0.252931 16.2595C0.307129 15.7356 0.39746 15.2117 0.541988 14.7239C0.632319 14.2903 0.740713 13.8567 0.885242 13.4231C1.26463 12.1224 1.78855 10.93 2.45699 9.79183C2.65572 9.44857 2.83638 9.12338 3.07124 8.78012C3.21577 8.49107 3.3603 8.31041 3.50483 8.11168C3.79389 7.73229 4.08294 7.3529 4.3178 7.00965C4.75139 6.53993 5.18497 6.05214 5.61856 5.61856C5.90762 5.3295 6.19667 5.04044 6.52186 4.80558C7.24451 4.13714 7.96715 3.55902 8.78013 3.0351C9.15951 2.80025 9.5931 2.56539 10.0267 2.31246C11.3636 1.58982 12.845 0.975569 14.3806 0.632313C14.8142 0.487785 15.2839 0.397454 15.7175 0.343256C16.0608 0.252925 16.4402 0.198727 16.8195 0.144529C17.2531 0.0903304 17.6867 0.0541982 18.1203 0.0541982C18.319 -5.21541e-08 18.5539 0 18.7887 0C18.9875 0.0541983 19.0778 0.144529 19.0778 0.343256L19.0597 0.361322Z" fill="#C4A458"/>
+                                </svg>
                             </div>
                             <span class="text-white fw-medium">35+ Years of Trusted Supply Excellence Across Global Industries</span>
                         </li>
                     </ul>
-                    <!--<p class="text-white">Your Strategic Partner for Oil & Gas, Offshore, Onshore, Marine & Industrial Supply Solutions | Home to the Middle East's Largest Nonferrous Stock | A Legacy of Trust and Reliability Since 1938.</p>-->
-                    <!-- <a class="btn btn--ripple" id="ripple" href="{{ route('contact') }}" onclick="localStorage.setItem('scrollToBuildTogether','1')">Get in Touch<svg
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="#fff" stroke-width="1.5"
-                                stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg></a> -->
                 </div>
             </div>
         </div>
@@ -96,22 +85,6 @@
          <div class="partner mt-100 white">
         <div class="container">
             <div class="row">
-                <!--<div class="col-lg-6">-->
-                <!--    <div class="partner_img_wrapper">-->
-                <!--        <figure class="reveal overlay-anim">-->
-                <!--            <img src="{{ asset('public/front/images/new_index/partner_1.webp') }}" alt="partner"-->
-                <!--                class="img-fluid partner_img_1">-->
-                <!--        </figure>-->
-                <!--        <figure class="reveal overlay-anim">-->
-                <!--            <img src="{{ asset('public/front/images/new_index/partner_2.webp') }}" alt="partner"-->
-                <!--                class="img-fluid partner_img_2">-->
-                <!--        </figure>-->
-                <!--        <div class="partner_3">-->
-                <!--            <img src="{{ asset('public/front/images/new_index/partner_3.webp') }}" alt="partner"-->
-                <!--                class="img-fluid">-->
-                <!--        </div>-->
-                <!--    </div>-->
-                <!--</div>-->
                 <div class="col-lg-12 partner_txt">
                     <h2 class="main_head mb-2 mb-xxl-5" data-aos="zoom-in-up"data-aos-duration="800"data-aos-easing="ease-out-cubic"data-aos-delay="0">Your Strategic Partner for Industrial Metals, Alloys & Engineering Products</h2>
                     <p data-aos="fade-up"data-aos-duration="800"data-aos-easing="ease-out-cubic"data-aos-delay="150">At Golden Harbour, we don't just supply products, we build enduring partnerships that power progress. With a legacy spanning over three decades, we have become one of the UAE's most trusted providers of industrial metallic materials, engineering products, and technical solutions.</p>
@@ -120,28 +93,23 @@
                         including oil & gas, marine, construction, and manufacturing, ensuring they run safer,
                         smarter,
                         and more efficiently. Every product we deliver is backed by a commitment to precision, performance, and people. Our expert team brings not only deep technical know-how but also a genuine dedication to understanding your needs and delivering with care.</p>
-                    <!--<p data-aos="fade-up"data-aos-duration="800"data-aos-easing="ease-out-cubic"data-aos-delay="450">Every product we deliver is backed by a commitment to precision, performance, and people. Our-->
-                    <!--    expert team brings not only deep technical know-how but also a genuine dedication to-->
-                    <!--    understanding your needs and delivering with care.</p>-->
-                    <!--<p data-aos="fade-up"data-aos-duration="800"data-aos-easing="ease-out-cubic"data-aos-delay="600">Whether you're building infrastructure, maintaining critical assets, or driving industrial-->
-                    <!--    excellence, we are always by your side, every step of the way.</p>-->
                 </div>
                 <div class="col-lg-12">
                     <div class="row partner_counter_wrapper">
                         <div class="partner_counter col-lg-3">                            
-                            <h2 class="count" data-count="51000" data-suffix="+">0</h2>
+                            <h2 class="count" data-count="51000" data-suffix="+">51,000+</h2>
                             <p class="mb-0">SKU’s always available, <br/> ready to ship </p>
                         </div>
                         <div class="partner_counter col-lg-3">
-                            <h2 class="count" data-count="3500" data-suffix="+">0</h2>
+                            <h2 class="count" data-count="3500" data-suffix="+">3,500+</h2>
                             <p class="mb-0">Key Project Orders delivered worldwide across various industries </p>
                         </div>
                         <div class="partner_counter col-lg-3">
-                            <h2 class="count" data-count="35" data-suffix="+">0</h2>
+                            <h2 class="count" data-count="35" data-suffix="+">35+</h2>
                             <p class="mb-0">Years of excellence built on quality, driven by integrity</p>
                         </div>
                         <div class="partner_counter col-lg-3">
-                            <h2 class="count" data-count="5" data-suffix="+">0</h2>
+                            <h2 class="count" data-count="5" data-suffix="+">5+</h2>
                             <p class="mb-0">Office locations and Multiple distribution Centers</p>
                         </div>
                     </div>
@@ -543,24 +511,6 @@
                 </div>
                 <div class="col-md-7">
                     <img src="{{ asset('public/front/images/maps-country.webp') }}" alt="map" class="img-fluid" loading="lazy">
-                    <!--<img src="{{ asset('public/front/images/bahrain-map.png') }}" alt="map" class="img-fluid bahrain">-->
-                    <!--<a href="javascript:void(0)" class="bahrain-location" data-bs-toggle="tooltip"-->
-                    <!--    data-bs-placement="top" title="Flat 3, Building 50486, HIDD, Kingdom of Bahrain">-->
-                    <!--    <img src="{{ asset('public/front/images/location.png') }}" alt="location" class=" img-fluid" style=" height: 42px; ">-->
-                    <!--</a>-->
-                    <!--<a href="javascript:void(0)" class="abu-dhabi" data-bs-toggle="tooltip" data-bs-placement="top"-->
-                    <!--    title="Door 2, Mussafah M-37, Abu Dhabi, UAE">-->
-                    <!--    <img src="{{ asset('public/front/images/location.png') }}" alt="location" class=" img-fluid" style=" height: 42px; ">-->
-                    <!--</a>-->
-                    <!--<a href="javascript:void(0)" class="jebel-ali" data-bs-toggle="tooltip" data-bs-placement="top"-->
-                    <!--     title="P.O. Box 13840, RA08 – NB03 Jebel Ali Free Zone Dubai, UAE">-->
-                    <!--    <img src="{{ asset('public/front/images/location.png') }}" alt="location" class=" img-fluid" style=" height: 42px; ">-->
-                    <!--</a>-->
-
-                    <!--<a href="javascript:void(0)" class="dubai" data-bs-toggle="tooltip" data-bs-placement="top"-->
-                    <!--    title="Plot No. 3690251, Al Quoz Ind. Area 4, P.O. Box 13840, Dubai, UAE">-->
-                    <!--    <img src="{{ asset('public/front/images/location.png') }}" alt="location" class=" img-fluid" style=" height: 42px; ">-->
-                    <!--</a>-->
                 </div>
             </div>
         </div>
@@ -589,20 +539,14 @@
                         <div class="talk-to-us-arrow-line">
                         </div>
                         <div class="main-link-group">
-                            <!--<form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">-->
-                            <!--    @csrf-->
-                            <!--    <input type="file" name="file" accept=".csv">-->
-                            <!--    <button type="submit">Import</button>-->
-                            <!--</form>-->
-                            
-                            <a data-bs-toggle="modal" data-bs-target="#e-catalogue" class="btn btn--ripple" id="ripple">Download Our
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#e-catalogue" class="btn btn--ripple" id="ripple">Download Our
                                 Catalogue
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none">
                                     <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white"
                                         stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -610,64 +554,7 @@
         </div>
         
     </section>
-    <!--<section class="section_space catalog_wrapper dark">-->
-    <!--    <div class="container">-->
-    <!--        <div class=" cta-block-inner ">-->
-    <!--            <div class="cta-heading">-->
-    <!--                <h2 class="catalog_title">-->
-    <!--                    Simplify Your Search with Our E-Catalog-->
-    <!--                </h2>-->
-    <!--                <div class="cta-top-line"></div>-->
-    <!--                <div class="cta-left-line"></div>-->
-    <!--            </div>-->
-    <!--            <div class="cta-border-line-top"></div>-->
-    <!--            <div class="cta-border-line-bottom"></div>-->
-    <!--            <div class="cta-block-p">-->
-    <!--                <p>-->
-    <!--                    Discover our complete product portfolio in one convenient e-catalog. From marine valves to-->
-    <!--                    hydraulic-->
-    <!--                    fittings, explore everything we have to offer. Our latest product catalog to find high-quality-->
-    <!--                    solutions for your business. Easy to navigate and ready for download-->
-    <!--                </p>-->
-    <!--            </div>-->
-    <!--            <div class="cta-talk-to-us-wrapper">-->
-    <!--                <div class="cta-talk-to-us-arrow-wrapper">-->
-    <!--                    <div class="talk-to-us-arrow-line">-->
-    <!--                    </div>-->
-    <!--                    <div class="main-link-group">-->
-    <!--                        <a data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn--ripple" id="ripple">Download Our-->
-    <!--                            Catalog-->
-    <!--                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"-->
-    <!--                                fill="none">-->
-    <!--                                <path d="M4.5 19.5L19.5 4.5M19.5 4.5H8.25M19.5 4.5V15.75" stroke="white"-->
-    <!--                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />-->
-    <!--                            </svg>-->
-    <!--                        </a>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-        <!--<div class="dark-circle"></div>-->
-    <!--</section>    -->
 </div>
-<!--adipec popup-->
-
-<!-- Modal -->
-<!--<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--  <div class="modal-dialog modal-dialog-centered">-->
-<!--    <div class="modal-content">-->
-<!--      <div class="modal-header border-0 p-0">-->
-<!--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style=" position: absolute; right: 5%; top: 6%; z-index: 99; opacity: 1;scale: 0.8;filter: invert(1);"></button>-->
-<!--      </div>-->
-<!--      <div class="modal-body">-->
-<!--         <a href="https://www.adipec.com/" target="_blank">-->
-<!--            <img src="{{asset('public/front/images/gh_popup.png')}}" class="img-fluid">-->
-<!--        </a>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -795,9 +682,6 @@
 <!--gsap-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-
-
 
 
 <!-- script for shape -->
@@ -1072,8 +956,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // counter
     
 </script>
- <!--script for change bg image of why section-->
-     <script>
+<!-- script for change bg image of why section -->
+<script>
     document.addEventListener("DOMContentLoaded", function () {
     const whySection = document.querySelector(".why");
     const tabButtons = document.querySelectorAll('.why [data-bs-toggle="tab"]');
