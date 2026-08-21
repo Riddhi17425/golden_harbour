@@ -46,7 +46,7 @@
     <meta property="og:site_name" content="Golden Harbour">
     <meta property="og:title" content="{{ $meta_title ?? $title ?? 'Golden Harbour' }}">
     <meta property="og:description" content="{{ $meta_description ?? $description ?? '' }}">
-    <meta property="og:type" content="article">
+    <meta property="og:type" content="{{ Route::is('blog', 'blogdetail') ? 'article' : 'website' }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:image" content="{{ $og_image ?? asset('public/front/images/GH_Favicon.png') }}">
     <meta property="og:image:width" content="1200">
@@ -54,7 +54,7 @@
     <!-- OG Tags End -->
 
     <!--Twitter X Card Tags-->
-    <meta property="twitter:site" content="Golden Harbour">
+    <meta name="twitter:site" content="@llc_Gharbour">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $meta_title ?? $title ?? 'Golden Harbour' }}">
     <meta name="twitter:description" content="{{ $meta_description ?? $description ?? '' }}">
@@ -260,25 +260,23 @@
                 object-fit: cover;
             }
 
-            #searchModal .modal-header {
-    padding: 20px 20px 20px;
-}
+        #searchModal .modal-header {
+            padding: 20px 20px 20px;
+        }
 
-#searchModal .modal-title {
-    font-size: 20px;
-}
+        #searchModal .modal-title {
+            font-size: 20px;
+        }
 
-#searchModal .search-form input {
-    font-size: 16px;
-    padding: 8px;
-}
+        #searchModal .search-form input {
+            font-size: 16px;
+            padding: 8px;
+        }
 
-#searchModal .btn-close {
-    margin-right: 0;
-    margin-top: 0;
-}
-
-
+        #searchModal .btn-close {
+            margin-right: 0;
+            margin-top: 0;
+        }
         }
 
     </style>
@@ -371,10 +369,10 @@
                 <div>
                     <ul class="nav-menu">
                         <li class="nav-item">
-                        <a href="javascript:void()" class="nav-link" data-bs-toggle="modal" data-bs-target="#e-catalogue">
-                            <span>E-Catalogue</span>
-                        </a>
-                    </li>
+                            <button type="button" class="nav-link w-100 text-start" style="background:none; border:none; padding:0; cursor:pointer;" data-bs-toggle="modal" data-bs-target="#e-catalogue">
+                                <span>E-Catalogue</span>
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -446,19 +444,6 @@
                                 </li>
                             @endif
                         @endforeach
-
-                        <!--<li style="transition: all .6s ease .3s;"><a href="#" class="submenu-link" >Non Ferrous Metal & Alloys</a>-->
-                        <!--</li>-->
-
-                        <!--<li style="transition: all .6s ease .4s;"><a href="#" class="submenu-link">Ferrous Metal & Alloys</a>-->
-                        <!--</li>-->
-                        <!--<li style="transition: all .6s ease .5s;"><a href="#" class="submenu-link">Hydrualic & Instrumentation</a></li>-->
-                        <!--<li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Heat Exchanger, Condensors Pipes, Tubes & Fittings</a>-->
-                        <!--<li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Welding, Electrical and Hoses</a>-->
-                        <!--<li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Non Metallic</a>-->
-                        <!--<li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Other Products</a>-->
-                        <!--</li>-->
-
                     </ul>
                 </div>
             </div>
@@ -564,10 +549,10 @@
                 <div>
                     <ul class="nav-menu list-unstyled sidemenu m-0 p-3">
                         <li class="nav-item">
-                        <a href="javascript:void()" class="nav-link" data-bs-toggle="modal" data-bs-target="#e-catalogue">
-                            <span>E-Catalogue</span>
-                        </a>
-                    </li>
+                            <button type="button" class="nav-link w-100 text-start" style="background:none; border:none; padding:0; cursor:pointer;" data-bs-toggle="modal" data-bs-target="#e-catalogue">
+                                <span>E-Catalogue</span>
+                            </button>
+                        </li>
                     </ul>
                 </div>
 
@@ -642,20 +627,11 @@
                 <div class="submenu-content pt-0">
                     <ul class="submenu-list">
                          @foreach ($categories as $category)
-                            <li style="transition: all .6s ease .3s;"><a href="{{ route('subcategorylist',['category'=>$category->url])}}" class="submenu-link" >{{ $category->name }}</a>
-                        </li>
+                            @if (strtolower($category->name) !== 'ferrous metal & alloys')
+                                <li style="transition: all .6s ease .3s;"><a href="{{ route('subcategorylist',['category'=>$category->url])}}" class="submenu-link" >{{ $category->name }}</a>
+                                </li>
+                            @endif
                         @endforeach
-                       <!--<li style="transition: all .6s ease .3s;"><a href="#" class="submenu-link" >Non Ferrous Metal & Alloys</a>-->
-                       <!-- </li>-->
-
-                       <!-- <li style="transition: all .6s ease .4s;"><a href="#" class="submenu-link">Ferrous Metal & Alloys</a>-->
-                       <!-- </li>-->
-                       <!-- <li style="transition: all .6s ease .5s;"><a href="#" class="submenu-link">Hydrualic & Instrumentation</a></li>-->
-                       <!-- <li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Heat Exchanger, Condensors Pipes, Tubes & Fittings</a>-->
-                       <!-- <li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Welding, Electrical and Hoses</a>-->
-                       <!-- <li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Non Metallic</a>-->
-                       <!-- <li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Other Products</a>-->
-                       <!-- </li>-->
                     </ul>
                 </div>
           </div>

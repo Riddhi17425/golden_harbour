@@ -201,7 +201,7 @@
                             <!--<li><a href="{{ route('event') }}" title="Events">Events</a></li>-->
                             <!--<li><a href="{{ route('news') }}" title="News">News</a></li>-->
                             <li><a href="{{ route('blog') }}" title="Blogs">Blogs</a></li>
-                            <li><a href="javascript:void()" data-bs-toggle="modal" data-bs-target="#e-catalogue">E-Catalogue</a></li>
+                            <li><button type="button" class="ft_link_btn" style="background:none; border:none; padding:0; color:var(--ac-line); font:inherit; cursor:pointer; line-height:inherit;" data-bs-toggle="modal" data-bs-target="#e-catalogue">E-Catalogue</button></li>
                             <li><a href="{{ route('gallery') }}" title="Gallery">Gallery</a></li>
                             <li><a href="{{route('faq')}}" title="FAQ">FAQs</a></li>
                             <li><a href="{{ route('contact') }}" onclick="localStorage.setItem('scrollToBuildTogether','1')" title="Contact">Contact</a></li>
@@ -310,9 +310,9 @@
                     </a>
                 </div>
                 <div class="col-12 col-md-4 text-center">
-                    <a href="Javascript::void(0)">
+                    <span>
                         © <?php echo date('Y'); ?> Golden Harbour LLC. All Rights Reserved.
-                    </a>
+                    </span>
                 </div>
                 <div class="col-12 col-md-4 text-center text-md-end">
                     <a href="{{route('termsandconditions')}}">
