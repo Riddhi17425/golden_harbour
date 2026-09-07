@@ -95,7 +95,6 @@ Route::get('/product/{category}/{subcategory}/{product}/{subproduct}/detail', [D
 Route::post('/whatsaapinquiry', [DashboardController::class, 'whatsaapinquiry'])->name('whatsaapinquiry');
 Route::post('/inquiery-store', [DashboardController::class, 'inquieryStore'])->name('inquiery-store')->middleware('throttle:3,10'); //Per IP only 3 request per 10 minutes
 
-
 Route::get('/search', [DashboardController::class, 'Search'])->name('search');
 Route::get('/autocomplete-search', [DashboardController::class, 'autocomplete'])->name('autocomplete.search');
 Route::get('/product-search', [DashboardController::class, 'productSearch'])->name('product.search');
@@ -107,9 +106,8 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
-    
     Route::get('/admin/dashboard', [adminController::class, 'admin'])->name('admin/dashboard');
-  Route::resource('admin/valuableclient', ValuableClientController::class);
+    Route::resource('admin/valuableclient', ValuableClientController::class);
     Route::resource('admin/whychoose', WhyChooseController::class);
     Route::resource('admin/network', NetworkController::class);
     Route::resource('admin/industrysolution', IndustrySolutionController::class);
@@ -134,12 +132,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('admin/blog', BlogsController::class);
     Route::resource('admin/homeslider', HomeSliderController::class);
     Route::resource('admin/agencyslider', AgencySliderController::class);
-     // AJAX routes
+    
+    // AJAX routes
     Route::get('/admin/subcategories/{categoryId}', [IndustryProductController::class, 'getSubcategories']);
     Route::get('/admin/products/{categoryId}/{subcategoryId}', [IndustryProductController::class, 'getProducts']);
 
     Route::prefix('backend')->group(function () {
     });
-
-
 });
