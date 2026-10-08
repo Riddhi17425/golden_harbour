@@ -292,7 +292,6 @@ class SitemapController extends Controller
             'news',
             'ourculture',
             'currentopportunities',
-            'novacancy',
             'gallery',
             'faq',
             'contact',

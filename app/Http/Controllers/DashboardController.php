@@ -1888,6 +1888,4 @@ private function normalizeSearchText($value)
     
         return redirect()->away($whatsappUrl);
     }
-
-
 }
