@@ -242,7 +242,6 @@
             border-bottom: 1px solid #eee;
         }
 
-
         #productSearchResults a:hover {
             background: #f8f8f8;
             color: var(--gold, #C4A458);
@@ -253,6 +252,28 @@
             margin-top: 4px;
         }
 
+        .lang-select {
+            position: relative;
+            z-index: 9999;
+        }
+
+        #google_translate_element {
+            position: relative;
+            z-index: 10000;
+        }
+
+        #google_translate_element .goog-te-gadget {
+            position: relative;
+            z-index: 10001;
+        }
+
+        #google_translate_element .goog-te-combo {
+            position: relative;
+            z-index: 10002;
+            pointer-events: auto !important;
+            cursor: pointer !important;
+        }
+
         @media (max-width: 728px) {
             #productSearchResults a img {
                 width: 75px;
@@ -260,23 +281,23 @@
                 object-fit: cover;
             }
 
-        #searchModal .modal-header {
-            padding: 20px 20px 20px;
-        }
+            #searchModal .modal-header {
+                padding: 20px 20px 20px;
+            }
 
-        #searchModal .modal-title {
-            font-size: 20px;
-        }
+            #searchModal .modal-title {
+                font-size: 20px;
+            }
 
-        #searchModal .search-form input {
-            font-size: 16px;
-            padding: 8px;
-        }
+            #searchModal .search-form input {
+                font-size: 16px;
+                padding: 8px;
+            }
 
-        #searchModal .btn-close {
-            margin-right: 0;
-            margin-top: 0;
-        }
+            #searchModal .btn-close {
+                margin-right: 0;
+                margin-top: 0;
+            }
         }
 
     </style>
@@ -1035,68 +1056,64 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 </script>
+
 <script type="text/javascript">
-    function googleTranslateElementInit() {
+    function googleTranslateElementInit()
+    {
         new google.translate.TranslateElement({
             pageLanguage: 'en',
-            includedLanguages: 'en,ar', // Only English & Arabic
+            includedLanguages: 'en,ar',
             layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
         }, 'google_translate_element');
+
+        setTimeout(updateTranslateText, 500);
     }
 
-    function toggleGoogleTranslate() {
-        var translateElement = document.getElementById("google_translate_element");
-        if (translateElement.style.display === "none") {
-            translateElement.style.display = "block";
-        } else {
-            translateElement.style.display = "none";
-        }
-    }
+    function updateTranslateText()
+    {
+        if (window.innerWidth <= 767.98)
+        {
+            var select = document.querySelector('.goog-te-combo');
+            if (select)
+            {
+                for (var i = 0; i < select.options.length; i++)
+                {
+                    var opt = select.options[i];
+                    if (opt.value === "" || opt.value === "en")
+                    {
+                        opt.text = "EN";
+                    }
 
-    // Rename Google Translate dropdown options for mobile safely without freezing the browser!
-    document.addEventListener("DOMContentLoaded", function() {
-        function updateTranslateText() {
-            if (window.innerWidth <= 767.98) {
-                var select = document.querySelector('.goog-te-combo');
-                if (select) {
-                    for (var i = 0; i < select.options.length; i++) {
-                        var opt = select.options[i];
-                        if (opt.value === "" && opt.text !== "EN") {
-                            opt.text = "EN"; // Default placeholder
-                        } else if (opt.value === "en" && opt.text !== "EN") {
-                            opt.text = "EN";
-                        } else if (opt.value === "ar" && opt.text !== "AR") {
-                            opt.text = "AR";
-                        }
+                    if (opt.value === "ar")
+                    {
+                        opt.text = "AR";
                     }
                 }
             }
         }
+    }
 
-        // MutationObserver to detect when Google Translate injects the select element
-        var observer = new MutationObserver(function(mutations) {
-            // 1. Temporarily disconnect observer so our own text changes don't trigger it again!
-            observer.disconnect();
-
-            // 2. Perform changes
-            updateTranslateText();
-
-            // 3. Re-observe safely
-            var targetNode = document.getElementById('google_translate_element');
-            if (targetNode) {
-                observer.observe(targetNode, { childList: true, subtree: true });
-            }
-        });
-
-        var targetNode = document.getElementById('google_translate_element');
-        if (targetNode) {
-            observer.observe(targetNode, { childList: true, subtree: true });
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted)
+        {
+            window.location.reload();
         }
+    });
 
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(function () {
+            updateTranslateText();
+        }, 500);
         window.addEventListener('resize', updateTranslateText);
     });
 </script>
+
+<script type="text/javascript"
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+</script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     $(document).ready(function () {
         const $form = $('#productSearchForm');
@@ -1195,5 +1212,3 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 </script>
-
-<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
