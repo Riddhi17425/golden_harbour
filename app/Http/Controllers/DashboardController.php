@@ -48,6 +48,7 @@ use Illuminate\Support\Carbon;
 use App\Models\Inquires;
 use App\Mail\SendCatalogueMailToAdmin;
 use App\Mail\SendCatalogueMailToUser;
+use Illuminate\Support\Facades\RateLimiter;
 
 class DashboardController extends Controller
 {
@@ -268,24 +269,52 @@ class DashboardController extends Controller
         die;
     }
 
-    public function inquieryStore(Request $request){
+    public function inquieryStore(Request $request)
+    {
+        // 1. Honeypot protection
+        if ($request->filled('website'))
+        {
+            Log::warning('Inquiry form blocked: honeypot triggered', [
+                'ip' => $request->ip(),
+            ]);
+
+            abort(422, 'Invalid form submission.');
+        }
+
+        // 2. Rate limiting: maximum 3 attempts per IP in 10 minutes
+        $key = 'inquiry-form:' . $request->ip();
+
+        if (RateLimiter::tooManyAttempts($key, 3))
+        {
+            return back()->withInput()->withErrors([
+                'email' => 'Too many submissions. Please try again after 10 minutes.',
+            ]);
+        }
+
+        RateLimiter::hit($key, 600);
+    
         $request->validate([
             'firstname' => [
                 'required',
                 'string',
                 'max:100',
                 // Block URLs
-                function ($attribute, $value, $fail) {
-                    if (preg_match('/https?:\/\/|www\./i', $value)) {
+                function ($attribute, $value, $fail)
+                {
+                    if (preg_match('~(?:https?://|www\.)~i', $value))
+                    {
                         $fail('Links are not allowed.');
                     }
                 },
+
                 // Spam keywords
-                function ($attribute, $value, $fail) {
+                function ($attribute, $value, $fail)
+                {
                     $spamWords = ['seo','crypto','viagra','casino','furniture','wholesale','упаковка','оборудование'];
-    
-                    foreach ($spamWords as $word) {
-                        if (str_contains(strtolower($value), $word)) {
+                    foreach ($spamWords as $word)
+                    {
+                        if (str_contains(strtolower($value), $word))
+                        {
                             $fail('Spam content detected.');
                             break;
                         }
@@ -296,16 +325,20 @@ class DashboardController extends Controller
                 'required',
                 'string',
                 'max:100',
-                function ($attribute, $value, $fail) {
-                    if (preg_match('/https?:\/\/|www\./i', $value)) {
+                function ($attribute, $value, $fail)
+                {
+                    if (preg_match('~(?:https?://|www\.)~i', $value))
+                    {
                         $fail('Links are not allowed.');
                     }
                 },
-                function ($attribute, $value, $fail) {
+                function ($attribute, $value, $fail)
+                {
                     $spamWords = ['seo','crypto','viagra','casino','furniture','wholesale','упаковка','оборудование'];
-    
-                    foreach ($spamWords as $word) {
-                        if (str_contains(strtolower($value), $word)) {
+                    foreach ($spamWords as $word)
+                    {
+                        if (str_contains(strtolower($value), $word))
+                        {
                             $fail('Spam content detected.');
                             break;
                         }
@@ -317,20 +350,39 @@ class DashboardController extends Controller
                 'email:rfc,dns',
                 'max:255',
     
-                function ($attribute, $value, $fail) {
+                function ($attribute, $value, $fail)
+                {
                     $domain = explode('@', $value)[1] ?? '';
-    
                     $blockedDomains = [
-                        'mail.ru',
-                        'yopmail.com',
-                        'tempmail.com',
+                        'mailinator.com',
                         '10minutemail.com',
                         'guerrillamail.com',
+                        'tempmail.com',
+                        'temp-mail.org',
                         'throwawaymail.com',
-                        'mailinator.com',
+                        'maildrop.cc',
+                        'dispostable.com',
+                        'getairmail.com',
+                        'moakt.com',
+                        'spamgourmet.com',
+                        'yopmail.com',
+                        'sharklasers.com',
+                        'mailnesia.com',
+                        'fakemail.net',
+                        'emailondeck.com',
+                        'trashmail.com',
+                        'mintemail.com',
+                        'mytemp.email',
+                        'mailboxvip.org',
+                        'usmailerbox.org',
+                        'mail220v.org',
+                        'alquilerjetskitf.com',
+                        'aimusicfixer.com',
+                        'belettersmail.com',
                     ];
     
-                    if (in_array(strtolower($domain), $blockedDomains)) {
+                    if (in_array(strtolower($domain), $blockedDomains))
+                    {
                         $fail('Disposable email addresses are not allowed.');
                     }
                 },
@@ -355,15 +407,16 @@ class DashboardController extends Controller
                 'string',
                 'max:255',
             ],
-    
             'message' => [
                 'nullable',
                 'string',
                 'max:500',
     
                 // Block URLs
-                function ($attribute, $value, $fail) {
-                    if (preg_match('/https?:\/\/|www\./i', $value)) {
+                function ($attribute, $value, $fail)
+                {
+                    if (preg_match('~(?:https?://|www\.)~i', $value))
+                    {
                         $fail('Links are not allowed in message.');
                     }
                 },
