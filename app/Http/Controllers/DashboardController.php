@@ -494,7 +494,7 @@ class DashboardController extends Controller
                     'Content-Type' => 'application/json'
                 ])                                         
                 //->post('https://script.google.com/macros/s/AKfycbwZL6oC_ItpTFtVbtAqN73baSSDj0iIO_Cptfpvz0yOhYD2EC-AHAcVQHcG_7Qdg-i1/exec', $sheetData);
-                ->post('https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec', $sheetData);
+                ->post('https://script.google.com/macros/s/AKfycbzQo_B6EOny3os2u9qa3ohQeXUhL5lvYdiTgvpCU4XDTvkbHplv8bsJuss4hS8Vdrudfw/exec', $sheetData);
 
             // Check if the request was successful
             if ($response->successful()) {
@@ -936,7 +936,7 @@ class DashboardController extends Controller
         // 7. Send to Google Sheets (safe handling)
         try {
             Http::timeout(30)->post(
-                'https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec',
+                'https://script.google.com/macros/s/AKfycbzQo_B6EOny3os2u9qa3ohQeXUhL5lvYdiTgvpCU4XDTvkbHplv8bsJuss4hS8Vdrudfw/exec',
                 $sheetData
             );
         } catch (\Exception $e) {
@@ -1337,7 +1337,7 @@ class DashboardController extends Controller
         ];
         try {
             Http::timeout(30)->post(
-                'https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec',
+                'https://script.google.com/macros/s/AKfycbzQo_B6EOny3os2u9qa3ohQeXUhL5lvYdiTgvpCU4XDTvkbHplv8bsJuss4hS8Vdrudfw/exec',
                 $sheetData
             );
         } catch (\Exception $e) {
@@ -1759,7 +1759,7 @@ private function normalizeSearchText($value)
                 ->withHeaders([
                     'Content-Type' => 'application/json'
                 ])
-                ->post('https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec', $sheetData);
+                ->post('https://script.google.com/macros/s/AKfycbzQo_B6EOny3os2u9qa3ohQeXUhL5lvYdiTgvpCU4XDTvkbHplv8bsJuss4hS8Vdrudfw/exec', $sheetData);
 
             // Check response
             if ($response->successful()) {
@@ -1923,7 +1923,7 @@ private function normalizeSearchText($value)
         ];
         try {
             Http::withHeaders(['Content-Type' => 'application/json'])
-                ->post('https://script.google.com/macros/s/AKfycbw5fJDG1gpW1LOQikmqJfL2TmT17jVGqeNufmd_8ouqOjZiY0e19aLM4tlfmDUY5HsZ/exec', 
+                ->post('https://script.google.com/macros/s/AKfycbywPsdVW1wLgPKA5nhCwWRyJ2tK0oL-e-p86EZGx7xbkHVTg6ovNsp7hRRaQHo4-5p4qA/exec', 
                     $sheetsData
                 );
         } catch (\Exception $e) {
