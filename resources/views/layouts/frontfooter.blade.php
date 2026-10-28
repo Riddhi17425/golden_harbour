@@ -201,7 +201,7 @@
                             <!--<li><a href="{{ route('event') }}" title="Events">Events</a></li>-->
                             <!--<li><a href="{{ route('news') }}" title="News">News</a></li>-->
                             <li><a href="{{ route('blog') }}" title="Blogs">Blogs</a></li>
-                            <li><a href="javascript:void()" data-bs-toggle="modal" data-bs-target="#e-catalogue">E-Catalogue</a></li>
+                            <li><button type="button" class="ft_link_btn" style="background:none; border:none; padding:0; color:var(--ac-line); font:inherit; cursor:pointer; line-height:inherit;" data-bs-toggle="modal" data-bs-target="#e-catalogue">E-Catalogue</button></li>
                             <li><a href="{{ route('gallery') }}" title="Gallery">Gallery</a></li>
                             <li><a href="{{route('faq')}}" title="FAQ">FAQs</a></li>
                             <li><a href="{{ route('contact') }}" onclick="localStorage.setItem('scrollToBuildTogether','1')" title="Contact">Contact</a></li>
@@ -310,9 +310,9 @@
                     </a>
                 </div>
                 <div class="col-12 col-md-4 text-center">
-                    <a href="Javascript::void(0)">
+                    <span>
                         © <?php echo date('Y'); ?> Golden Harbour LLC. All Rights Reserved.
-                    </a>
+                    </span>
                 </div>
                 <div class="col-12 col-md-4 text-center text-md-end">
                     <a href="{{route('termsandconditions')}}">
@@ -364,7 +364,17 @@
                 <div class="contact_input">
                     <form method="POST"  id="inquiryForm" action="{{ route('inquiery-store')}}">
                         @csrf
-                        <input type="hidden" name="hiddenvalue" value="1">
+                        <!-- Honeypot: genuine users should leave this empty -->
+                        <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;"
+                            aria-hidden="true">
+                            <label for="inq_website">Leave this field empty</label>
+                            <input type="text"
+                                id="inq_website"
+                                name="website"
+                                value=""
+                                tabindex="-1"
+                                autocomplete="off">
+                        </div>
                         <input type="hidden" name="form_time" value="{{ time() }}">
                         <div class="row">
                             <div class="col-12 col-lg-6 mb-4">
@@ -388,11 +398,18 @@
                             </div>
                             <div class="col-12 col-lg-6 mb-4">
                                 <label for="phone" class="form-label"><b>Phone Number *:</b></label>
-                                <input type="tel" class="form-control px-0" id="inq_number" name="number" maxlength="15"
+                                <input
+                                    type="tel"
+                                    class="form-control px-0"
+                                    id="inq_number"
+                                    name="number"
+                                    maxlength="15"
                                     minlength="10"
-                                    oninput="this.value = this.value.replace(/[^0-9+]/g, '').replace(/(?!^)\+/g, '').slice(0, 15);"
-                                    placeholder="Enter your Phone Number" pattern="\d{10,15}"
-                                    title="Phone number should be between 10 to 15 digits">
+                                    inputmode="numeric"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15);"
+                                    placeholder="Enter your Phone Number"
+                                    pattern="[0-9]{10,15}"
+                                    title="Phone number should contain 10 to 15 digits">
                             </div>
 
                              <div class="col-12 col-lg-6 mb-4">
@@ -777,7 +794,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //     });
 
 $(document).ready(function() {
- let firstname = $('#inq_firstname').val().trim();
+// let firstname = $('#inq_firstname').val().trim();
 //             let lastname = $('#inq_lastname').val().trim();
 //             let email = $('#inq_email').val().trim();
 //             let number = $('#inq_number').val().trim();
@@ -786,23 +803,34 @@ $(document).ready(function() {
 //             let subject = $('#inq_subject').val().trim();
 //             let message = $('#inq_message').val().trim();
 //             let submitBtn = $('#submitBtn');
-    $("#inquiryForm").validate({
+    const $form = $('#inquiryForm');
+
+    if (!$form.length) {
+        return;
+    }
+
+    $form.validate({
         rules: {
             firstname: {
                 required: true,
+                minlength: 2,
+                maxlength: 40,
                 noUrl: true,
                 noCyrillic: true,
-                noSpamWords: true,
+                noSpamWords: true
             },
             lastname: {
                 required: true,
+                minlength: 2,
+                maxlength: 40,
                 noUrl: true,
                 noCyrillic: true,
-                noSpamWords: true,
+                noSpamWords: true
             },
             email: {
                 required: true,
-                email: true
+                email: true,
+                maxlength: 50
             },
             number: {
                 required: true,
@@ -812,90 +840,131 @@ $(document).ready(function() {
             },
             company_name: {
                 required: true,
+                minlength: 2,
+                maxlength: 100,
                 noUrl: true,
                 noCyrillic: true,
-                noSpamWords: true,
+                noSpamWords: true
             },
             city: {
-                required: true
+                required: true,
+                minlength: 2,
+                maxlength: 30
+            },
+            subject: {
+                required: true,
+                minlength: 2,
+                maxlength: 50
             },
             message: {
+                maxlength: 500,
                 noUrl: true,
                 noCyrillic: true,
-                noSpamWords: true,
-                minSubmitTime: true
-            },
-            subject: {
-                required: true
-            },
-            'g-recaptcha-response': {
-                required: true
+                noSpamWords: true
             }
         },
+
         messages: {
             firstname: {
-                required: "Please enter your first name."
+                required: 'Please enter your first name.'
             },
             lastname: {
-                required: "Please enter your last name."
+                required: 'Please enter your last name.'
             },
             email: {
-                required: "Please enter your email address.",
-                email: "Please enter a valid email address."
+                required: 'Please enter your email address.',
+                email: 'Please enter a valid email address.'
             },
             number: {
-                required: "Please enter your phone number.",
-                digits: "Please enter only digits.",
-                minlength: "Phone number must be between 10 to 15 digits",
-                maxlength: "Phone number cannot exceed 15 digits."
+                required: 'Please enter your phone number.',
+                digits: 'Only digits are allowed.',
+                minlength: 'Enter at least 10 digits.',
+                maxlength: 'Enter no more than 15 digits.'
             },
             company_name: {
-                required: "Please enter your company name."
+                required: 'Please enter your company name.'
             },
             city: {
-                required: "Please enter your city."
+                required: 'Please enter your city.'
             },
             subject: {
-                required: "Please enter your subject."
-            },
-            'g-recaptcha-response': {
-                required: "Please verify that you are not a robot."
+                required: 'Please enter a subject.'
             }
         },
-        errorPlacement: function(error, element) {
-            error.appendTo(element.parent());
-        },
-        submitHandler: function(form) {
-            // Clear previous errors
-            $('#email-error').empty().hide();
-            $('#inq_recaptcha-error').empty().hide();
-            const email = $('[name="email"]').val();
-            const emailDomain = email.split('@')[1];
-            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            const fakeDomains = [
-                'mailinator.com', '10minutemail.com', 'guerrillamail.com', 'tempmail.com',
-                'temp-mail.org', 'throwawaymail.com', 'maildrop.cc', 'dispostable.com',
-                'getairmail.com', 'moakt.com', 'spamgourmet.com', 'yopmail.com',
-                'sharklasers.com', 'mailnesia.com', 'fakemail.net', 'emailondeck.com',
-                'trashmail.com', 'mintemail.com', 'mytemp.email'
-            ];
-            if (fakeDomains.includes(emailDomain)) {
-                $('#email-error').html('Please provide a valid email address.').show();
-                return false;
-            }
 
-            let recaptchaResponse = grecaptcha.getResponse(inquiryCaptchaWidgetId);
-            if (recaptchaResponse === "") {
-                $('#inq_recaptcha-error').html("Please verify that you are not a robot.").show();
-                return false;
+        errorElement: 'span',
+        errorClass: 'text-danger',
+
+        errorPlacement: function (error, element) {
+            if (element.attr('name') === 'email') {
+                error.insertAfter($('#email-error'));
             } else {
-                $('#inq_recaptcha-error').empty().hide();
+                error.insertAfter(element);
             }
-              // Disable submit button and change text
-            const $submitBtn = $('#inquiryForm').find(':submit');
-            $submitBtn.prop('disabled', true).text('Submitting...');
+        },
 
-            form.submit(); // Proceed with form submission
+        submitHandler: function (form) {
+            $('#email-error').empty().hide();
+            $('#inq_recaptcha-error').empty();
+
+            const email = $.trim($form.find('[name="email"]').val());
+            const emailDomain = (email.split('@').pop() || '').toLowerCase();
+
+            const blockedDomains = [
+                'mailinator.com',
+                '10minutemail.com',
+                'guerrillamail.com',
+                'tempmail.com',
+                'temp-mail.org',
+                'throwawaymail.com',
+                'maildrop.cc',
+                'dispostable.com',
+                'getairmail.com',
+                'moakt.com',
+                'spamgourmet.com',
+                'yopmail.com',
+                'sharklasers.com',
+                'mailnesia.com',
+                'fakemail.net',
+                'emailondeck.com',
+                'trashmail.com',
+                'mintemail.com',
+                'mytemp.email'
+            ];
+
+            if (blockedDomains.includes(emailDomain)) {
+                $('#email-error')
+                    .text('Please provide a valid email address.')
+                    .show();
+
+                return false;
+            }
+
+            // Keep the existing live-site reCAPTCHA.
+            if (typeof grecaptcha === 'undefined' ||
+                typeof inquiryCaptchaWidgetId === 'undefined') {
+                $('#inq_recaptcha-error')
+                    .text('CAPTCHA is not loaded. Please refresh and try again.');
+                return false;
+            }
+
+            const captchaResponse =
+                grecaptcha.getResponse(inquiryCaptchaWidgetId);
+
+            if (!captchaResponse) {
+                $('#inq_recaptcha-error')
+                    .text('Please verify that you are not a robot.');
+                return false;
+            }
+
+            const $button = $form.find(':submit');
+
+            $button.prop('disabled', true).text('Submitting...');
+
+            // Submit only after client-side validation and CAPTCHA checks.
+            HTMLFormElement.prototype.submit.call(form);
+
+            return false;
         }
     });
 });

@@ -48,6 +48,7 @@ use Illuminate\Support\Carbon;
 use App\Models\Inquires;
 use App\Mail\SendCatalogueMailToAdmin;
 use App\Mail\SendCatalogueMailToUser;
+use Illuminate\Support\Facades\RateLimiter;
 
 class DashboardController extends Controller
 {
@@ -63,7 +64,6 @@ class DashboardController extends Controller
         // $meta_description = 'With decades of expertise and experience, Golden Harbour provides reliable marine equipment and services tailored to your needs.';
         $meta_title = 'Metals, Alloys & Industrial Materials Supplier UAE | Golden Harbour';
         $meta_description = 'Golden Harbour is a trusted industrial material supplier in the UAE, providing metals, alloys, and engineering products to industrial sectors across the GCC.';
-    
         $clientdata = ValuableClient::whereNull('deleted_at')->get();
         $home_banner = HomeBanner::whereNull('deleted_at')->get();
         $whychoosedata = WhyChoose::whereNull('deleted_at')->get();
@@ -269,24 +269,52 @@ class DashboardController extends Controller
         die;
     }
 
-    public function inquieryStore(Request $request){
+    public function inquieryStore(Request $request)
+    {
+        // 1. Honeypot protection
+        if ($request->filled('website'))
+        {
+            Log::warning('Inquiry form blocked: honeypot triggered', [
+                'ip' => $request->ip(),
+            ]);
+
+            abort(422, 'Invalid form submission.');
+        }
+
+        // 2. Rate limiting: maximum 3 attempts per IP in 10 minutes
+        $key = 'inquiry-form:' . $request->ip();
+
+        if (RateLimiter::tooManyAttempts($key, 3))
+        {
+            return back()->withInput()->withErrors([
+                'email' => 'Too many submissions. Please try again after 10 minutes.',
+            ]);
+        }
+
+        RateLimiter::hit($key, 600);
+    
         $request->validate([
             'firstname' => [
                 'required',
                 'string',
                 'max:100',
                 // Block URLs
-                function ($attribute, $value, $fail) {
-                    if (preg_match('/https?:\/\/|www\./i', $value)) {
+                function ($attribute, $value, $fail)
+                {
+                    if (preg_match('~(?:https?://|www\.)~i', $value))
+                    {
                         $fail('Links are not allowed.');
                     }
                 },
+
                 // Spam keywords
-                function ($attribute, $value, $fail) {
+                function ($attribute, $value, $fail)
+                {
                     $spamWords = ['seo','crypto','viagra','casino','furniture','wholesale','упаковка','оборудование'];
-    
-                    foreach ($spamWords as $word) {
-                        if (str_contains(strtolower($value), $word)) {
+                    foreach ($spamWords as $word)
+                    {
+                        if (str_contains(strtolower($value), $word))
+                        {
                             $fail('Spam content detected.');
                             break;
                         }
@@ -297,16 +325,20 @@ class DashboardController extends Controller
                 'required',
                 'string',
                 'max:100',
-                function ($attribute, $value, $fail) {
-                    if (preg_match('/https?:\/\/|www\./i', $value)) {
+                function ($attribute, $value, $fail)
+                {
+                    if (preg_match('~(?:https?://|www\.)~i', $value))
+                    {
                         $fail('Links are not allowed.');
                     }
                 },
-                function ($attribute, $value, $fail) {
+                function ($attribute, $value, $fail)
+                {
                     $spamWords = ['seo','crypto','viagra','casino','furniture','wholesale','упаковка','оборудование'];
-    
-                    foreach ($spamWords as $word) {
-                        if (str_contains(strtolower($value), $word)) {
+                    foreach ($spamWords as $word)
+                    {
+                        if (str_contains(strtolower($value), $word))
+                        {
                             $fail('Spam content detected.');
                             break;
                         }
@@ -318,20 +350,39 @@ class DashboardController extends Controller
                 'email:rfc,dns',
                 'max:255',
     
-                function ($attribute, $value, $fail) {
+                function ($attribute, $value, $fail)
+                {
                     $domain = explode('@', $value)[1] ?? '';
-    
                     $blockedDomains = [
-                        'mail.ru',
-                        'yopmail.com',
-                        'tempmail.com',
+                        'mailinator.com',
                         '10minutemail.com',
                         'guerrillamail.com',
+                        'tempmail.com',
+                        'temp-mail.org',
                         'throwawaymail.com',
-                        'mailinator.com',
+                        'maildrop.cc',
+                        'dispostable.com',
+                        'getairmail.com',
+                        'moakt.com',
+                        'spamgourmet.com',
+                        'yopmail.com',
+                        'sharklasers.com',
+                        'mailnesia.com',
+                        'fakemail.net',
+                        'emailondeck.com',
+                        'trashmail.com',
+                        'mintemail.com',
+                        'mytemp.email',
+                        'mailboxvip.org',
+                        'usmailerbox.org',
+                        'mail220v.org',
+                        'alquilerjetskitf.com',
+                        'aimusicfixer.com',
+                        'belettersmail.com',
                     ];
     
-                    if (in_array(strtolower($domain), $blockedDomains)) {
+                    if (in_array(strtolower($domain), $blockedDomains))
+                    {
                         $fail('Disposable email addresses are not allowed.');
                     }
                 },
@@ -356,15 +407,16 @@ class DashboardController extends Controller
                 'string',
                 'max:255',
             ],
-    
             'message' => [
                 'nullable',
                 'string',
                 'max:500',
     
                 // Block URLs
-                function ($attribute, $value, $fail) {
-                    if (preg_match('/https?:\/\/|www\./i', $value)) {
+                function ($attribute, $value, $fail)
+                {
+                    if (preg_match('~(?:https?://|www\.)~i', $value))
+                    {
                         $fail('Links are not allowed in message.');
                     }
                 },
@@ -442,7 +494,7 @@ class DashboardController extends Controller
                     'Content-Type' => 'application/json'
                 ])                                         
                 //->post('https://script.google.com/macros/s/AKfycbwZL6oC_ItpTFtVbtAqN73baSSDj0iIO_Cptfpvz0yOhYD2EC-AHAcVQHcG_7Qdg-i1/exec', $sheetData);
-                ->post('https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec', $sheetData);
+                ->post('https://script.google.com/macros/s/AKfycbzQo_B6EOny3os2u9qa3ohQeXUhL5lvYdiTgvpCU4XDTvkbHplv8bsJuss4hS8Vdrudfw/exec', $sheetData);
 
             // Check if the request was successful
             if ($response->successful()) {
@@ -471,8 +523,6 @@ class DashboardController extends Controller
             Log::error('Google Sheets API request failed: ' . $e->getMessage());
             return back()->with('error', 'Failed to send the message. Please try again later.');
         }
-
-
     }
 
     public function about()
@@ -509,8 +559,8 @@ class DashboardController extends Controller
         return view('front.newsdetail',compact('title', 'description','newsdetail'));
     } 
     public function blogs(){
-        $title = 'Blogs';
-        $description = 'Blogs Description';
+        $title = 'Industry Insights & Resources | Golden Harbour Blog';
+        $description = 'Explore Golden Harbour’s knowledge hub for expert insights on industrial metals, engineering alloys, marine applications, and manufacturing practices across UAE.';
         $blogs = Blogs::whereNull('deleted_at')->where('status', 'Active')->orderBy('id', 'desc')->get();
         return view('front.blog',compact('title', 'description','blogs'));
     }
@@ -886,7 +936,7 @@ class DashboardController extends Controller
         // 7. Send to Google Sheets (safe handling)
         try {
             Http::timeout(30)->post(
-                'https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec',
+                'https://script.google.com/macros/s/AKfycbzQo_B6EOny3os2u9qa3ohQeXUhL5lvYdiTgvpCU4XDTvkbHplv8bsJuss4hS8Vdrudfw/exec',
                 $sheetData
             );
         } catch (\Exception $e) {
@@ -1287,7 +1337,7 @@ class DashboardController extends Controller
         ];
         try {
             Http::timeout(30)->post(
-                'https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec',
+                'https://script.google.com/macros/s/AKfycbzQo_B6EOny3os2u9qa3ohQeXUhL5lvYdiTgvpCU4XDTvkbHplv8bsJuss4hS8Vdrudfw/exec',
                 $sheetData
             );
         } catch (\Exception $e) {
@@ -1709,7 +1759,7 @@ private function normalizeSearchText($value)
                 ->withHeaders([
                     'Content-Type' => 'application/json'
                 ])
-                ->post('https://script.google.com/macros/s/AKfycbxhhn1CK9MHsp0Ubj-zEmPWs0PM-E3ljatCA6SjXWLDtU4mACIo4dXgu8WLkIv7EkMuAw/exec', $sheetData);
+                ->post('https://script.google.com/macros/s/AKfycbzQo_B6EOny3os2u9qa3ohQeXUhL5lvYdiTgvpCU4XDTvkbHplv8bsJuss4hS8Vdrudfw/exec', $sheetData);
 
             // Check response
             if ($response->successful()) {
@@ -1873,7 +1923,7 @@ private function normalizeSearchText($value)
         ];
         try {
             Http::withHeaders(['Content-Type' => 'application/json'])
-                ->post('https://script.google.com/macros/s/AKfycbw5fJDG1gpW1LOQikmqJfL2TmT17jVGqeNufmd_8ouqOjZiY0e19aLM4tlfmDUY5HsZ/exec', 
+                ->post('https://script.google.com/macros/s/AKfycbywPsdVW1wLgPKA5nhCwWRyJ2tK0oL-e-p86EZGx7xbkHVTg6ovNsp7hRRaQHo4-5p4qA/exec', 
                     $sheetsData
                 );
         } catch (\Exception $e) {
@@ -1891,6 +1941,4 @@ private function normalizeSearchText($value)
     
         return redirect()->away($whatsappUrl);
     }
-
-
 }

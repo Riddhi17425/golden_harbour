@@ -46,7 +46,7 @@
     <meta property="og:site_name" content="Golden Harbour">
     <meta property="og:title" content="{{ $meta_title ?? $title ?? 'Golden Harbour' }}">
     <meta property="og:description" content="{{ $meta_description ?? $description ?? '' }}">
-    <meta property="og:type" content="article">
+    <meta property="og:type" content="{{ Route::is('blog', 'blogdetail') ? 'article' : 'website' }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:image" content="{{ $og_image ?? asset('public/front/images/GH_Favicon.png') }}">
     <meta property="og:image:width" content="1200">
@@ -54,7 +54,7 @@
     <!-- OG Tags End -->
 
     <!--Twitter X Card Tags-->
-    <meta property="twitter:site" content="Golden Harbour">
+    <meta name="twitter:site" content="@llc_Gharbour">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $meta_title ?? $title ?? 'Golden Harbour' }}">
     <meta name="twitter:description" content="{{ $meta_description ?? $description ?? '' }}">
@@ -242,7 +242,6 @@
             border-bottom: 1px solid #eee;
         }
 
-
         #productSearchResults a:hover {
             background: #f8f8f8;
             color: var(--gold, #C4A458);
@@ -253,6 +252,28 @@
             margin-top: 4px;
         }
 
+        .lang-select {
+            position: relative;
+            z-index: 9999;
+        }
+
+        #google_translate_element {
+            position: relative;
+            z-index: 10000;
+        }
+
+        #google_translate_element .goog-te-gadget {
+            position: relative;
+            z-index: 10001;
+        }
+
+        #google_translate_element .goog-te-combo {
+            position: relative;
+            z-index: 10002;
+            pointer-events: auto !important;
+            cursor: pointer !important;
+        }
+
         @media (max-width: 728px) {
             #productSearchResults a img {
                 width: 75px;
@@ -261,24 +282,22 @@
             }
 
             #searchModal .modal-header {
-    padding: 20px 20px 20px;
-}
+                padding: 20px 20px 20px;
+            }
 
-#searchModal .modal-title {
-    font-size: 20px;
-}
+            #searchModal .modal-title {
+                font-size: 20px;
+            }
 
-#searchModal .search-form input {
-    font-size: 16px;
-    padding: 8px;
-}
+            #searchModal .search-form input {
+                font-size: 16px;
+                padding: 8px;
+            }
 
-#searchModal .btn-close {
-    margin-right: 0;
-    margin-top: 0;
-}
-
-
+            #searchModal .btn-close {
+                margin-right: 0;
+                margin-top: 0;
+            }
         }
 
     </style>
@@ -371,10 +390,10 @@
                 <div>
                     <ul class="nav-menu">
                         <li class="nav-item">
-                        <a href="javascript:void()" class="nav-link" data-bs-toggle="modal" data-bs-target="#e-catalogue">
-                            <span>E-Catalogue</span>
-                        </a>
-                    </li>
+                            <button type="button" class="nav-link w-100 text-start" style="background:none; border:none; padding:0; cursor:pointer;" data-bs-toggle="modal" data-bs-target="#e-catalogue">
+                                <span>E-Catalogue</span>
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -446,19 +465,6 @@
                                 </li>
                             @endif
                         @endforeach
-
-                        <!--<li style="transition: all .6s ease .3s;"><a href="#" class="submenu-link" >Non Ferrous Metal & Alloys</a>-->
-                        <!--</li>-->
-
-                        <!--<li style="transition: all .6s ease .4s;"><a href="#" class="submenu-link">Ferrous Metal & Alloys</a>-->
-                        <!--</li>-->
-                        <!--<li style="transition: all .6s ease .5s;"><a href="#" class="submenu-link">Hydrualic & Instrumentation</a></li>-->
-                        <!--<li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Heat Exchanger, Condensors Pipes, Tubes & Fittings</a>-->
-                        <!--<li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Welding, Electrical and Hoses</a>-->
-                        <!--<li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Non Metallic</a>-->
-                        <!--<li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Other Products</a>-->
-                        <!--</li>-->
-
                     </ul>
                 </div>
             </div>
@@ -564,10 +570,10 @@
                 <div>
                     <ul class="nav-menu list-unstyled sidemenu m-0 p-3">
                         <li class="nav-item">
-                        <a href="javascript:void()" class="nav-link" data-bs-toggle="modal" data-bs-target="#e-catalogue">
-                            <span>E-Catalogue</span>
-                        </a>
-                    </li>
+                            <button type="button" class="nav-link w-100 text-start" style="background:none; border:none; padding:0; cursor:pointer;" data-bs-toggle="modal" data-bs-target="#e-catalogue">
+                                <span>E-Catalogue</span>
+                            </button>
+                        </li>
                     </ul>
                 </div>
 
@@ -618,6 +624,7 @@
                         </li>
                         <!--<li style="transition: all .6s ease .4s;"><a href="#" class="submenu-link" data-bs-toggle="modal" data-bs-target="#staticBackdrop">E-Catalogue</a>-->
                         <!--</li>-->
+						<li style="transition: all .6s ease .5s;"><a href="{{ route('blog') }}" class="submenu-link">Blogs</a></li>
                         <li style="transition: all .6s ease .5s;"><a href="{{route('gallery')}}" class="submenu-link">Gallery</a></li>
                         <li style="transition: all .6s ease .6s;"><a href="{{route('faq')}}" class="submenu-link">FAQ's</a>
                         </li>
@@ -641,20 +648,11 @@
                 <div class="submenu-content pt-0">
                     <ul class="submenu-list">
                          @foreach ($categories as $category)
-                            <li style="transition: all .6s ease .3s;"><a href="{{ route('subcategorylist',['category'=>$category->url])}}" class="submenu-link" >{{ $category->name }}</a>
-                        </li>
+                            @if (strtolower($category->name) !== 'ferrous metal & alloys')
+                                <li style="transition: all .6s ease .3s;"><a href="{{ route('subcategorylist',['category'=>$category->url])}}" class="submenu-link" >{{ $category->name }}</a>
+                                </li>
+                            @endif
                         @endforeach
-                       <!--<li style="transition: all .6s ease .3s;"><a href="#" class="submenu-link" >Non Ferrous Metal & Alloys</a>-->
-                       <!-- </li>-->
-
-                       <!-- <li style="transition: all .6s ease .4s;"><a href="#" class="submenu-link">Ferrous Metal & Alloys</a>-->
-                       <!-- </li>-->
-                       <!-- <li style="transition: all .6s ease .5s;"><a href="#" class="submenu-link">Hydrualic & Instrumentation</a></li>-->
-                       <!-- <li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Heat Exchanger, Condensors Pipes, Tubes & Fittings</a>-->
-                       <!-- <li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Welding, Electrical and Hoses</a>-->
-                       <!-- <li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Non Metallic</a>-->
-                       <!-- <li style="transition: all .6s ease .6s;"><a href="#" class="submenu-link">Other Products</a>-->
-                       <!-- </li>-->
                     </ul>
                 </div>
           </div>
@@ -1058,68 +1056,64 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 </script>
+
 <script type="text/javascript">
-    function googleTranslateElementInit() {
+    function googleTranslateElementInit()
+    {
         new google.translate.TranslateElement({
             pageLanguage: 'en',
-            includedLanguages: 'en,ar', // Only English & Arabic
+            includedLanguages: 'en,ar',
             layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
         }, 'google_translate_element');
+
+        setTimeout(updateTranslateText, 500);
     }
 
-    function toggleGoogleTranslate() {
-        var translateElement = document.getElementById("google_translate_element");
-        if (translateElement.style.display === "none") {
-            translateElement.style.display = "block";
-        } else {
-            translateElement.style.display = "none";
-        }
-    }
+    function updateTranslateText()
+    {
+        if (window.innerWidth <= 767.98)
+        {
+            var select = document.querySelector('.goog-te-combo');
+            if (select)
+            {
+                for (var i = 0; i < select.options.length; i++)
+                {
+                    var opt = select.options[i];
+                    if (opt.value === "" || opt.value === "en")
+                    {
+                        opt.text = "EN";
+                    }
 
-    // Rename Google Translate dropdown options for mobile safely without freezing the browser!
-    document.addEventListener("DOMContentLoaded", function() {
-        function updateTranslateText() {
-            if (window.innerWidth <= 767.98) {
-                var select = document.querySelector('.goog-te-combo');
-                if (select) {
-                    for (var i = 0; i < select.options.length; i++) {
-                        var opt = select.options[i];
-                        if (opt.value === "" && opt.text !== "EN") {
-                            opt.text = "EN"; // Default placeholder
-                        } else if (opt.value === "en" && opt.text !== "EN") {
-                            opt.text = "EN";
-                        } else if (opt.value === "ar" && opt.text !== "AR") {
-                            opt.text = "AR";
-                        }
+                    if (opt.value === "ar")
+                    {
+                        opt.text = "AR";
                     }
                 }
             }
         }
+    }
 
-        // MutationObserver to detect when Google Translate injects the select element
-        var observer = new MutationObserver(function(mutations) {
-            // 1. Temporarily disconnect observer so our own text changes don't trigger it again!
-            observer.disconnect();
-
-            // 2. Perform changes
-            updateTranslateText();
-
-            // 3. Re-observe safely
-            var targetNode = document.getElementById('google_translate_element');
-            if (targetNode) {
-                observer.observe(targetNode, { childList: true, subtree: true });
-            }
-        });
-
-        var targetNode = document.getElementById('google_translate_element');
-        if (targetNode) {
-            observer.observe(targetNode, { childList: true, subtree: true });
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted)
+        {
+            window.location.reload();
         }
+    });
 
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(function () {
+            updateTranslateText();
+        }, 500);
         window.addEventListener('resize', updateTranslateText);
     });
 </script>
+
+<script type="text/javascript"
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+</script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     $(document).ready(function () {
         const $form = $('#productSearchForm');
@@ -1218,5 +1212,3 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 </script>
-
-<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
