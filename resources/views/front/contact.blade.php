@@ -296,7 +296,7 @@
 
 <script type="application/ld+json">
     {
-"@context": "https://schema.org",
+"@@context": "https://schema.org",
 "@type": "ContactPage",
 "@id": "https://www.goldenharbour.com/contact#contactpage",
 "url": "https://www.goldenharbour.com/contact",

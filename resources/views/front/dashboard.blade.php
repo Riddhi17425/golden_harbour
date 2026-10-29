@@ -556,126 +556,116 @@
     </section>
 </div>
 <script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@graph": [
-        {
-            "@type": "Organization",
-            "@id": "https://www.goldenharbour.com/#organization",
-            "name": "Golden Harbour LLC",
-            "alternateName": "Golden Harbour",
-            "url": "https://www.goldenharbour.com/",
-            "logo": {
-            "@type": "ImageObject",
-            "url": "https://www.goldenharbour.com/public/front/images/GOLDEN-HARBOUR-blue.svg"
-        },
-    "description": "Golden Harbour is a trusted industrial material supplier in the UAE, providing metals, alloys, and engineering products to industrial sectors across the GCC.",
-    "foundingDate": "1938",
-    "email": "sales@goldenharbour.ae",
-    "telephone": "+97143472152",
-    "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Plot No. 3690251, Al Quoz Industrial Area 4",
-        "addressLocality": "Dubai",
-        "postalCode": "13840",
-        "addressCountry": "AE"
-    },
-    "sameAs": [
-        "https://www.linkedin.com/company/golden-harbour-llc/",
-        "https://x.com/llc_Gharbour",
-        "https://www.facebook.com/goldenharbourllc",
-        "https://www.instagram.com/goldenharbour.uae/"
-    ]
-},
-{
-    "@type": "LocalBusiness",
-    "@id": "https://www.goldenharbour.com/#localbusiness",
-    "name": "Golden Harbour LLC",
-    "url": "https://www.goldenharbour.com/",
-    "image": "https://www.goldenharbour.com/public/front/images/GOLDEN-HARBOUR-blue.svg",
-    "email": "sales@goldenharbour.ae",
-    "telephone": "+97143472152",
-    "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Plot No. 3690251, Al Quoz Industrial Area 4",
-        "addressLocality": "Dubai",
-        "postalCode": "13840",
-        "addressCountry": "AE"
-    },
-    "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 25.1150856,
-        "longitude": 55.2333009
-    },
-    "openingHoursSpecification": [
-    {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday"
+@php
+$structuredData = [
+    '@context' => 'https://schema.org',
+    '@graph' => [
+        [
+            '@type' => 'Organization',
+            '@id' => 'https://www.goldenharbour.com/#organization',
+            'name' => 'Golden Harbour LLC',
+            'alternateName' => 'Golden Harbour',
+            'url' => 'https://www.goldenharbour.com/',
+            'logo' => [
+                '@type' => 'ImageObject',
+                'url' => 'https://www.goldenharbour.com/public/front/images/GOLDEN-HARBOUR-blue.svg',
+            ],
+            'description' => 'Golden Harbour is a trusted industrial material supplier in the UAE, providing metals, alloys, and engineering products to industrial sectors across the GCC.',
+            'foundingDate' => '1938',
+            'email' => 'sales@goldenharbour.ae',
+            'telephone' => '+97143472152',
+            'address' => [
+                '@type' => 'PostalAddress',
+                'streetAddress' => 'Plot No. 3690251, Al Quoz Industrial Area 4',
+                'addressLocality' => 'Dubai',
+                'postalCode' => '13840',
+                'addressCountry' => 'AE',
+            ],
+            'sameAs' => [
+                'https://www.linkedin.com/company/golden-harbour-llc/',
+                'https://x.com/llc_Gharbour',
+                'https://www.facebook.com/goldenharbourllc',
+                'https://www.instagram.com/goldenharbour.uae/',
+            ],
         ],
-        "opens": "08:00",
-        "closes": "17:00"
-    }
+        [
+            '@type' => 'LocalBusiness',
+            '@id' => 'https://www.goldenharbour.com/#localbusiness',
+            'name' => 'Golden Harbour LLC',
+            'url' => 'https://www.goldenharbour.com/',
+            'image' => 'https://www.goldenharbour.com/public/front/images/GOLDEN-HARBOUR-blue.svg',
+            'email' => 'sales@goldenharbour.ae',
+            'telephone' => '+97143472152',
+            'address' => [
+                '@type' => 'PostalAddress',
+                'streetAddress' => 'Plot No. 3690251, Al Quoz Industrial Area 4',
+                'addressLocality' => 'Dubai',
+                'postalCode' => '13840',
+                'addressCountry' => 'AE',
+            ],
+            'geo' => [
+                '@type' => 'GeoCoordinates',
+                'latitude' => 25.1150856,
+                'longitude' => 55.2333009,
+            ],
+            'openingHoursSpecification' => [
+                [
+                    '@type' => 'OpeningHoursSpecification',
+                    'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                    'opens' => '08:00',
+                    'closes' => '17:00',
+                ],
+            ],
+            'parentOrganization' => [
+                '@id' => 'https://www.goldenharbour.com/#organization',
+            ],
+        ],
+        [
+            '@type' => 'WebSite',
+            '@id' => 'https://www.goldenharbour.com/#website',
+            'url' => 'https://www.goldenharbour.com/',
+            'name' => 'Golden Harbour',
+            'publisher' => [
+                '@id' => 'https://www.goldenharbour.com/#organization',
+            ],
+        ],
+        [
+            '@type' => 'WebPage',
+            '@id' => 'https://www.goldenharbour.com/#webpage',
+            'url' => 'https://www.goldenharbour.com/',
+            'name' => 'Metals, Alloys & Industrial Materials Supplier UAE | Golden Harbour',
+            'description' => 'Golden Harbour is a trusted industrial material supplier in the UAE, providing metals, alloys, and engineering products to industrial sectors across the GCC.',
+            'isPartOf' => [
+                '@id' => 'https://www.goldenharbour.com/#website',
+            ],
+            'about' => [
+                '@id' => 'https://www.goldenharbour.com/#organization',
+            ],
+            'primaryImageOfPage' => [
+                '@type' => 'ImageObject',
+                'url' => 'https://www.goldenharbour.com/public/front/images/GOLDEN-HARBOUR-blue.svg',
+            ],
+            'inLanguage' => 'en-AE',
+        ],
+        [
+            '@type' => 'Service',
+            '@id' => 'https://www.goldenharbour.com/#service',
+            'name' => 'Industrial Materials & Engineering Products Supply',
+            'provider' => [
+                '@id' => 'https://www.goldenharbour.com/#organization',
+            ],
+            'serviceType' => 'Industrial Materials Supplier',
+            'areaServed' => [
+                ['@type' => 'Country', 'name' => 'United Arab Emirates'],
+                ['@type' => 'Place', 'name' => 'GCC Countries'],
+            ],
+            'description' => 'Supply of non-ferrous metals, ferrous metals, hydraulic and instrumentation products, heat exchanger tubes, welding products, hoses, piping materials, and engineering solutions for oil & gas, marine, offshore, and industrial sectors.',
+        ],
     ],
-    "parentOrganization": {
-    "@id": "https://www.goldenharbour.com/#organization"
-}
-},
-{
-"@type": "WebSite",
-"@id": "https://www.goldenharbour.com/#website",
-"url": "https://www.goldenharbour.com/",
-"name": "Golden Harbour",
-"publisher": {
-"@id": "https://www.goldenharbour.com/#organization"
-}
-},
-{
-"@type": "WebPage",
-"@id": "https://www.goldenharbour.com/#webpage",
-"url": "https://www.goldenharbour.com/",
-"name": "Metals, Alloys & Industrial Materials Supplier UAE | Golden Harbour",
-"description": "Golden Harbour is a trusted industrial material supplier in the UAE, providing metals, alloys, and engineering products to industrial sectors across the GCC.",
-"isPartOf": {
-"@id": "https://www.goldenharbour.com/#website"
-},
-"about": {
-"@id": "https://www.goldenharbour.com/#organization"
-},
-"primaryImageOfPage": {
-"@type": "ImageObject",
-"url": "https://www.goldenharbour.com/public/front/images/GOLDEN-HARBOUR-blue.svg"
-},
-"inLanguage": "en-AE"
-},
-{
-"@type": "Service",
-"@id": "https://www.goldenharbour.com/#service",
-"name": "Industrial Materials & Engineering Products Supply",
-"provider": {
-"@id": "https://www.goldenharbour.com/#organization"
-},
-"serviceType": "Industrial Materials Supplier",
-"areaServed": [
-{
-"@type": "Country",
-"name": "United Arab Emirates"
-},
-{
-"@type": "Place",
-"name": "GCC Countries"
-}
-],
-"description": "Supply of non-ferrous metals, ferrous metals, hydraulic and instrumentation products, heat exchanger tubes, welding products, hoses, piping materials, and engineering solutions for oil & gas, marine, offshore, and industrial sectors."
-}
-]
-}
-</script>
+    ];
+    @endphp
+    {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
 <!--adipec popup-->
 <!-- fullPage.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.29/fullpage.min.js"></script>
